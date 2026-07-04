@@ -1,8 +1,32 @@
+# Virtual Environment
 venv/
+
+# Python cache
 __pycache__/
+*.pyc
+
+# Jupyter
 .ipynb_checkpoints/
+
+# Environment variables
 .env
 
-models/
+# VS Code
+.vscode/
 
-*.pyc
+# macOS
+.DS_Store
+
+# Data
+data/raw/
+data/processed/
+
+# Model files
+models/*.bin
+models/*.pt
+models/*.pth
+models/*.faiss
+models/*.pkl
+
+# Hugging Face cache
+.cache/
