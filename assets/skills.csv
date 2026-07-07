@@ -1,0 +1,461 @@
+skill
+Agile
+Algorithms
+Android
+Ansible
+Apache Airflow
+Apache Hive
+Apache Kafka
+Apache NiFi
+Apache Spark
+ASP.NET
+Assembly
+Attention Mechanism
+AutoML
+AWS
+Azure
+Azure DevOps
+Azure Functions
+Azure ML
+Backtracking
+Bash
+BeautifulSoup
+BigQuery
+Blockchain
+Bootstrap
+C
+C#
+C++
+Cloud Functions
+Cloud Run
+CloudFormation
+CloudWatch
+Computer Vision
+Concurrency
+Cryptography
+CSS
+CUDA
+Cypress
+Dart
+Data Analysis
+Data Cleaning
+Data Engineering
+Data Mining
+Data Modeling
+Data Structures
+Data Visualization
+Deep Learning
+Design Patterns
+Django
+Docker
+DynamoDB
+EC2
+ECS
+EKS
+Elasticsearch
+ETL
+Excel
+Express.js
+FastAPI
+Feature Engineering
+Figma
+Firebase
+Flask
+Flask-RESTful
+Flutter
+GAN
+GANs
+GCP
+Generative AI
+Git
+Git Flow
+GitHub
+GitHub Actions
+GitLab
+Go
+Google Colab
+Grafana
+GraphQL
+gRPC
+Hadoop
+HDFS
+HTML
+HTTP
+Hugging Face
+Hyperparameter Tuning
+Inference
+IoT
+Java
+JavaScript
+Jenkins
+Jest
+JIRA
+JSON
+Jupyter
+Kanban
+Keras
+Kotlin
+Kubernetes
+Lambda
+LangChain
+Linear Regression
+Linux
+LLMs
+LSTM
+Machine Learning
+Matplotlib
+Microservices
+MLOps
+Model Deployment
+Model Monitoring
+MongoDB
+MVC
+MySQL
+Natural Language Processing
+NestJS
+Neural Networks
+Next.js
+Nginx
+NLP
+Node.js
+NoSQL
+NumPy
+OAuth
+Object Detection
+ONNX
+OOP
+OpenAI API
+OpenCV
+Optimization
+Pandas
+PCA
+PHP
+Pipelines
+Playwright
+PostgreSQL
+Power BI
+Probability
+Prometheus
+Prompt Engineering
+PyArrow
+PySpark
+PyTest
+Python
+PyTorch
+R
+RabbitMQ
+Ray
+RDS
+React
+Recommender Systems
+Redis
+Reinforcement Learning
+Responsive Design
+REST API
+RLHF
+Rust
+S3
+Sass
+Scikit-learn
+SciPy
+Scrapy
+Search
+Selenium
+Semantic Search
+Serverless
+Shell Scripting
+Snowflake
+SNS
+SOAP
+Spark SQL
+Spring
+Spring Boot
+SQL
+SQLite
+SQS
+Statistics
+Streamlit
+SVM
+Swagger
+System Design
+Tableau
+Tailwind CSS
+TDD
+TechSkill1
+TechSkill10
+TechSkill100
+TechSkill101
+TechSkill102
+TechSkill103
+TechSkill104
+TechSkill105
+TechSkill106
+TechSkill107
+TechSkill108
+TechSkill109
+TechSkill11
+TechSkill110
+TechSkill111
+TechSkill112
+TechSkill113
+TechSkill114
+TechSkill115
+TechSkill116
+TechSkill117
+TechSkill118
+TechSkill119
+TechSkill12
+TechSkill120
+TechSkill121
+TechSkill122
+TechSkill123
+TechSkill124
+TechSkill125
+TechSkill126
+TechSkill127
+TechSkill128
+TechSkill129
+TechSkill13
+TechSkill130
+TechSkill131
+TechSkill132
+TechSkill133
+TechSkill134
+TechSkill135
+TechSkill136
+TechSkill137
+TechSkill138
+TechSkill139
+TechSkill14
+TechSkill140
+TechSkill141
+TechSkill142
+TechSkill143
+TechSkill144
+TechSkill145
+TechSkill146
+TechSkill147
+TechSkill148
+TechSkill149
+TechSkill15
+TechSkill150
+TechSkill151
+TechSkill152
+TechSkill153
+TechSkill154
+TechSkill155
+TechSkill156
+TechSkill157
+TechSkill158
+TechSkill159
+TechSkill16
+TechSkill160
+TechSkill161
+TechSkill162
+TechSkill163
+TechSkill164
+TechSkill165
+TechSkill166
+TechSkill167
+TechSkill168
+TechSkill169
+TechSkill17
+TechSkill170
+TechSkill171
+TechSkill172
+TechSkill173
+TechSkill174
+TechSkill175
+TechSkill176
+TechSkill177
+TechSkill178
+TechSkill179
+TechSkill18
+TechSkill180
+TechSkill181
+TechSkill182
+TechSkill183
+TechSkill184
+TechSkill185
+TechSkill186
+TechSkill187
+TechSkill188
+TechSkill189
+TechSkill19
+TechSkill190
+TechSkill191
+TechSkill192
+TechSkill193
+TechSkill194
+TechSkill195
+TechSkill196
+TechSkill197
+TechSkill198
+TechSkill199
+TechSkill2
+TechSkill20
+TechSkill200
+TechSkill201
+TechSkill202
+TechSkill203
+TechSkill204
+TechSkill205
+TechSkill206
+TechSkill207
+TechSkill208
+TechSkill209
+TechSkill21
+TechSkill210
+TechSkill211
+TechSkill212
+TechSkill213
+TechSkill214
+TechSkill215
+TechSkill216
+TechSkill217
+TechSkill218
+TechSkill219
+TechSkill22
+TechSkill220
+TechSkill221
+TechSkill222
+TechSkill223
+TechSkill224
+TechSkill225
+TechSkill226
+TechSkill227
+TechSkill228
+TechSkill229
+TechSkill23
+TechSkill230
+TechSkill231
+TechSkill232
+TechSkill233
+TechSkill234
+TechSkill235
+TechSkill236
+TechSkill237
+TechSkill238
+TechSkill239
+TechSkill24
+TechSkill240
+TechSkill241
+TechSkill242
+TechSkill243
+TechSkill244
+TechSkill245
+TechSkill246
+TechSkill247
+TechSkill248
+TechSkill249
+TechSkill25
+TechSkill250
+TechSkill251
+TechSkill252
+TechSkill253
+TechSkill254
+TechSkill255
+TechSkill256
+TechSkill257
+TechSkill26
+TechSkill27
+TechSkill28
+TechSkill29
+TechSkill3
+TechSkill30
+TechSkill31
+TechSkill32
+TechSkill33
+TechSkill34
+TechSkill35
+TechSkill36
+TechSkill37
+TechSkill38
+TechSkill39
+TechSkill4
+TechSkill40
+TechSkill41
+TechSkill42
+TechSkill43
+TechSkill44
+TechSkill45
+TechSkill46
+TechSkill47
+TechSkill48
+TechSkill49
+TechSkill5
+TechSkill50
+TechSkill51
+TechSkill52
+TechSkill53
+TechSkill54
+TechSkill55
+TechSkill56
+TechSkill57
+TechSkill58
+TechSkill59
+TechSkill6
+TechSkill60
+TechSkill61
+TechSkill62
+TechSkill63
+TechSkill64
+TechSkill65
+TechSkill66
+TechSkill67
+TechSkill68
+TechSkill69
+TechSkill7
+TechSkill70
+TechSkill71
+TechSkill72
+TechSkill73
+TechSkill74
+TechSkill75
+TechSkill76
+TechSkill77
+TechSkill78
+TechSkill79
+TechSkill8
+TechSkill80
+TechSkill81
+TechSkill82
+TechSkill83
+TechSkill84
+TechSkill85
+TechSkill86
+TechSkill87
+TechSkill88
+TechSkill89
+TechSkill9
+TechSkill90
+TechSkill91
+TechSkill92
+TechSkill93
+TechSkill94
+TechSkill95
+TechSkill96
+TechSkill97
+TechSkill98
+TechSkill99
+TensorFlow
+Terraform
+Time Series
+Transformers
+Trie
+TypeScript
+Ubuntu
+UI/UX
+Unit Testing
+Unity
+Unix
+Vector Databases
+Virtualization
+Vue.js
+WebSockets
+Windows
+Word2Vec
+XGBoost
+XML
+YAML
+Zero Trust
