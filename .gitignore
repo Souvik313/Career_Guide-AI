@@ -30,3 +30,13 @@ models/*.pkl
 
 # Hugging Face cache
 .cache/
+
+# Generated embeddings
+models/*.npy
+models/*.index
+
+# Processed datasets (optional)
+data/processed/*.csv
+
+# Raw datasets (optional)
+data/raw/*
