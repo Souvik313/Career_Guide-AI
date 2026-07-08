@@ -59,3 +59,21 @@ class EmbeddingSearch:
             scores , indices
         )
     
+    def search_by_embedding(self , embedding , top_k = 10):
+        """
+        Search the FAISS index using a pre-computed embedding
+        """
+
+        embedding = embedding.reshape(1 , -1)
+        distances, indices = self.index.search(
+            embedding.astype("float32"),
+            top_k
+            )
+
+        results = self.jobs.iloc[indices[0]].copy()
+
+        results["Similarity Score"] = distances[0]
+
+        return results
+    
+    
