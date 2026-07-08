@@ -13,5 +13,8 @@ RESUME_DATA_DIR = DATA_DIR / "resumes"
 RAW_DATA_PATH = RAW_DATA_DIR / "job_descriptions.csv"
 PROCESSED_DATA_PATH = PROCESSED_DATA_DIR / "cleaned_job_descriptions.csv"
 
+EMBEDDINGS_PATH = MODELS_DIR / "job_embeddings.npy"
+FAISS_INDEX_PATH = MODELS_DIR / "faiss_index.index"
+
 
 
