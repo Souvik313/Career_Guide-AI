@@ -6,7 +6,7 @@ from sentence_transformers import SentenceTransformer
 from src.config import (
     EMBEDDING_MODEL,
     FAISS_INDEX_PATH,
-    PROCESSED_DATA_PATH,
+    PROCESSED_DATA_PATH_WITH_SKILLS,
 )
 
 class EmbeddingSearch:
@@ -14,7 +14,7 @@ class EmbeddingSearch:
     def __init__(self):
         self.model = SentenceTransformer(EMBEDDING_MODEL)
         self.index = faiss.read_index(str(FAISS_INDEX_PATH))
-        self.jobs = pd.read_csv(PROCESSED_DATA_PATH)
+        self.jobs = pd.read_csv(PROCESSED_DATA_PATH_WITH_SKILLS)
 
     def embed_query(self , query):
         """
