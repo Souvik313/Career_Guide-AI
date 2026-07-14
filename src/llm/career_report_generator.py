@@ -54,7 +54,10 @@ class CareerReportGenerator:
     {match_score}%
 
     Recommended Career Paths:
-    {chr(10).join("- " + role for role in best_roles)}
+    {chr(10).join(
+        f"- {role['role']} ({role['score']}%)"
+        for role in best_roles
+    )}
 
     Candidate Strengths:
     {chr(10).join("- " + strength for strength in strengths)}
@@ -73,6 +76,11 @@ class CareerReportGenerator:
 
     Return your response as a VALID JSON object.
 
+    Return the candidate's full name exactly as written in the resume at the top.
+
+    If no name is found, return:
+    "Unknown Candidate"
+
     Do not include markdown.
 
     Do not wrap the JSON inside triple backticks.
@@ -82,6 +90,9 @@ class CareerReportGenerator:
     Use the following JSON schema exactly:
 
     {{
+    
+        "candidate_name": "...",
+
         "career_summary": "...",
 
         "career_path_explanation": "...",

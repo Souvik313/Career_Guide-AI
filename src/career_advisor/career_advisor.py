@@ -1,4 +1,6 @@
-from collections import Counter
+from collections import (
+    Counter, defaultdict
+    )
 
 class CareerAdvisor:
     """
@@ -74,20 +76,15 @@ class CareerAdvisor:
             strengths.append("Authentication & Security Concepts")
 
         return strengths
-    
+
     def determine_best_roles(self):
-        """
-        Determines the user's strongest career
-        paths from the recommended jobs.
-        """
 
-        role_counter = Counter()
+        role_scores = defaultdict(float)
 
-        titles = self.jobs_df["Position"].tolist()
+        for _, row in self.jobs_df.iterrows():
 
-        for title in titles:
-
-            title = title.lower()
+            title = row["Position"].lower()
+            score = float(row["Similarity Score"])
 
             if any(keyword in title for keyword in [
                 "frontend",
@@ -96,7 +93,8 @@ class CareerAdvisor:
                 "angular",
                 "vue"
             ]):
-                role_counter["Frontend Development"] += 1
+
+                role_scores["Frontend Development"] += score
 
             elif any(keyword in title for keyword in [
                 "backend",
@@ -105,10 +103,12 @@ class CareerAdvisor:
                 "django",
                 "flask"
             ]):
-                role_counter["Backend Development"] += 1
+
+                role_scores["Backend Development"] += score
 
             elif "full stack" in title or "full-stack" in title:
-                role_counter["Full Stack Development"] += 1
+
+                role_scores["Full Stack Development"] += score
 
             elif any(keyword in title for keyword in [
                 "machine learning",
@@ -116,32 +116,41 @@ class CareerAdvisor:
                 "ai engineer",
                 "data scientist"
             ]):
-                role_counter["Machine Learning"] += 1
+
+                role_scores["Machine Learning"] += score
 
             elif any(keyword in title for keyword in [
                 "data engineer",
                 "data analyst"
             ]):
-                role_counter["Data Engineering"] += 1
+
+                role_scores["Data Engineering"] += score
 
             elif any(keyword in title for keyword in [
                 "android",
                 "ios",
                 "mobile"
             ]):
-                role_counter["Mobile Development"] += 1
+
+                role_scores["Mobile Development"] += score
 
             elif any(keyword in title for keyword in [
                 "devops",
                 "cloud",
                 "site reliability"
             ]):
-                role_counter["DevOps / Cloud"] += 1
+                role_scores["DevOps / Cloud"] += score
 
             else:
-                role_counter["Software Development"] += 1
+                role_scores["Software Development"] += score
 
-        return [role for role, _ in role_counter.most_common(3)]
+        sorted_roles = sorted(
+            role_scores.items(),
+            key=lambda x: x[1],
+            reverse=True
+        )
+
+        return sorted_roles[:3]
     
     def generate_recommendations(self):
         """
@@ -150,18 +159,36 @@ class CareerAdvisor:
         """
 
         match_score = self.calculate_match_score()
-
         strengths = self.identify_strengths()
+        raw_best_roles = self.determine_best_roles()
 
-        best_roles = self.determine_best_roles()
+        best_roles = []
 
+        if raw_best_roles:
+
+            best_score = max(score for _, score in raw_best_roles)
+
+            best_roles = [
+                {
+                    "role": role,
+                    "score": round((score / best_score) * match_score, 1)
+                }
+                for role, score in raw_best_roles
+            ]
+        best_roles = [
+            {
+                "role": role,
+                "score": round((score / best_score) * match_score, 1)
+            }
+            for role, score in raw_best_roles
+        ]
         top_missing = self.missing_skills[:5]
 
         recommendations = []
 
         if best_roles:
             recommendations.append(
-                f"Focus on {best_roles[0]} roles since they best match your current profile."
+                f"Focus on {best_roles[0]['role']} roles since they best match your current profile."
             )
 
         if top_missing:

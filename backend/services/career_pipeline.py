@@ -33,6 +33,7 @@ class CareerPipeline:
             
             parser = ResumeParser()
             resume_text = parser.extract_text(resume_path)
+            candidate_name = parser.extract_candidate_name(resume_text)
 
             stage_end = time.perf_counter()
             print(f"✅ Resume Parsing completed in {stage_end - stage_start:.2f} seconds\n")
@@ -130,7 +131,7 @@ class CareerPipeline:
             print("\nRecommended Career Paths:")
 
             for role in career_report["best_roles"]:
-                print(f"• {role}")
+                print(f"• {role['role']} ({role['score']}%)")
 
             print("\nTop Recommendations:")
 
@@ -166,6 +167,7 @@ class CareerPipeline:
             print(f"Total Execution Time : {pipeline_end - pipeline_start:.2f} seconds")
 
             return {
+                "candidate_name": candidate_name,
                 "recommended_jobs": jobs_df.to_dict(orient="records"),
                 "resume_skills": resume_skills,
                 "missing_skills": top_missing_skills,
