@@ -409,69 +409,93 @@ flowchart LR
 
 # 📁 Project Structure
 
-The project follows a modular full-stack architecture, separating the frontend, backend, datasets, AI models, and documentation for better scalability and maintainability.
+The project follows a modular full-stack architecture, separating the frontend, backend, datasets, AI models, documentation, and test suites for better scalability and maintainability.
 
 ```text
 CareerCompass-AI/
-│
-├── frontend/
-│   │
-│   ├── public/
-│   │
-│   ├── src/
-│   │   │
-│   │   ├── assets/
-│   │   │
-│   │   ├── components/
-│   │   │   ├── analytics/
-│   │   │   ├── contact/
-│   │   │   ├── dashboard/
-│   │   │   ├── home/
-│   │   │   ├── upload/
-│   │   │   └── common/
-│   │   │
-│   │   ├── pages/
-│   │   │   ├── Home.jsx
-│   │   │   ├── UploadResume.jsx
-│   │   │   ├── Dashboard.jsx
-│   │   │   ├── AnalyticsPage.jsx
-│   │   │   ├── Contact.jsx
-│   │   │   └── NotFound.jsx
-│   │   │
-│   │   ├── utils/
-│   │   │   ├── generatePDF.js
-│   │   │   └── helpers.js
-│   │   │
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   │
-│   ├── package.json
-│   └── vite.config.js
-│
-├── backend/
-│   │
-│   ├── app.py
-│   ├── requirements.txt
-│   │
-│   ├── data/
-│   │
-│   ├── models/
-│   │
-│   ├── utils/
-│   │   ├── resume_parser.py
-│   │   ├── skill_extractor.py
-│   │   ├── embedding_generator.py
-│   │   ├── job_matcher.py
-│   │   ├── career_advisor.py
-│   │   └── career_report_generator.py
-│   │
-│   └── uploads/
-│
-├── screenshots/
-│
+├── .env
+├── .gitignore
+├── LICENSE
 ├── README.md
-│
-└── LICENSE
+├── requirements.txt
+├── file_path
+├── app/
+├── assets/
+│   └── skills.csv
+├── backend/
+│   ├── app.py
+│   ├── file_path
+│   ├── __init__.py
+│   ├── routes/
+│   │   ├── resume_routes.py
+│   │   └── __init__.py
+│   ├── schemas/
+│   │   └── __init__.py
+│   ├── services/
+│   │   └── career_pipeline.py
+│   └── uploads/
+├── data/
+│   ├── raw/
+│   │   └── job_descriptions.csv
+│   └── processed/
+│       ├── cleaned_job_descriptions.csv
+│       ├── processed_jobs_with_combined_text.csv
+│       └── processed_jobs_with_skills.csv
+├── docs/
+│   └── dataset_analysis.md
+├── frontend/
+│   ├── .gitignore
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── vite.config.js
+│   ├── public/
+│   └── src/
+│       ├── App.jsx
+│       ├── main.jsx
+│       ├── index.css
+│       ├── api/
+│       │   └── resumeApi.js
+│       ├── assets/
+│       ├── components/
+│       │   ├── analytics/
+│       │   ├── common/
+│       │   ├── contact/
+│       │   ├── dashboard/
+│       │   ├── home/
+│       │   ├── report/
+│       │   └── upload/
+│       ├── context/
+│       ├── hooks/
+│       ├── layouts/
+│       │   └── MainLayout.jsx
+│       ├── pages/
+│       ├── services/
+│       ├── styles/
+│       └── utils/
+├── models/
+│   ├── faiss_index.index
+│   └── job_embeddings.npy
+├── notebooks/
+│   └── 01_dataset_exploration.ipynb
+├── screenshots/
+├── src/
+│   ├── __init__.py
+│   ├── config.py
+│   ├── career_advisor/
+│   ├── embeddings/
+│   ├── job_processing/
+│   ├── llm/
+│   ├── matching/
+│   ├── resume_parser/
+│   ├── skill_gap/
+│   └── utils/
+├── tests/
+│   ├── __init__.py
+│   └── test_*.py
+├── uploads/
+└── venv/
 ```
 
 ---
@@ -480,15 +504,19 @@ CareerCompass-AI/
 
 | Directory | Description |
 |------------|-------------|
-| **frontend/** | React frontend containing all user interface components and pages |
-| **backend/** | FastAPI backend responsible for AI processing and recommendation generation |
-| **components/** | Reusable React UI components grouped by feature |
-| **pages/** | Individual application pages |
-| **utils/** | Utility functions such as PDF generation and helper methods |
-| **data/** | Job dataset and processed resources |
-| **models/** | Machine learning models and embedding resources |
-| **uploads/** | Temporary storage for uploaded resumes |
-| **screenshots/** | Images used inside the GitHub README |
+| **frontend/** | React + Vite frontend containing pages, components, layouts, APIs, and UI utilities |
+| **backend/** | FastAPI backend with routes, schemas, services, and resume upload handling |
+| **src/** | Core Python package for resume parsing, embeddings, matching, skill gap analysis, and report generation |
+| **data/** | Raw and processed job datasets used for semantic matching and analysis |
+| **models/** | Prebuilt embedding and FAISS index assets used by the recommendation engine |
+| **tests/** | Unit and integration tests covering the ML pipeline and core modules |
+| **assets/** | Static assets such as the skills dataset used by the application |
+| **docs/** | Project documentation and analysis notes |
+| **notebooks/** | Jupyter notebooks for data exploration and experimentation |
+| **uploads/** | Temporary storage for uploaded resumes and generated files |
+| **screenshots/** | README visuals and demo screenshots |
+| **app/** | Project-level application placeholder directory |
+| **venv/** | Local Python virtual environment |
 
 # 🚀 Installation & Setup
 
