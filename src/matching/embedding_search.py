@@ -19,7 +19,15 @@ class EmbeddingSearch:
 
         print("Loading dataframe...")
 
-        self.jobs = pd.read_csv(PROCESSED_DATA_PATH_WITH_SKILLS)
+        self.jobs = pd.read_csv(
+                        PROCESSED_DATA_PATH_WITH_SKILLS,
+                        usecols=[
+                            "Position",
+                            "Company Name",
+                            "Skills",
+                            ...
+                        ]
+                    )
 
         print("Dataframe loaded.")
     
