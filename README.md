@@ -1077,7 +1077,7 @@ Passionate about building intelligent applications that combine Artificial Intel
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Souvik_Roy-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/souvik-roy-a8ab04337)
 
-[![Email](https://img.shields.io/badge/Email-Contact_Me-EA4335?style=for-the-badge&logo=gmail)](mailto:thisissouvik.2024.com)
+[![Email](https://img.shields.io/badge/Email-Contact_Me-EA4335?style=for-the-badge&logo=gmail)](mailto:thisissouvik.2024@gmail.com)
 
 </div>
 
