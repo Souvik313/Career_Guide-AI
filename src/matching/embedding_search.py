@@ -25,7 +25,6 @@ class EmbeddingSearch:
                             "Position",
                             "Company Name",
                             "Skills",
-                            ...
                         ]
                     )
 
