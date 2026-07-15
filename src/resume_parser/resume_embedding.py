@@ -1,5 +1,4 @@
-from sentence_transformers import SentenceTransformer
-from src.config import EMBEDDING_MODEL
+from src.models.model_loader import get_embedding_model
 
 class ResumeEmbedding:
 
@@ -8,7 +7,7 @@ class ResumeEmbedding:
         Load the embedding model once
         """
 
-        self.model = SentenceTransformer(EMBEDDING_MODEL)
+        self.model = get_embedding_model()
 
     def generate_embedding(self, resume_text):
         """
