@@ -3,6 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend.routes.resume_routes import router as resume_router
 
+from src.utils.download_models import download_models
+
+download_models()
+
 app = FastAPI(
     title="CareerAdvisor AI API",
     description="AI powered Resume analysis and career recommendation API",

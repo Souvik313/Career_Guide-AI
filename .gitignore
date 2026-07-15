@@ -22,22 +22,15 @@ __pycache__/
 data/raw/
 data/processed/
 
-# Model files
-models/*.bin
-models/*.pt
-models/*.pth
-models/*.faiss
-models/*.pkl
-
 # Hugging Face cache
 .cache/
-
-# Generated embeddings
-models/*.npy
-models/*.index
 
 # Processed datasets (optional)
 data/processed/*.csv
 
 # Raw datasets (optional)
 data/raw/*
+
+# Large model artifacts (downloaded automatically)
+models/job_embeddings.npy
+models/faiss_index.index
