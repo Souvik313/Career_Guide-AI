@@ -11,8 +11,17 @@ from src.config import (
 class EmbeddingSearch:
 
     def __init__(self):
+        print("Loading FAISS index...")
+
         self.index = faiss.read_index(str(FAISS_INDEX_PATH))
+
+        print("FAISS loaded.")
+
+        print("Loading dataframe...")
+
         self.jobs = pd.read_csv(PROCESSED_DATA_PATH_WITH_SKILLS)
+
+        print("Dataframe loaded.")
     
     def search_by_embedding(self , embedding , top_k = 10):
         """

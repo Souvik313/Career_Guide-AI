@@ -49,7 +49,16 @@ FILES = {
 }
 
 for local_path, hf_filename in FILES.items():
+    print(f"Checking {hf_filename}")
+
     if not local_path.exists():
-        print(f"Downloading {hf_filename}...")
+
+        print(f"Downloading {hf_filename}")
+
         downloaded = download_file(hf_filename)
+
+        print("Copying...")
+
         shutil.copy(downloaded, local_path)
+
+        print("Done.")
