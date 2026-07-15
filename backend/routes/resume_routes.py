@@ -10,8 +10,10 @@ from backend.services.career_pipeline import CareerPipeline
 
 router = APIRouter()
 
-UPLOAD_FOLDER = Path(r"D:\AI_Projects\CareerCompass-AI\backend\uploads")
-UPLOAD_FOLDER.mkdir(exist_ok=True)
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+UPLOAD_FOLDER = BASE_DIR / "uploads"
+UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 
 @router.post("/upload-resume")
 async def upload_resume(file: UploadFile = File(...)):
