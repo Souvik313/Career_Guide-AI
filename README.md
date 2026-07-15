@@ -199,66 +199,26 @@ CareerCompass AI combines modern Artificial Intelligence, Natural Language Proce
 
 CareerCompass AI follows a multi-stage Artificial Intelligence pipeline that transforms an uploaded resume into personalized career insights and recommendations.
 
-```text
-                        ┌─────────────────────┐
-                        │   Upload Resume     │
-                        │  (PDF / DOCX File)  │
-                        └──────────┬──────────┘
-                                   │
-                                   ▼
-                     ┌─────────────────────────┐
-                     │ Resume Text Extraction  │
-                     │  (PyMuPDF / python-docx)│
-                     └──────────┬──────────────┘
-                                │
-                                ▼
-                  ┌────────────────────────────┐
-                  │ NLP Preprocessing          │
-                  │ • Cleaning                 │
-                  │ • Normalization            │
-                  │ • Skill Extraction         │
-                  └──────────┬─────────────────┘
-                             │
-                             ▼
-          ┌────────────────────────────────────────┐
-          │ Sentence Transformer Embeddings        │
-          │ (Semantic Representation Generation)   │
-          └──────────┬─────────────────────────────┘
-                     │
-                     ▼
-     ┌──────────────────────────────────────────────┐
-     │ Semantic Job Matching                        │
-     │ Cosine Similarity against Job Descriptions   │
-     └──────────┬───────────────────────────────────┘
-                │
-                ▼
-      ┌────────────────────────────────────────────┐
-      │ Career Advisor Engine                      │
-      │ • Match Score                             │
-      │ • Best Career Paths                       │
-      │ • Missing Skills                          │
-      │ • Personalized Recommendations            │
-      └──────────┬─────────────────────────────────┘
-                 │
-                 ▼
-      ┌────────────────────────────────────────────┐
-      │ Groq LLM                                  │
-      │ AI Career Report Generation               │
-      └──────────┬─────────────────────────────────┘
-                 │
-                 ▼
-      ┌────────────────────────────────────────────┐
-      │ React Dashboard                           │
-      │ • Career Overview                         │
-      │ • Analytics                              │
-      │ • Skill Insights                         │
-      │ • Charts                                 │
-      └──────────┬─────────────────────────────────┘
-                 │
-                 ▼
-      ┌────────────────────────────────────────────┐
-      │ Professional PDF Report                   │
-      └────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    A[Resume Upload<br/>PDF or DOCX] --> B[Resume Parsing<br/>PyMuPDF / python-docx]
+    B --> C[NLP Preprocessing<br/>Clean • Normalize • Extract Skills]
+    C --> D[Sentence Embeddings<br/>Semantic Representation]
+    D --> E[Semantic Job Matching<br/>Cosine Similarity]
+    E --> F[Career Advisor Engine<br/>Match Score • Skill Gaps • Recommendations]
+    F --> G[Groq LLM<br/>AI Career Report]
+    G --> H[Interactive Dashboard<br/>Insights • Charts • Roadmap]
+    H --> I[PDF Report Export]
+
+    classDef input fill:#E3F2FD,stroke:#1E88E5,color:#0D47A1;
+    classDef process fill:#E8F5E9,stroke:#43A047,color:#1B5E20;
+    classDef ai fill:#F3E5F5,stroke:#8E24AA,color:#4A148C;
+    classDef output fill:#FFF3E0,stroke:#FB8C00,color:#E65100;
+
+    class A input;
+    class B,C,D,E,F process;
+    class G,H ai;
+    class I output;
 ```
 
 ---
@@ -378,76 +338,44 @@ CareerCompass AI is built using a modern full-stack architecture, combining Arti
 
 CareerCompass AI follows a modular client-server architecture where the React frontend communicates with a FastAPI backend responsible for resume processing, AI inference, semantic job matching, and report generation.
 
-```
-                                  ┌────────────────────────────┐
-                                  │        User               │
-                                  └─────────────┬─────────────┘
-                                                │
-                                                ▼
-                              ┌────────────────────────────────┐
-                              │      React Frontend            │
-                              │                                │
-                              │ • Landing Page                 │
-                              │ • Resume Upload                │
-                              │ • Dashboard                    │
-                              │ • Analytics                    │
-                              │ • Contact Page                 │
-                              │ • PDF Export                   │
-                              └─────────────┬──────────────────┘
-                                            │
-                              REST API Calls│
-                                            ▼
-                        ┌────────────────────────────────────┐
-                        │        FastAPI Backend             │
-                        │                                    │
-                        │ Resume Parser                      │
-                        │ Skill Extraction                   │
-                        │ Semantic Job Matcher               │
-                        │ Career Advisor                     │
-                        │ Report Generator                   │
-                        └──────┬───────────────┬─────────────┘
-                               │               │
-                Resume Text     │               │ AI Prompt
-                Processing       │               │
-                               ▼               ▼
-                 ┌────────────────────┐   ┌────────────────────┐
-                 │ Sentence            │   │    Groq API        │
-                 │ Transformers        │   │ (Llama 3.3 70B)    │
-                 └─────────┬───────────┘   └─────────┬──────────┘
-                           │                         │
-                  Cosine Similarity                 │
-                           │                         │
-                           ▼                         │
-             ┌──────────────────────────┐            │
-             │ Recruitment Dataset      │            │
-             │ Job Descriptions         │            │
-             └────────────┬─────────────┘            │
-                          │                          │
-                          └──────────────┬───────────┘
-                                         ▼
-                           ┌───────────────────────────┐
-                           │ AI Career Report          │
-                           │ Match Score               │
-                           │ Skill Gap Analysis        │
-                           │ Career Paths              │
-                           │ Recommendations           │
-                           └────────────┬──────────────┘
-                                        │
-                                        ▼
-                         ┌────────────────────────────────┐
-                         │ React Dashboard                │
-                         │ Analytics Dashboard            │
-                         │ PDF Export                     │
-                         └────────────────────────────────┘
+```mermaid
+flowchart LR
+    U[User] --> FE[React Frontend<br/>Landing • Upload • Dashboard • Analytics • Contact]
+    FE --> API[FastAPI Backend<br/>Resume Parsing • Skill Extraction • Job Matching • Career Advisor • Report Generator]
 
+    subgraph AI["AI & Data Layer"]
+        direction TB
+        EMB[Sentence Transformers]
+        DATA[Recruitment Dataset<br/>Job Descriptions]
+        LLM[Groq API<br/>Llama 3.3 70B]
+    end
 
-                 Contact Form
-                      │
-                      ▼
-                EmailJS Service
-                      │
-                      ▼
-                Gmail Inbox
+    API --> EMB
+    API --> DATA
+    API --> LLM
+
+    EMB --> API
+    DATA --> API
+    LLM --> API
+
+    API --> OUT[AI Career Insights<br/>Match Score • Skill Gaps • Career Paths]
+    OUT --> FE
+    FE --> PDF[PDF Export]
+    FE --> EMAIL[EmailJS Contact]
+    EMAIL --> GMAIL[Gmail Inbox]
+
+    classDef user fill:#E3F2FD,stroke:#1E88E5,color:#0D47A1;
+    classDef frontend fill:#E8F5E9,stroke:#43A047,color:#1B5E20;
+    classDef backend fill:#FFF3E0,stroke:#FB8C00,color:#E65100;
+    classDef ai fill:#F3E5F5,stroke:#8E24AA,color:#4A148C;
+    classDef external fill:#FCE4EC,stroke:#D81B60,color:#880E4F;
+
+    class U user;
+    class FE frontend;
+    class API backend;
+    class EMB,DATA,LLM,OUT ai;
+    class PDF,EMAIL,GMAIL external;
+    style AI fill:#FAFAFA,stroke:#BDBDBD,stroke-width:1px;
 ```
 
 ---
