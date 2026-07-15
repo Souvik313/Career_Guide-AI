@@ -17,7 +17,7 @@ app.add_middleware(
 )
 
 # Include API routes
-#app.include_router(resume_router)
+app.include_router(resume_router)
 
 # Endpoints
 @app.get("/")
