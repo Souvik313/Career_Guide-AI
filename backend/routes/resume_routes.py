@@ -1,6 +1,6 @@
 from pathlib import Path
 import shutil
-
+import traceback
 from fastapi import APIRouter
 from fastapi import UploadFile
 from fastapi import File
@@ -39,6 +39,7 @@ async def upload_resume(file: UploadFile = File(...)):
         )
         return result
     except Exception as e:
+        traceback.print_exc()
         raise HTTPException(
             status_code=500,
             detail=str(e),
