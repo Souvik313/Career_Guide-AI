@@ -538,7 +538,7 @@ Ensure the following software is installed on your system:
 ## 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/CareerCompass-AI.git
+git clone https://github.com/Souvik313/Career_Guide-AI.git
 
 cd CareerCompass-AI
 ```
