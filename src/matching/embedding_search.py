@@ -5,17 +5,15 @@ import pandas as pd
 from sentence_transformers import SentenceTransformer
 from src.config import (
     EMBEDDING_MODEL,
+    FAISS_INDEX_PATH,
     PROCESSED_DATA_PATH_WITH_SKILLS,
 )
-
-from src.utils.download_models import get_model_paths
 
 class EmbeddingSearch:
 
     def __init__(self):
         self.model = SentenceTransformer(EMBEDDING_MODEL)
-        _, faiss_path = get_model_paths()
-        self.index = faiss.read_index(faiss_path)
+        self.index = faiss.read_index(str(FAISS_INDEX_PATH))
         self.jobs = pd.read_csv(PROCESSED_DATA_PATH_WITH_SKILLS)
 
     def embed_query(self , query):
@@ -77,5 +75,3 @@ class EmbeddingSearch:
         results["Similarity Score"] = distances[0]
 
         return results
-    
-    
