@@ -75,7 +75,7 @@ function Navbar() {
                 >
 
                     <a
-                        href="#home"
+                        href="/"
                         className="font-medium text-slate-600 transition hover:text-blue-600"
                     >
                         Home
@@ -95,12 +95,12 @@ function Navbar() {
                         How It Works
                     </a>
 
-                    <a
-                        href="#tech-stack"
+                    <Link
+                        to="/contact"
                         className="font-medium text-slate-600 transition hover:text-blue-600"
                     >
-                        Tech Stack
-                    </a>
+                        Contact
+                    </Link>
 
                 </nav>
 

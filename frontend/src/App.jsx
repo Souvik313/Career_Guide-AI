@@ -8,6 +8,7 @@ import ReportPage from "./pages/ReportPage";
 import NotFound from "./pages/NotFound";
 import MainLayout from "./layouts/MainLayout";
 import AnalyticsPage from './pages/AnalyticsPage';
+import Contact from './pages/Contact';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/report' element={<ReportPage />} />
         <Route path='/analytics' element={<AnalyticsPage />} />
+        <Route path='/contact' element={<Contact />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />
