@@ -36,7 +36,7 @@ const techCategories = [
         technologies: [
             "GitHub",
             "Vercel",
-            "Render",
+            "Railway",
         ],
     },
 ];
