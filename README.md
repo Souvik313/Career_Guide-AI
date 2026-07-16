@@ -604,7 +604,7 @@ uvicorn app:app --reload
 The backend will be available at:
 
 ```
-http://127.0.0.1:8000
+https://careerguide-ai-production.up.railway.app
 ```
 
 ---
@@ -637,6 +637,8 @@ VITE_EMAILJS_SERVICE_ID=your_service_id
 VITE_EMAILJS_TEMPLATE_ID=your_template_id
 
 VITE_EMAILJS_PUBLIC_KEY=your_public_key
+
+VITE_API_BASE_URL=your_deployed_backend_url
 ```
 
 ---
@@ -650,7 +652,7 @@ npm run dev
 The frontend will be available at
 
 ```
-http://localhost:5173
+https://career-guide-ai-mu.vercel.app
 ```
 
 ---
@@ -661,9 +663,9 @@ Once both servers are running:
 
 | Service | URL |
 |---------|-----|
-| Frontend | http://localhost:5173 |
-| Backend API | http://127.0.0.1:8000 |
-| FastAPI Docs | http://127.0.0.1:8000/docs |
+| Frontend | https://career-guide-ai-mu.vercel.app |
+| Backend API | https://careerguide-ai-production.up.railway.app |
+| FastAPI Docs | https://careerguide-ai-production.up.railway.app/docs |
 
 ---
 
@@ -756,6 +758,8 @@ VITE_EMAILJS_SERVICE_ID=your_service_id
 VITE_EMAILJS_TEMPLATE_ID=your_template_id
 
 VITE_EMAILJS_PUBLIC_KEY=your_public_key
+
+VITE_API_BASE_URL=your_deployed_backend_url
 ```
 
 ### Frontend Variables
@@ -765,6 +769,7 @@ VITE_EMAILJS_PUBLIC_KEY=your_public_key
 | `VITE_EMAILJS_SERVICE_ID` | EmailJS Service ID used for sending contact form emails | ✅ Yes |
 | `VITE_EMAILJS_TEMPLATE_ID` | EmailJS Template ID | ✅ Yes |
 | `VITE_EMAILJS_PUBLIC_KEY` | EmailJS Public Key | ✅ Yes |
+| `VITE_API_BASE_URL` | Deployed backend URL | ✅ Yes |
 
 ---
 
@@ -799,6 +804,7 @@ Before running the project, verify that:
 - ✅ EmailJS Service ID is configured.
 - ✅ EmailJS Template ID is configured.
 - ✅ EmailJS Public Key is configured.
+- ✅ Backend deployed url is configured
 - ✅ Development servers have been restarted after updating `.env` files.
 
 # 🌐 API Endpoints
@@ -818,7 +824,7 @@ http://127.0.0.1:8000
 Production
 
 ```
-https://your-render-backend-url.onrender.com
+https://careerguide-ai-production.up.railway.app
 ```
 
 ---
@@ -935,13 +941,13 @@ FastAPI automatically generates interactive API documentation.
 ### Swagger UI
 
 ```
-http://127.0.0.1:8000/docs
+https://careerguide-ai-production.up.railway.app/docs
 ```
 
 ### ReDoc
 
 ```
-http://127.0.0.1:8000/redoc
+https://careerguide-ai-production.up.railway.app/redoc
 ```
 
 ---
