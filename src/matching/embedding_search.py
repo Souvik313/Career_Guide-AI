@@ -3,9 +3,8 @@ import numpy as np
 import pandas as pd
 
 from src.config import (
-    EMBEDDING_MODEL,
     FAISS_INDEX_PATH,
-    PROCESSED_DATA_PATH_WITH_SKILLS,
+    JOBS_METADATA_PATH,
 )
 
 class EmbeddingSearch:
@@ -20,12 +19,7 @@ class EmbeddingSearch:
         print("Loading dataframe...")
 
         self.jobs = pd.read_csv(
-                        PROCESSED_DATA_PATH_WITH_SKILLS,
-                        usecols=[
-                            "Position",
-                            "Company Name",
-                            "Skills",
-                        ]
+                        JOBS_METADATA_PATH
                     )
 
         print("Dataframe loaded.")

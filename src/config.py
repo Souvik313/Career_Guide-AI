@@ -24,7 +24,7 @@ RESUME_PATH = RESUME_DATA_DIR / "Souvik_Roy_Resume.pdf"
 
 RAW_DATA_PATH = RAW_DATA_DIR / "job_descriptions.csv"
 PROCESSED_DATA_PATH = PROCESSED_DATA_DIR / "cleaned_job_descriptions.csv"
-PROCESSED_DATA_PATH_WITH_SKILLS = PROCESSED_DATA_DIR / "processed_jobs_with_skills.csv"
+JOBS_METADATA_PATH = PROCESSED_DATA_DIR / "jobs_metadata.csv"
 
 EMBEDDINGS_PATH = MODELS_DIR / "job_embeddings.npy"
 FAISS_INDEX_PATH = MODELS_DIR / "faiss_index.index"
@@ -43,7 +43,7 @@ MODELS_DIR.mkdir(parents=True, exist_ok=True)
 FILES = {
     RAW_DATA_PATH: "job_descriptions.csv",
     PROCESSED_DATA_PATH: "cleaned_job_descriptions.csv",
-    PROCESSED_DATA_PATH_WITH_SKILLS: "processed_jobs_with_skills.csv",
+    JOBS_METADATA_PATH: "jobs_metadata.csv",
     EMBEDDINGS_PATH: "job_embeddings.npy",
     FAISS_INDEX_PATH: "faiss_index.index",
 }

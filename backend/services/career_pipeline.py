@@ -1,23 +1,26 @@
 from src.resume_parser.resume_parser import ResumeParser
 from src.resume_parser.resume_cleaner import ResumeCleaner
+from src.resume_parser.resume_embedding import ResumeEmbedding
 
+from src.matching.embedding_search import EmbeddingSearch
 from src.matching.skill_gap_analyzer import SkillGapAnalyzer
 
 from src.career_advisor.career_advisor import CareerAdvisor
 
 from src.llm.career_report_generator import CareerReportGenerator
 
-from src.config import (
-    PROCESSED_DATA_PATH_WITH_SKILLS,
-    EMBEDDINGS_PATH,
-    FAISS_INDEX_PATH,
-    SKILLS_PATH,
-    )
 import time
 
 class CareerPipeline:
     def __init__(self):
-        pass
+        self.parser = ResumeParser()
+        self.cleaner = ResumeCleaner()
+
+        self.embedder = ResumeEmbedding()
+        self.search_engine = EmbeddingSearch()
+
+        self.skill_analyzer = SkillGapAnalyzer()
+        self.report_generator = CareerReportGenerator()
 
     def run_pipeline(self , resume_path: str):
 
@@ -60,8 +63,7 @@ class CareerPipeline:
 
             stage_start = time.perf_counter()
 
-            embedder = ResumeEmbedding()
-            resume_embedding = embedder.generate_embedding(clean_resume)
+            resume_embedding = self.embedder.generate_embedding(clean_resume)
             # Print the shape of the embedding just in case
             print(f"Embedding Shape : {resume_embedding.shape}")
 
@@ -75,8 +77,7 @@ class CareerPipeline:
 
             stage_start = time.perf_counter()
 
-            search_engine = EmbeddingSearch()
-            jobs_df = search_engine.search_by_embedding(
+            jobs_df = self.search_engine.search_by_embedding(
                 resume_embedding,
                 top_k=10
             )
