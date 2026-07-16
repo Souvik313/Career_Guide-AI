@@ -1,7 +1,7 @@
-import ContactHeader from "../components/Contact/ContactHeader";
-import ContactInfo from "../components/Contact/ContactInfo";
-import ContactForm from "../components/Contact/ContactForm";
-import SocialLinks from "../components/Contact/SocialLinks";
+import ContactHeader from "../components/contact/ContactHeader";
+import ContactInfo from "../components/contact/ContactInfo";
+import ContactForm from "../components/contact/ContactForm";
+import SocialLinks from "../components/contact/SocialLinks";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
