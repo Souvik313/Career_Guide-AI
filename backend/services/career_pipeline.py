@@ -23,10 +23,6 @@ class CareerPipeline:
         self.report_generator = CareerReportGenerator()
 
     def run_pipeline(self , resume_path: str):
-
-            from src.resume_parser.resume_embedding import ResumeEmbedding
-
-            from src.matching.embedding_search import EmbeddingSearch
             
             pipeline_start = time.perf_counter()
             # STEP 1
