@@ -34,6 +34,7 @@ AI Resume Analysis • Semantic Job Matching • Skill Gap Detection • Groq-Po
 - [Features](#-features)
 - [Screenshots](#-screenshots)
 - [AI Pipeline](#-ai-pipeline)
+- [Dataset](#-dataset)
 - [Tech Stack](#-tech-stack)
 - [Architecture](#-architecture)
 - [Installation](#-installation)
@@ -245,6 +246,23 @@ flowchart LR
 - **Natural Language Processing (NLP)** for skill extraction
 - **Groq LLM API** for personalized career guidance
 - **FastAPI** for serving AI-powered backend services
+
+## 📊 Dataset
+
+CareerCompass AI's semantic job matching is powered by the 
+[**lang-uk/recruitment-dataset-job-descriptions-english**](https://huggingface.co/datasets/lang-uk/recruitment-dataset-job-descriptions-english) 
+dataset from Hugging Face, containing approximately 142,000 job listings.
+
+| Detail | Description |
+|--------|-------------|
+| Source | [Hugging Face — lang-uk/recruitment-dataset-job-descriptions-english](https://huggingface.co/datasets/lang-uk/recruitment-dataset-job-descriptions-english) |
+| Size | ~142,000 rows |
+| Fields used | Job title, description, required skills |
+| Refresh cadence | Static snapshot (not live-updated) |
+| License | MIT |
+
+> Note: This dataset is used solely for semantic similarity matching against 
+> parsed resume content and is not used for model training or fine-tuning.
 
 ## 🛠️ Tech Stack
 
