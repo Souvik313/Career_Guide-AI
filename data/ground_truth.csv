@@ -1,0 +1,32 @@
+Resume_ID,Primary_Domain,Difficulty,Expected_Role_1,Expected_Role_2,Expected_Role_3,Expected_Role_4,Expected_Role_5
+Backend_01,Backend,Easy,Backend Developer,Node.js Developer,Express.js Developer,API Developer,Software Engineer (Backend)
+Backend_02,Backend,Medium,Backend Developer,Python Developer,Django Developer,Django REST Framework Developer,API Developer
+Backend_03,Backend,Medium,Senior Backend Developer,Java Developer,Spring Boot Developer,Microservices Engineer,Software Engineer (Backend)
+Backend_04,Backend,Hard,Backend Developer,Go Developer,Golang Engineer,Distributed Systems Engineer,Platform Engineer
+Backend_05,Backend,Medium,Backend Developer,FastAPI Developer,Python Developer,API Developer,Software Engineer (Backend)
+DataAnalytics_01,DataAnalytics,Easy,Data Analyst,Business Intelligence Analyst,Reporting Analyst,Analytics Consultant,SQL Data Analyst
+DataAnalytics_02,DataAnalytics,Medium,Product Analyst,Product Analytics Specialist,Data Analyst,Business Intelligence Analyst,Growth Analyst
+DataAnalytics_03,DataAnalytics,Medium,Business Analyst,Data Analyst,Business Intelligence Analyst,Reporting Analyst,Analytics Consultant
+DataAnalytics_04,DataAnalytics,Hard,Analytics Engineer,Data Engineer,Business Intelligence Engineer,Cloud Data Engineer,Data Platform Engineer
+DataAnalytics_05,DataAnalytics,Medium,Marketing Analyst,Growth Analyst,Digital Analytics Analyst,Data Analyst,Product Analyst
+DevOps_01,DevOps,Medium,AWS DevOps Engineer,Cloud Infrastructure Engineer,CI/CD Engineer,Site Reliability Engineer,Automation Engineer
+DevOps_02,DevOps,Medium,Platform Engineer,Kubernetes Engineer,Cloud DevOps Engineer,CI/CD Engineer,Containerization Specialist
+DevOps_03,DevOps,Medium,Azure Cloud Engineer,DevOps Engineer,Infrastructure Automation Engineer,CI/CD Engineer,Cloud Solutions Architect
+DevOps_04,DevOps,Easy,DevOps Engineer,CI/CD Engineer,Infrastructure as Code Engineer,AWS Engineer,Automation Engineer
+DevOps_05,DevOps,Medium,Site Reliability Engineer,Cloud DevOps Engineer,Infrastructure Automation Engineer,Incident Response Engineer,Monitoring Engineer
+Frontend_01,Frontend,Medium,React Developer,Redux Developer,UI Engineer,Frontend Engineer,Web Application Developer
+Frontend_02,Frontend,Medium,Next.js Developer,React Developer,Frontend Engineer,SEO Specialist,Web Performance Engineer
+Frontend_03,Frontend,Hard,Angular Developer,Senior Frontend Engineer,UI Architect,Accessibility Engineer,Enterprise Frontend Specialist
+Frontend_04,Frontend,Easy,Vue.js Developer,Frontend Engineer,UI Developer,SPA Developer,Component Library Engineer
+Frontend_05,Frontend,Medium,React Developer,TypeScript Frontend Engineer,Design System Engineer,Accessibility Engineer,UI Engineer
+FullStack_01,FullStack,Medium,MERN Full Stack Developer,React Developer,Node.js Backend Developer,Cloud Deployment Engineer,Full Stack Developer
+FullStack_02,FullStack,Medium,Django Full Stack Developer,React Developer,Backend Engineer,Database Developer,Full Stack Developer
+FullStack_03,FullStack,Hard,Spring Boot Full Stack Developer,Angular Developer,Enterprise Application Engineer,Java Backend Developer,Senior Full Stack Engineer
+FullStack_04,FullStack,Easy,Next.js Full Stack Developer,Node.js Developer,Frontend Engineer,GraphQL API Developer,SaaS Product Engineer
+FullStack_05,FullStack,Medium,MEAN Full Stack Developer,Angular Developer,Node.js Backend Engineer,API Developer,Full Stack Developer
+ML_AI_01,ML_AI,Medium,NLP Engineer,Machine Learning Engineer,Conversational AI Engineer,Text Analytics Specialist,AI Research Engineer
+ML_AI_02,ML_AI,Medium,Computer Vision Engineer,Machine Learning Engineer,Image Processing Specialist,Video Analytics Engineer,AI Deployment Engineer
+ML_AI_03,ML_AI,Hard,Machine Learning Engineer,MLOps Engineer,Model Monitoring Specialist,Cloud ML Engineer,Senior ML Engineer
+ML_AI_04,ML_AI,Medium,Data Scientist,Machine Learning Engineer,Predictive Modeling Specialist,Feature Engineering Specialist,Applied ML Scientist
+ML_AI_05,ML_AI,Medium,LLM Engineer,Generative AI Engineer,RAG Systems Engineer,Prompt Engineering Specialist,NLP Engineer
+
