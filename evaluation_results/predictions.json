@@ -1,0 +1,362 @@
+[
+    {
+        "resume_id": "Backend_01",
+        "domain": "Backend",
+        "status": "success",
+        "recommendations": [
+            "Senior Full-stack Engineer (JS/node.js)",
+            "Back-end developer ( Node.js)",
+            "Middle NodeJS Developer",
+            "Node.js Developer",
+            "Backend Node.js developer"
+        ]
+    },
+    {
+        "resume_id": "Backend_02",
+        "domain": "Backend",
+        "status": "success",
+        "recommendations": [
+            "Middle Full Stack Python Developer",
+            "Senior Python Developer",
+            "Python Django Lead\\Architect",
+            "Middle Python (Django) Developer",
+            "Python Backend Developer"
+        ]
+    },
+    {
+        "resume_id": "Backend_03",
+        "domain": "Backend",
+        "status": "success",
+        "recommendations": [
+            "Senior Java Developer",
+            "Java Back-End Engineer (trainee)",
+            "Senior/Lead Java Developer",
+            "Senior Java Developer",
+            "Senior Java Developer (Security Domain)"
+        ]
+    },
+    {
+        "resume_id": "Backend_04",
+        "domain": "Backend",
+        "status": "success",
+        "recommendations": [
+            "Golang Developer",
+            "Golang developer",
+            "Junior Golang Developer",
+            "Senior Golang Developer, Online Retail",
+            "Senior Golang engineer"
+        ]
+    },
+    {
+        "resume_id": "Backend_05",
+        "domain": "Backend",
+        "status": "success",
+        "recommendations": [
+            "Backend Developer (Rest API)",
+            "Python Backend Developer",
+            "Backend Engineer (Python, Flask/FastAPI, Cloud Services, GPU Clusters, Hugging Face)",
+            "Senior Python Developer",
+            "Python Developer"
+        ]
+    },
+    {
+        "resume_id": "DataAnalytics_01",
+        "domain": "DataAnalytics",
+        "status": "success",
+        "recommendations": [
+            "Tableau BI Analyst",
+            "BI Analyst (Tableau Develop)",
+            "Senior Data Analyst (Tableau) - Urgent",
+            "Data Analyst (SQL, Tableau)",
+            "Data Analyst"
+        ]
+    },
+    {
+        "resume_id": "DataAnalytics_02",
+        "domain": "DataAnalytics",
+        "status": "success",
+        "recommendations": [
+            "Project Data Manager",
+            "Data Analyst",
+            "Senior / Lead Data Scientist",
+            "Data Scientist",
+            "Data Scientist"
+        ]
+    },
+    {
+        "resume_id": "DataAnalytics_03",
+        "domain": "DataAnalytics",
+        "status": "success",
+        "recommendations": [
+            "Data Analyst with BI Experience",
+            "Power BI developer (2+ years of experience)",
+            "Senior Power BI developer",
+            "Reporting Analyst",
+            "Report Analyst (Power BI)"
+        ]
+    },
+    {
+        "resume_id": "DataAnalytics_04",
+        "domain": "DataAnalytics",
+        "status": "success",
+        "recommendations": [
+            "Data Engineer / ETL Developer (Junior / Middle)",
+            "Data Engineer",
+            "Senior Data Engineer",
+            "Junior Data Engineer",
+            "Data Engineer"
+        ]
+    },
+    {
+        "resume_id": "DataAnalytics_05",
+        "domain": "DataAnalytics",
+        "status": "success",
+        "recommendations": [
+            "Quantitative Analyst",
+            "Junior Model Developer",
+            "Credit Risk & Analytics Manager",
+            "Finance modelling manager",
+            "Data analyst (with banking projects experience)"
+        ]
+    },
+    {
+        "resume_id": "DevOps_01",
+        "domain": "DevOps",
+        "status": "success",
+        "recommendations": [
+            "Senior DevOps Engineer",
+            "DevOps Team Lead #9624",
+            "DevOps Engineer IRC159716",
+            "DevOps Engineer",
+            "DevOps Engineer"
+        ]
+    },
+    {
+        "resume_id": "DevOps_02",
+        "domain": "DevOps",
+        "status": "success",
+        "recommendations": [
+            "DevOps (Strong Middle/Senior)",
+            "Senior/Lead DevOps Engineer with Kubernetes (Azure & GCP)",
+            "Cloud Architect",
+            "Senior DevOps Engineer",
+            "DevOps Engineer (Kubernetes)"
+        ]
+    },
+    {
+        "resume_id": "DevOps_03",
+        "domain": "DevOps",
+        "status": "success",
+        "recommendations": [
+            "Devops ( Azure)",
+            "Azure DevOps Engineer",
+            "Azure Cloud Engineer",
+            "DevOps Engineer",
+            "Senior DevOps engineer (Azure)"
+        ]
+    },
+    {
+        "resume_id": "DevOps_04",
+        "domain": "DevOps",
+        "status": "success",
+        "recommendations": [
+            "DevOps",
+            "Devops, Architect",
+            "Senior DevOps Engineer",
+            "Terraform Engineer",
+            "Senior DevOps Engineer"
+        ]
+    },
+    {
+        "resume_id": "DevOps_05",
+        "domain": "DevOps",
+        "status": "success",
+        "recommendations": [
+            "Site Reliability Engineer",
+            "Site Reliability Engineer/DevOps",
+            "Site Reliability Engineer",
+            "Site Reliability Engineer for Giphy",
+            "Site Reliability Engineer"
+        ]
+    },
+    {
+        "resume_id": "Frontend_01",
+        "domain": "Frontend",
+        "status": "success",
+        "recommendations": [
+            "Senior/Middle Front-End Developer (React)",
+            "Frontend developer (React.js) (Poland)",
+            "React Native Developer, Guest Engagement Platform",
+            "Front-end React Developer/React Native (1+ year of commercial experience)",
+            "Senior React Developer"
+        ]
+    },
+    {
+        "resume_id": "Frontend_02",
+        "domain": "Frontend",
+        "status": "success",
+        "recommendations": [
+            "Sr. Front-End Engineer - NextJs",
+            "Senior/Middle Front-end Developer (React.js)",
+            "Frontend JS developer",
+            "Front-end Developer (React or Next.js)",
+            "Senior React Engineer for large retail portals"
+        ]
+    },
+    {
+        "resume_id": "Frontend_03",
+        "domain": "Frontend",
+        "status": "success",
+        "recommendations": [
+            "Frontend Developer",
+            "Middle/Senior Angular Developer",
+            "Angular developer",
+            "Angular Software Engineer - chips production domain",
+            "Senior Angular Engineer"
+        ]
+    },
+    {
+        "resume_id": "Frontend_04",
+        "domain": "Frontend",
+        "status": "success",
+        "recommendations": [
+            "Middle Vue.js developer",
+            "Middle Front-End (Vue.js) Developer",
+            "Strong Middle Vue.js Developer",
+            "Vue.js Developer",
+            "Front-end Vue.js Developer"
+        ]
+    },
+    {
+        "resume_id": "Frontend_05",
+        "domain": "Frontend",
+        "status": "success",
+        "recommendations": [
+            "Frontend Software Engineer",
+            "Frontend React.js Developer (tech lead)",
+            "React Developer",
+            "Senior Software Engineer (FrontEnd/React)",
+            "Strong React developer for western product company"
+        ]
+    },
+    {
+        "resume_id": "FullStack_01",
+        "domain": "FullStack",
+        "status": "success",
+        "recommendations": [
+            "Full Stack Engineer (MERN)",
+            "Senior Full-Stack (Node.js + React) Engineer",
+            "Senior full-stack JS developer",
+            "Fullstack developer",
+            "MERN stack developer"
+        ]
+    },
+    {
+        "resume_id": "FullStack_02",
+        "domain": "FullStack",
+        "status": "success",
+        "recommendations": [
+            "Python (Django) Developer",
+            "Python Developer",
+            "Junior Python/Django Developer",
+            "Senior Full Stack Developer (Python)",
+            "Full Stack Developer (Python+React.js)"
+        ]
+    },
+    {
+        "resume_id": "FullStack_03",
+        "domain": "FullStack",
+        "status": "success",
+        "recommendations": [
+            "Middle/Senior Java Full-Stack (Angular)",
+            "Senior/Lead Fullstack Developer (Angular)",
+            "Senior front end developer (Angular)",
+            "Frontend Developer (Angular)",
+            "Java + Angular Developer"
+        ]
+    },
+    {
+        "resume_id": "FullStack_04",
+        "domain": "FullStack",
+        "status": "success",
+        "recommendations": [
+            "Full-stack JS Developer",
+            "Senior JavaScript Engineer (React.js + Next.js)",
+            "Back End Node.js Engineer",
+            "Fullstack developer for new marketplace app for circular fashion, built for gen-z consumers",
+            "Senior Node.js Developer"
+        ]
+    },
+    {
+        "resume_id": "FullStack_05",
+        "domain": "FullStack",
+        "status": "success",
+        "recommendations": [
+            "FullStack Engineer (TS/Angular/Node.js)",
+            "Front-end Developer (Angular)",
+            "Senior Back-end Software Engineer",
+            "Full Stack (Angular  + Node js) developer / A management  system for big store chains in the USA",
+            "Full Stack (Angular + Node JS) developer / A management system for big store chains in the USA"
+        ]
+    },
+    {
+        "resume_id": "ML_AI_01",
+        "domain": "ML_AI",
+        "status": "success",
+        "recommendations": [
+            "Data Science",
+            "Senior Data Scientist",
+            "Data Scientist (NLP)",
+            "Middle+/Senior Data Scientist (NLP Researcher)",
+            "Technical Writer"
+        ]
+    },
+    {
+        "resume_id": "ML_AI_02",
+        "domain": "ML_AI",
+        "status": "success",
+        "recommendations": [
+            "Lead Computer Vision Engineer",
+            "Algorithms Engineer",
+            "Computer Vision Engineer",
+            "Computer Vision and Machine Learning Engineer",
+            "Computer Vision Engineer"
+        ]
+    },
+    {
+        "resume_id": "ML_AI_03",
+        "domain": "ML_AI",
+        "status": "success",
+        "recommendations": [
+            "Machine Learning Engineer",
+            "Data Scientist/Machine Learning Engineer",
+            "ML Engineer",
+            "Senior ML Engineer",
+            "ML Engineer"
+        ]
+    },
+    {
+        "resume_id": "ML_AI_04",
+        "domain": "ML_AI",
+        "status": "success",
+        "recommendations": [
+            "Data Scientist",
+            "IT system administrator",
+            "Data Scientist / Healthcare",
+            "Back-end Python Senior Engineer #10835",
+            "Data Scientist"
+        ]
+    },
+    {
+        "resume_id": "ML_AI_05",
+        "domain": "ML_AI",
+        "status": "success",
+        "recommendations": [
+            "Head of AI",
+            "Solution Architect (Generative AI)",
+            "AI Art Generation and Automation Production Manager",
+            "AI Art Generation/ Automation Production Manager (Cinebook)",
+            "Python LLM/AI/ML Developer - AI Companionship Platform (Conversational AI)"
+        ]
+    }
+]
