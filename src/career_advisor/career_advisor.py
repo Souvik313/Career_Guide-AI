@@ -1,6 +1,7 @@
 from collections import (
     Counter, defaultdict
     )
+from backend.services.role_classifier import RoleClassifier
 
 class CareerAdvisor:
     """
@@ -11,6 +12,105 @@ class CareerAdvisor:
     - missing skills
     - similarity scores
     """
+
+    STRENGTH_RULES = {
+        "Strong Frontend Development Skills": {
+            "react",
+            "javascript",
+            "html",
+            "css",
+            "typescript",
+            "angular",
+            "tailwind",
+            "bootstrap",
+        },
+
+        "Backend Development Experience": {
+            "node.js",
+            "express.js",
+            "fastapi",
+            "django",
+            "flask",
+        },
+
+        "Full Stack Development Expertise": {
+            "react",
+            "javascript",
+            "node.js",
+            "express.js",
+        },
+
+        "Python Development Skills": {
+            "python",
+        },
+
+        "Machine Learning & AI Foundations": {
+            "machine learning",
+            "tensorflow",
+            "pytorch",
+            "transformers",
+            "hugging face",
+            "llms",
+            "nlp",
+        },
+
+        "Data Analytics & Visualization": {
+            "sql",
+            "tableau",
+            "power bi",
+            "pandas",
+            "statistics",
+            "bigquery",
+            "snowflake",
+        },
+
+        "Cloud Engineering": {
+            "azure",
+            "aws",
+            "gcp",
+        },
+
+        "DevOps & Infrastructure Automation": {
+            "docker",
+            "terraform",
+            "kubernetes",
+            "azure devops",
+            "github actions",
+            "ci/cd",
+        },
+
+        "Infrastructure as Code": {
+            "terraform",
+            "bicep",
+            "arm templates",
+        },
+
+        "Monitoring & Observability": {
+            "azure monitor",
+            "grafana",
+            "prometheus",
+            "log analytics",
+        },
+
+        "Version Control & Collaborative Development": {
+            "git",
+            "github",
+        },
+
+        "Authentication & Security Concepts": {
+            "oauth",
+            "jwt",
+            "cybersecurity"
+            "azure ad",
+            "key vault",
+        },
+
+        "API Development Experience": {
+            "rest apis",
+            "rest api"
+            "graphql",
+        }
+    }
 
     def __init__(self, resume_skills, missing_skills, jobs_df):
         self.resume_skills = resume_skills
@@ -34,46 +134,18 @@ class CareerAdvisor:
         return score
     
     def identify_strengths(self):
-        """
-        Identify the candidate's major strengths
-        based on combinations of resume skills.
-        """
 
-        skills = {skill.lower() for skill in self.resume_skills}
+        skills = {
+            skill.lower().strip()
+            for skill in self.resume_skills
+        }
 
         strengths = []
 
-        # Frontend
-        if {"react", "javascript", "html", "css"}.issubset(skills):
-            strengths.append("Strong Frontend Development Skills")
+        for strength, required_skills in self.STRENGTH_RULES.items():
 
-        # Backend
-        if {"node.js", "express.js", "mongodb"}.issubset(skills):
-            strengths.append("Backend Development Experience")
-
-        # Full Stack
-        if (
-            {"react", "javascript"}.issubset(skills)
-            and
-            {"node.js", "express.js", "mongodb"}.issubset(skills)
-        ):
-            strengths.append("Full Stack Development Expertise")
-
-        # Version control
-        if "git" in skills:
-            strengths.append("Version Control & Collaborative Development")
-
-        # Python
-        if "python" in skills:
-            strengths.append("Python Development Skills")
-
-        # REST APIs
-        if "rest api" in skills:
-            strengths.append("API Integration Experience")
-
-        # Authentication
-        if "oauth" in skills:
-            strengths.append("Authentication & Security Concepts")
+            if len(skills & required_skills) >= max(1, len(required_skills) // 2):
+                strengths.append(strength)
 
         return strengths
 
@@ -83,66 +155,13 @@ class CareerAdvisor:
 
         for _, row in self.jobs_df.iterrows():
 
-            title = row["Position"].lower()
+            role_category = RoleClassifier.determine_role_category(
+                row["Position"]
+            )
+
             score = float(row["Similarity Score"])
 
-            if any(keyword in title for keyword in [
-                "frontend",
-                "front-end",
-                "react",
-                "angular",
-                "vue"
-            ]):
-
-                role_scores["Frontend Development"] += score
-
-            elif any(keyword in title for keyword in [
-                "backend",
-                "back-end",
-                "node",
-                "django",
-                "flask"
-            ]):
-
-                role_scores["Backend Development"] += score
-
-            elif "full stack" in title or "full-stack" in title:
-
-                role_scores["Full Stack Development"] += score
-
-            elif any(keyword in title for keyword in [
-                "machine learning",
-                "ml engineer",
-                "ai engineer",
-                "data scientist"
-            ]):
-
-                role_scores["Machine Learning"] += score
-
-            elif any(keyword in title for keyword in [
-                "data engineer",
-                "data analyst"
-            ]):
-
-                role_scores["Data Engineering"] += score
-
-            elif any(keyword in title for keyword in [
-                "android",
-                "ios",
-                "mobile"
-            ]):
-
-                role_scores["Mobile Development"] += score
-
-            elif any(keyword in title for keyword in [
-                "devops",
-                "cloud",
-                "site reliability"
-            ]):
-                role_scores["DevOps / Cloud"] += score
-
-            else:
-                role_scores["Software Development"] += score
+            role_scores[role_category] += score
 
         sorted_roles = sorted(
             role_scores.items(),
@@ -175,13 +194,6 @@ class CareerAdvisor:
                 }
                 for role, score in raw_best_roles
             ]
-        best_roles = [
-            {
-                "role": role,
-                "score": round((score / best_score) * match_score, 1)
-            }
-            for role, score in raw_best_roles
-        ]
         top_missing = self.missing_skills[:5]
 
         recommendations = []

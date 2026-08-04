@@ -1,0 +1,92 @@
+from sqlalchemy.orm import Session
+from sqlalchemy import select
+from backend.models.resume import Resume
+
+
+class ResumeService:
+
+    def __init__(self, db: Session):
+        self.db = db
+
+    def create_resume(
+        self,
+        user_id: int,
+        candidate_name: str,
+        filename: str,
+        file_path: str,
+        parsed_text: str,
+    ):
+        """
+        Create and persist a newly uploaded resume.
+        """
+
+        resume = Resume(
+            user_id=user_id,
+            candidate_name=candidate_name,
+            filename=filename,
+            file_path=file_path,
+            parsed_text=parsed_text,
+        )
+
+        self.db.add(resume)
+        self.db.commit()
+        self.db.refresh(resume)
+
+        return resume
+
+    def get_user_resumes(
+        self,
+        user_id: int,
+    ):
+        """
+        Return all resumes uploaded by a user.
+        """
+
+        statement = (
+            select(Resume)
+            .where(Resume.user_id == user_id)
+            .order_by(Resume.uploaded_at.desc())
+        )
+
+        return list(
+            self.db.scalars(statement).all()
+        )
+
+    def get_resume_by_id(
+        self,
+        resume_id: int,
+        user_id: int,
+    ):
+        """
+        Return a single resume if it belongs
+        to the current user.
+        """
+
+        statement = select(Resume).where(
+            Resume.id == resume_id,
+            Resume.user_id == user_id,
+        )
+
+        return self.db.scalar(statement)
+
+    def delete_resume(
+        self,
+        resume_id: int,
+        user_id: int,
+    ):
+        """
+        Delete a user's resume.
+        """
+
+        resume = self.get_resume_by_id(
+            resume_id=resume_id,
+            user_id=user_id,
+        )
+
+        if resume is None:
+            return False
+
+        self.db.delete(resume)
+        self.db.commit()
+
+        return True

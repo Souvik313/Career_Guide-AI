@@ -9,12 +9,14 @@ from src.career_advisor.career_advisor import CareerAdvisor
 
 from src.llm.career_report_generator import CareerReportGenerator
 
+from backend.services.recommendation_enricher import (
+    RecommendationEnricher
+)
+
 import time
 
 class CareerPipeline:
     def __init__(self):
-        self.parser = ResumeParser()
-        self.cleaner = ResumeCleaner()
 
         self.embedder = ResumeEmbedding()
         self.search_engine = EmbeddingSearch()
@@ -22,35 +24,9 @@ class CareerPipeline:
         self.skill_analyzer = SkillGapAnalyzer()
         self.report_generator = CareerReportGenerator()
 
-    def run_pipeline(self , resume_path: str):
+    def run_pipeline(self , clean_resume: str , candidate_name: str):
             
             pipeline_start = time.perf_counter()
-            # STEP 1
-            print("=" * 80)
-            print("STEP 1: Parsing resume..")
-            print("=" * 80)
-
-            stage_start = time.perf_counter()
-            
-            parser = ResumeParser()
-            resume_text = parser.extract_text(resume_path)
-            candidate_name = parser.extract_candidate_name(resume_text)
-
-            stage_end = time.perf_counter()
-            print(f"✅ Resume Parsing completed in {stage_end - stage_start:.2f} seconds\n")
-
-            # STEP 2
-            print("=" * 80)
-            print("STEP 2 : Cleaning Resume")
-            print("=" * 80)
-
-            stage_start = time.perf_counter()
-
-            cleaner = ResumeCleaner()
-            clean_resume = cleaner.clean(resume_text)
-
-            stage_end = time.perf_counter()
-            print(f"✅ Resume Cleaning completed in {stage_end - stage_start:.2f} seconds\n")
 
             # STEP 3
             print("=" * 80)
@@ -92,8 +68,7 @@ class CareerPipeline:
 
             stage_start = time.perf_counter()
 
-            analyzer = SkillGapAnalyzer()
-            analysis = analyzer.find_missing_skills(
+            analysis = self.skill_analyzer.find_missing_skills(
                 resume_text=clean_resume,
                 jobs_df=jobs_df,
             )
@@ -102,6 +77,16 @@ class CareerPipeline:
             missing_skills = analysis["missing_skills"]
             top_missing_skills = analysis["top_missing_skills"]
             skill_frequency = analysis["skill_frequency"]
+            recommendation_enricher = RecommendationEnricher(
+                resume_skills=resume_skills,
+                missing_skills=missing_skills,
+            )
+
+            enriched_recommendations = (
+                recommendation_enricher.enrich_recommendations(
+                    jobs_df
+                )
+            )
 
             print(f"Resume Skills Found      : {len(resume_skills)}")
             print(f"Missing Skills Found     : {len(missing_skills)}")
@@ -137,6 +122,30 @@ class CareerPipeline:
             for rec in career_report["recommendations"][:3]:
                 print(f"• {rec}")
 
+            print("\nEnriched Recommendations:")
+
+            for recommendation in enriched_recommendations[:3]:
+                print(
+                    f"\n{recommendation['rank']}. "
+                    f"{recommendation['job_title']}"
+                )
+                print(
+                    f"Category: "
+                    f"{recommendation['role_category']}"
+                )
+                print(
+                    f"Match: "
+                    f"{recommendation['match_reason']}"
+                )
+                print(
+                    f"Gap: "
+                    f"{recommendation['missing_skills_summary']}"
+                )
+                print(
+                    f"Next Step: "
+                    f"{recommendation['next_step']}"
+    )
+
             stage_end = time.perf_counter()
             print(f"✅ Career advice generated in {stage_end - stage_start:.2f} seconds\n")
 
@@ -147,8 +156,7 @@ class CareerPipeline:
 
             stage_start = time.perf_counter()
 
-            generator = CareerReportGenerator()
-            ai_report = generator.generate_report(career_report = career_report)
+            ai_report = self.report_generator.generate_report(career_report = career_report)
             print("AI Career Report Generated Successfully!")
             print("\nGenerated Sections:")
 
@@ -167,7 +175,7 @@ class CareerPipeline:
 
             return {
                 "candidate_name": candidate_name,
-                "recommended_jobs": jobs_df.to_dict(orient="records"),
+                "recommended_jobs": enriched_recommendations,
                 "resume_skills": resume_skills,
                 "missing_skills": top_missing_skills,
                 "career_report": career_report,

@@ -6,9 +6,28 @@ from fastapi import UploadFile
 from fastapi import File
 from fastapi import HTTPException
 
+from fastapi import Depends
+from sqlalchemy.orm import Session
+
+from backend.database.session import get_db
+
+from backend.services.career_evaluation_service import CareerEvaluationService
+from backend.services.resume_service import ResumeService
+from backend.services.recommendation_service import RecommendationService
+
+from backend.schemas.resume import ResumeDetailResponse, ResumeSummaryResponse
+
+from backend.core.authorization import get_current_user
+from backend.models.user import User
+
+from src.resume_parser.resume_parser import ResumeParser
+from src.resume_parser.resume_cleaner import ResumeCleaner
+
 from backend.services.career_pipeline import CareerPipeline
 
-router = APIRouter()
+router = APIRouter(
+    tags=["Resume"],
+)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -16,7 +35,11 @@ UPLOAD_FOLDER = BASE_DIR / "uploads"
 UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 
 @router.post("/upload-resume")
-async def upload_resume(file: UploadFile = File(...)):
+async def upload_resume(
+        file: UploadFile = File(...),
+        current_user: User = Depends(get_current_user),
+        db: Session = Depends(get_db),
+    ):
 
     try:
         if file.content_type != "application/pdf":
@@ -33,9 +56,45 @@ async def upload_resume(file: UploadFile = File(...)):
                 buffer
             )
 
+        parser = ResumeParser()
+        resume_text = parser.extract_text(str(file_path))
+
+        candidate_name = parser.extract_candidate_name(
+            resume_text
+        )
+
+        cleaner = ResumeCleaner()
+        clean_resume = cleaner.clean(resume_text)
+
+        resume_service = ResumeService(db)
+
+        resume = resume_service.create_resume(
+            user_id=current_user.id,
+            candidate_name=candidate_name,
+            filename=file.filename,
+            file_path=str(file_path),
+            parsed_text=resume_text,
+        )
+
         pipeline = CareerPipeline()
         result = pipeline.run_pipeline(
-            str(file_path)
+            clean_resume=clean_resume,
+            candidate_name=candidate_name,
+        )
+        recommendation_service = RecommendationService(db)
+
+        recommendation_service.create_recommendations(
+            resume_id=resume.id,
+            recommendations=result["recommended_jobs"],
+        )
+
+        evaluation_service = CareerEvaluationService(db)
+
+        evaluation_service.create_or_update_evaluation(
+            resume_id=resume.id,
+            candidate_name=candidate_name,
+            career_report=result["career_report"],
+            ai_report=result["ai_report"],
         )
         return result
     except Exception as e:
@@ -44,3 +103,72 @@ async def upload_resume(file: UploadFile = File(...)):
             status_code=500,
             detail=str(e),
         )
+
+@router.get("/resumes" , response_model=list[ResumeSummaryResponse])
+def get_resumes(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Return all resumes uploaded by the current user.
+    """
+
+    resume_service = ResumeService(db)
+
+    resumes = resume_service.get_user_resumes(
+        user_id=current_user.id,
+    )
+
+    return resumes
+
+@router.get("/resumes/{resume_id}" , response_model=ResumeDetailResponse)
+def get_resume(
+    resume_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Return one resume belonging to the current user.
+    """
+
+    resume_service = ResumeService(db)
+
+    resume = resume_service.get_resume_by_id(
+        resume_id=resume_id,
+        user_id=current_user.id,
+    )
+
+    if resume is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Resume not found.",
+        )
+
+    return resume
+
+@router.delete("/resumes/{resume_id}")
+def delete_resume(
+    resume_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Delete a resume owned by the current user.
+    """
+
+    resume_service = ResumeService(db)
+
+    deleted = resume_service.delete_resume(
+        resume_id=resume_id,
+        user_id=current_user.id,
+    )
+
+    if not deleted:
+        raise HTTPException(
+            status_code=404,
+            detail="Resume not found.",
+        )
+
+    return {
+        "message": "Resume deleted successfully."
+    }
