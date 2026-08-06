@@ -13,6 +13,7 @@ from backend.core.security import (
 )
 from backend.core.authorization import get_current_user
 from backend.models.user import User
+from backend.schemas.user import UserLogin
 
 
 router = APIRouter(
@@ -91,31 +92,22 @@ def signup(
     response_model=AuthResponse,
 )
 def login(
-    form_data: Annotated[
-        OAuth2PasswordRequestForm,
-        Depends(),
-    ],
+    credentials: UserLogin,
     db: Annotated[Session, Depends(get_db)],
 ):
     auth_service = AuthService(db)
 
-    # OAuth2 uses the field name "username".
-    # In our application, the username is the user's email.
     user = auth_service.authenticate_user(
-        email=form_data.username,
-        password=form_data.password,
+        email=credentials.email,
+        password=credentials.password,
     )
 
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password.",
-            headers={
-                "WWW-Authenticate": "Bearer"
-            },
         )
 
-    # Generate JWT after successful authentication
     access_token = create_access_token(
         user_id=user.id
     )
