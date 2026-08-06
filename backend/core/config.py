@@ -14,9 +14,9 @@ BACKEND_ENV_PATH = PROJECT_ROOT / "backend" / ".env"
 
 
 # Load both environment files
-load_dotenv(ROOT_ENV_PATH)
-load_dotenv(BACKEND_ENV_PATH)
-
+if os.getenv("DATABASE_URL") is None:
+    load_dotenv(ROOT_ENV_PATH)
+    load_dotenv(BACKEND_ENV_PATH)
 
 class Settings:
 
