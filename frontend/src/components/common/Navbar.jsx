@@ -318,24 +318,13 @@ function Navbar() {
                                             "CareerCompass User"}
                                     </p>
 
-                                    <p
-                                        className="
-                                            mt-1
-                                            truncate
-                                            text-sm
-                                            text-slate-500
-                                        "
-                                    >
-                                        {user?.email || ""}
-                                    </p>
-
                                 </div>
 
 
                                 {/* View Profile */}
 
                                 <Link
-                                    to="/profile"
+                                    to="/profile/personal-info"
                                     onClick={() =>
                                         setIsDropdownOpen(false)
                                     }

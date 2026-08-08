@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import {
     sendMessage,
+    getUserConversations,
     getChatHistory,
 } from "../services/aiChatService.js";
 
@@ -11,6 +12,8 @@ const useAIChat = () => {
     const [conversationId, setConversationId] = useState(null);
 
     const [messages, setMessages] = useState([]);
+
+    const [conversations, setConversations] = useState([]);
 
     const [loading, setLoading] = useState(false);
 
@@ -115,6 +118,42 @@ const useAIChat = () => {
 
 
     /* =====================================================
+       Get Conversation Summaries
+    ===================================================== */
+
+    const fetchConversations = async () => {
+
+        try {
+
+            setLoading(true);
+            setError(null);
+
+            const data = await getUserConversations();
+
+            setConversations(data || []);
+
+            return data;
+
+        } catch (err) {
+
+            const message =
+                err?.response?.data?.detail ||
+                "Failed to fetch conversations.";
+
+            setError(message);
+
+            throw err;
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
+
+
+    /* =====================================================
        Get Conversation History
     ===================================================== */
 
@@ -198,11 +237,15 @@ const useAIChat = () => {
 
         messages,
 
+        conversations,
+
         loading,
 
         error,
 
         sendMessage: handleSendMessage,
+
+        fetchConversations,
 
         fetchChatHistory,
 

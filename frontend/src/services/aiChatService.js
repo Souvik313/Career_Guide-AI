@@ -16,6 +16,20 @@ export const sendMessage = async (chatData) => {
 };
 
 /* =====================================================
+   Get All Conversations for the Current User
+===================================================== */
+
+export const getUserConversations = async () => {
+
+    const response = await api.get(
+        "/chat/conversations"
+    );
+
+    return response.data;
+
+};
+
+/* =====================================================
    Get Conversation History
 ===================================================== */
 

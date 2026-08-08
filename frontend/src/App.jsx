@@ -13,6 +13,12 @@ import Contact from "./pages/Contact";
 
 import MainLayout from "./layouts/MainLayout";
 import ProtectedRoute from "./layouts/ProtectedRoute";
+import ProfileLayout from "./layouts/ProfileLayout";
+import ProfilePersonalInfo from "./pages/profile/ProfilePersonalInfo.jsx";
+import ProfileResumes from "./pages/profile/ProfileResumes.jsx";
+import ProfileSavedJobs from "./pages/profile/ProfileSavedJobs.jsx";
+import ProfileConversationHistory from "./pages/profile/ProfileConversationHistory.jsx";
+import ProfileSettings from "./pages/profile/ProfileSettings.jsx";
 
 function App() {
   return (
@@ -63,6 +69,41 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+      </Route>
+      <Route element={<ProtectedRoute />}>
+
+        <Route
+            path="/profile"
+            element={<ProfileLayout />}
+        >
+
+            <Route
+                path="personal-info"
+                element={<ProfilePersonalInfo />}
+            />
+
+            <Route
+                path="resumes"
+                element={<ProfileResumes />}
+            />
+
+            <Route
+                path="saved-jobs"
+                element={<ProfileSavedJobs />}
+            />
+
+            <Route
+                path="conversations"
+                element={<ProfileConversationHistory />}
+            />
+
+            <Route
+                path="settings"
+                element={<ProfileSettings />}
+            />
+
+        </Route>
 
       </Route>
 

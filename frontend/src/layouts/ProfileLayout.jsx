@@ -3,57 +3,81 @@ import { Outlet } from "react-router-dom";
 import Navbar from "../components/common/Navbar.jsx";
 import ProfileSidebar from "../components/profile/ProfileSidebar.jsx";
 
-
 function ProfileLayout() {
+    
+return (
 
-    return (
+    <div
+        className="
+            min-h-screen
+            bg-[#faf9ff]
+        "
+    >
 
-        <div className="min-h-screen bg-[#faf9ff]">
+        {/* =================================================
+            Global Navbar
+        ================================================= */}
 
-            {/* Global Navbar */}
-
-            <Navbar />
+        <Navbar />
 
 
-            {/* Profile Workspace */}
+        {/* =================================================
+            Profile Workspace
+        ================================================= */}
 
-            <div
+        <div
+            className="
+                flex
+                min-h-[calc(100vh-5rem)]
+                w-full
+            "
+        >
+
+            {/* =================================================
+                Profile Sidebar
+            ================================================= */}
+
+            <ProfileSidebar />
+
+
+            {/* =================================================
+                Profile Content
+            ================================================= */}
+
+            <main
                 className="
-                    flex
-                    min-h-[calc(100vh-5rem)]
-                    w-full
+                    min-w-0
+                    flex-1
+                    overflow-x-hidden
+                    px-4
+                    py-6
+                    sm:px-6
+                    sm:py-8
+                    lg:px-10
+                    lg:py-10
                 "
             >
 
-                {/* Profile Sidebar */}
-
-                <ProfileSidebar />
-
-
-                {/* Profile Content */}
-
-                <main
+                <div
                     className="
-                        min-w-0
-                        flex-1
-                        overflow-x-hidden
-                        px-6
-                        py-8
-                        lg:px-10
+                        mx-auto
+                        w-full
+                        max-w-6xl
                     "
                 >
 
                     <Outlet />
 
-                </main>
+                </div>
 
-            </div>
+            </main>
 
         </div>
 
-    );
+    </div>
+
+);
 
 }
-
 
 export default ProfileLayout;
