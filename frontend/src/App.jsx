@@ -79,6 +79,11 @@ function App() {
         >
 
             <Route
+                index
+                element={<ProfilePersonalInfo />}
+            />
+
+            <Route
                 path="personal-info"
                 element={<ProfilePersonalInfo />}
             />

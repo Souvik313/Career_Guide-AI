@@ -324,7 +324,7 @@ function Navbar() {
                                 {/* View Profile */}
 
                                 <Link
-                                    to="/profile/personal-info"
+                                    to="/profile"
                                     onClick={() =>
                                         setIsDropdownOpen(false)
                                     }
