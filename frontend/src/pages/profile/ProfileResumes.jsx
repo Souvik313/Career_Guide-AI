@@ -14,7 +14,7 @@ import ProfileEmptyState from "../../components/profile/ProfileEmptyState.jsx";
 
 import { Button } from "../../components/ui/button.jsx";
 
-import { useResume } from "../../hooks/useResume.js";
+import useResume from "../../hooks/useResume.js";
 
 function ProfileResumes() {
 

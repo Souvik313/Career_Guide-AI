@@ -18,7 +18,7 @@ import ProfileEmptyState from "../../components/profile/ProfileEmptyState.jsx";
 
 import { Button } from "../../components/ui/button.jsx";
 
-import { useSavedJobs } from "../../hooks/useSavedJobs.js";
+import useSavedJobs from "../../hooks/useSavedJobs.js";
 
 function ProfileSavedJobs() {
 
