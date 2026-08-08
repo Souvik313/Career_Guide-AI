@@ -53,3 +53,17 @@ class ChatHistoryResponse(BaseModel):
     conversation_id: str
 
     messages: list[ChatMessageResponse]
+
+
+class ConversationSummaryResponse(BaseModel):
+    """
+    Lightweight summary for a user conversation.
+    """
+
+    conversation_id: str
+
+    title: str
+
+    last_message: str
+
+    updated_at: datetime

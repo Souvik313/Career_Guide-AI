@@ -13,6 +13,7 @@ from backend.schemas.chat_message import (
     ChatHistoryResponse,
     ChatRequest,
     ChatResponse,
+    ConversationSummaryResponse,
 )
 
 from backend.services.ai_chat_service import AIChatService
@@ -65,6 +66,25 @@ def chat(
             status_code=500,
             detail=str(exc),
         )
+
+@router.get(
+    "/conversations",
+    response_model=list[ConversationSummaryResponse],
+)
+def get_user_conversations(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Return a lightweight summary for every conversation owned by the user.
+    """
+
+    chat_service = ChatMessageService(db)
+
+    return chat_service.get_user_conversation_summaries(
+        user_id=current_user.id,
+    )
+
 
 @router.get(
     "/{conversation_id}",
