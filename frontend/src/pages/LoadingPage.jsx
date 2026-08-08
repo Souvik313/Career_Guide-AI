@@ -1,7 +1,7 @@
 import { Loader2, CheckCircle2, Circle } from "lucide-react";
 import { useEffect , useState } from "react";
 import { useLocation  , useNavigate } from "react-router-dom";
-import { uploadResume } from "../api/resumeApi";
+import { uploadResume } from "../services/resumeService.js";
 
 const loadingSteps = [
     {
