@@ -30,12 +30,17 @@ function LoadingPage() {
 
     const [progress, setProgress] = useState(0);
     const [currentStep, setCurrentStep] = useState(0);
+    const [error, setError] = useState(null);
 
     const location = useLocation()
-    const file = location.state.file;
+    const file = location.state?.file;
     const navigate = useNavigate();
 
     useEffect(() => {
+
+        if (!file) {
+            return;
+        }
 
         const analyzeResume = async () => {
 
@@ -50,17 +55,18 @@ function LoadingPage() {
                     });
                 }, 700);
             }
-            catch(error){
+            catch(error) {
                 console.error(error);
+                setError(error);
             }
         };
 
         analyzeResume();
-    }, [file]);
+    }, [file, navigate]);
 
     useEffect(() => {
 
-        if (currentStep >= loadingSteps.length)
+        if (error || !file || currentStep >= loadingSteps.length)
             return;
 
         const timer = setTimeout(() => {
@@ -75,7 +81,7 @@ function LoadingPage() {
 
         return () => clearTimeout(timer);
 
-    }, [currentStep]);
+    }, [currentStep, error]);
 
     return (
 
@@ -172,6 +178,12 @@ function LoadingPage() {
                 </div>
 
                 {/* Footer */}
+
+                {(error || !file) && (
+                    <div className="mt-6 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                        We couldn’t finish the resume analysis. Please try again after a short wait.
+                    </div>
+                )}
 
                 <div className="mt-10 text-center">
 

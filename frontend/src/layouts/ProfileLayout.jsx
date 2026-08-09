@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 
-import Navbar from "../components/common/Navbar.jsx";
 import ProfileSidebar from "../components/profile/ProfileSidebar.jsx";
 
 function ProfileLayout() {
@@ -13,13 +12,6 @@ return (
             bg-[#faf9ff]
         "
     >
-
-        {/* =================================================
-            Global Navbar
-        ================================================= */}
-
-        <Navbar />
-
 
         {/* =================================================
             Profile Workspace
