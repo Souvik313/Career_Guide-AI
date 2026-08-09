@@ -25,104 +25,132 @@ function App() {
   return (
     <Routes>
 
-      <Route element={<MainLayout />}>
+        {/* =====================================================
+            Main Layout
+        ===================================================== */}
 
-        {/* Public Routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/loading" element={<LoadingPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route element={<MainLayout />}>
 
-        {/* Protected Routes */}
-        <Route
-          path="/upload"
-          element={
-            <ProtectedRoute>
-              <UploadResume />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/report"
-          element={
-            <ProtectedRoute>
-              <ReportPage />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/analytics"
-          element={
-            <ProtectedRoute>
-              <AnalyticsPage />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/career-coach"
-          element={
-            <ProtectedRoute>
-              <CareerCoach />
-            </ProtectedRoute>
-          }
-        />
-
-      </Route>
-      <Route element={<ProtectedRoute />}>
-
-        <Route
-            path="/profile"
-            element={<ProfileLayout />}
-        >
+            {/* =================================================
+                Public Routes
+            ================================================= */}
 
             <Route
-                index
-                element={<ProfilePersonalInfo />}
+                path="/"
+                element={<Home />}
             />
 
             <Route
-                path="personal-info"
-                element={<ProfilePersonalInfo />}
+                path="/contact"
+                element={<Contact />}
             />
 
             <Route
-                path="resumes"
-                element={<ProfileResumes />}
+                path="/loading"
+                element={<LoadingPage />}
             />
 
             <Route
-                path="saved-jobs"
-                element={<ProfileSavedJobs />}
+                path="/login"
+                element={<Login />}
             />
 
             <Route
-                path="conversations"
-                element={<ProfileConversationHistory />}
+                path="/register"
+                element={<Register />}
             />
 
-            <Route
-                path="settings"
-                element={<ProfileSettings />}
-            />
+
+            {/* =================================================
+                Protected Main Application Routes
+            ================================================= */}
+
+            <Route element={<ProtectedRoute />}>
+
+                <Route
+                    path="/upload"
+                    element={<UploadResume />}
+                />
+
+                <Route
+                    path="/dashboard"
+                    element={<Dashboard />}
+                />
+
+                <Route
+                    path="/report"
+                    element={<ReportPage />}
+                />
+
+                <Route
+                    path="/analytics"
+                    element={<AnalyticsPage />}
+                />
+
+                <Route
+                    path="/career-coach"
+                    element={<CareerCoach />}
+                />
+
+            </Route>
+
+
+            {/* =================================================
+                Protected Profile Routes
+            ================================================= */}
+
+            <Route element={<ProtectedRoute />}>
+
+                <Route
+                    path="/profile"
+                    element={<ProfileLayout />}
+                >
+
+                    <Route
+                        index
+                        element={<ProfilePersonalInfo />}
+                    />
+
+                    <Route
+                        path="personal-info"
+                        element={<ProfilePersonalInfo />}
+                    />
+
+                    <Route
+                        path="resumes"
+                        element={<ProfileResumes />}
+                    />
+
+                    <Route
+                        path="saved-jobs"
+                        element={<ProfileSavedJobs />}
+                    />
+
+                    <Route
+                        path="conversations"
+                        element={<ProfileConversationHistory />}
+                    />
+
+                    <Route
+                        path="settings"
+                        element={<ProfileSettings />}
+                    />
+
+                </Route>
+
+            </Route>
 
         </Route>
 
-      </Route>
 
-      <Route path="*" element={<NotFound />} />
+        {/* =====================================================
+            Not Found
+        ===================================================== */}
+
+        <Route
+            path="*"
+            element={<NotFound />}
+        />
 
     </Routes>
   );
