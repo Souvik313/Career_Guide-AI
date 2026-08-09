@@ -41,7 +41,7 @@ def chat(
 
     try:
 
-        response = chat_service.process_chat(
+        conversation_id, response = chat_service.process_chat(
             user_id=current_user.id,
             resume_id=request.resume_id,
             conversation_id=request.conversation_id,
@@ -49,7 +49,7 @@ def chat(
         )
 
         return ChatResponse(
-            conversation_id=request.conversation_id,
+            conversation_id=conversation_id,
             response=response,
         )
 

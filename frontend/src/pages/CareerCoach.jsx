@@ -180,6 +180,13 @@ function CareerCoach() {
 
   const handleStartConversation = useCallback(
     async (newResumeId, initialMessage = "") => {
+      console.log(
+            "CareerCoach: handleStartConversation called",
+            {
+                newResumeId,
+                initialMessage,
+            }
+        );
       try {
         /*
          * This resume belongs to the NEW
@@ -217,6 +224,13 @@ function CareerCoach() {
          * conversation_id = null
          * message
          */
+        console.log(
+          "CareerCoach: about to call sendMessage",
+          {
+              resumeId: activeResumeId,
+              message: initialMessage.trim(),
+          }
+        );
 
         await sendMessage({
           resumeId: activeResumeId,

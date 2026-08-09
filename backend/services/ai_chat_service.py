@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-
+from uuid import uuid4
 from groq import Groq
 
 from backend.models.career_evaluation import CareerEvaluation
@@ -384,13 +384,16 @@ class AIChatService:
         *,
         user_id: int,
         resume_id: int | None,
-        conversation_id: str,
+        conversation_id: str | None,
         user_message: str,
     ) -> str:
         """
         Complete chat pipeline.
         """
 
+        if conversation_id is None:
+            conversation_id = str(uuid4())
+        
         # STEP 1
         self.chat_message_service.create_message(
             user_id=user_id,
@@ -423,4 +426,4 @@ class AIChatService:
         )
 
         # STEP 5
-        return assistant_response
+        return conversation_id, assistant_response

@@ -458,9 +458,16 @@ function CareerCoachEmptyState({
                   key={suggestion.label}
                   type="button"
                   disabled={loading}
-                  onClick={() =>
+                  onClick={() => {
+                    console.log(
+                      "CareerCoachEmptyState: suggestion clicked",
+                      {
+                          resumeId: selectedResumeId,
+                          message: suggestion.label,
+                      }
+                  );
                     onStartConversation?.(selectedResumeId, suggestion.label)
-                  }
+                  }}
                   className="
                                             flex
                                             items-center

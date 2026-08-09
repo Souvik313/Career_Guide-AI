@@ -26,91 +26,156 @@ const useAIChat = () => {
   /* =====================================================
        Send Message
     ===================================================== */
+const handleSendMessage = useCallback(
+  async ({ resumeId: providedResumeId, message }) => {
+    console.log("useAIChat: handleSendMessage called", {
+      providedResumeId,
+      message,
+      conversationId,
+      resumeId,
+    });
 
-  const handleSendMessage = useCallback(
-    async ({ resumeId: providedResumeId, message }) => {
-      try {
-        setLoading(true);
-        setError(null);
+    try {
+      setLoading(true);
+      setError(null);
 
-        const activeResumeId = resumeId ?? providedResumeId;
+      /*
+       * =====================================================
+       * Determine Resume Context
+       * =====================================================
+       *
+       * Existing conversation:
+       *   resumeId = authoritative resume context
+       *
+       * New conversation:
+       *   providedResumeId = resume selected by the user
+       */
 
-        setMessages((currentMessages) => [
-          ...currentMessages,
+      const activeResumeId = conversationId
+        ? resumeId
+        : providedResumeId;
 
-          {
-            role: "user",
-            content: message,
-          },
-        ]);
+      /*
+       * =====================================================
+       * Optimistically Add User Message
+       * =====================================================
+       */
 
-        /*
-         * Send message to backend.
-         */
+      setMessages((currentMessages) => [
+        ...currentMessages,
+        {
+          role: "user",
+          content: message,
+        },
+      ]);
 
-        const data = await sendMessage({
-          resume_id: activeResumeId,
+      /*
+       * =====================================================
+       * Send Message To Backend
+       * =====================================================
+       *
+       * For a NEW conversation:
+       *
+       * conversation_id === null
+       *
+       * The backend must create the conversation ID.
+       *
+       * For an EXISTING conversation:
+       *
+       * conversation_id === existing conversation ID
+       */
 
-          conversation_id: conversationId,
+      const payload = {
+        resume_id: activeResumeId ?? null,
+        conversation_id: conversationId ?? null,
+        message: message.trim(),
+      };
 
-          message,
-        });
+      console.log(
+        "useAIChat: about to call API",
+        payload
+      );
 
-        /*
-         * Synchronize conversation ID.
-         *
-         * This is especially important when starting
-         * a completely new conversation.
-         */
+      const data = await sendMessage(payload);
 
-        if (data.conversation_id) {
-          setConversationId(data.conversation_id);
-        }
+      console.log(
+        "useAIChat: API response",
+        data
+      );
 
-        /*
-         * Keep the resume ID synchronized.
-         *
-         * If this was a new conversation and a resume
-         * was provided, remember it for subsequent
-         * messages.
-         */
+      /*
+       * =====================================================
+       * Synchronize Conversation ID
+       * =====================================================
+       *
+       * This is the critical part for a NEW conversation.
+       *
+       * Backend creates the conversation and returns
+       * the generated conversation_id.
+       */
 
-        if (activeResumeId) {
-          setResumeId(activeResumeId);
-        }
-
-        /*
-         * Add AI response to the conversation.
-         */
-
-        setMessages((currentMessages) => [
-          ...currentMessages,
-
-          {
-            role: "assistant",
-            content: data.response,
-          },
-        ]);
-
-        return data;
-      } catch (err) {
-        const message =
-          err?.response?.data?.detail || "Failed to send message.";
-
-        setError(message);
-
-        /*
-         * Re-throw so the component can optionally
-         * handle the error.
-         */
-
-        throw err;
-      } finally {
-        setLoading(false);
+      if (!data?.conversation_id) {
+        throw new Error(
+          "Backend did not return a conversation_id."
+        );
       }
-    },
-    [conversationId, resumeId],
-  );
+
+      setConversationId(data.conversation_id);
+
+      /*
+       * =====================================================
+       * Synchronize Resume Context
+       * =====================================================
+       */
+
+      if (activeResumeId) {
+        setResumeId(activeResumeId);
+      } else {
+        setResumeId(null);
+      }
+
+      /*
+       * =====================================================
+       * Add Assistant Response
+       * =====================================================
+       */
+
+      setMessages((currentMessages) => [
+        ...currentMessages,
+        {
+          role: "assistant",
+          content: data.response,
+        },
+      ]);
+
+      return data;
+
+    } catch (err) {
+
+      console.error(
+        "useAIChat: failed to send message",
+        err
+      );
+
+      const errorMessage =
+        err?.response?.data?.detail ||
+        err?.message ||
+        "Failed to send message.";
+
+      setError(errorMessage);
+
+      throw err;
+
+    } finally {
+      setLoading(false);
+    }
+  },
+  [
+    conversationId,
+    resumeId,
+  ],
+);
+
 
   /* =====================================================
        Get Conversation Summaries
