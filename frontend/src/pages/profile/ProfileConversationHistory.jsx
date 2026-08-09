@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 import {
-MessageCircle,
-User,
-Bot,
-Clock3,
-Sparkles,
-ArrowRight,
+  MessageCircle,
+  User,
+  Bot,
+  Clock3,
+  Sparkles,
+  ArrowRight,
 } from "lucide-react";
 
 import ProfileHeader from "../../components/profile/ProfileHeader.jsx";
@@ -19,8 +19,7 @@ import { Button } from "../../components/ui/button.jsx";
 import useAIChat from "../../hooks/useAIChat.js";
 
 function ProfileConversationHistory() {
-
-const {
+  const {
     conversationId,
     messages,
     conversations,
@@ -29,183 +28,118 @@ const {
     fetchConversations,
     fetchChatHistory,
     startNewConversation,
-} = useAIChat();
+  } = useAIChat();
 
+  const navigate = useNavigate();
 
-/* =====================================================
+  /* =====================================================
    Load Conversation Summaries
 ===================================================== */
 
-useEffect(() => {
-
+  useEffect(() => {
     const loadConversationSummaries = async () => {
-
-        try {
-
-            await fetchConversations();
-
-        } catch (err) {
-
-            console.error(
-                "Failed to load conversations:",
-                err
-            );
-
-        }
-
+      try {
+        await fetchConversations();
+      } catch (err) {
+        console.error("Failed to load conversations:", err);
+      }
     };
 
-
     loadConversationSummaries();
+  }, [fetchConversations]);
 
-}, [fetchConversations]);
-
-
-/* =====================================================
+  /* =====================================================
    Load Existing Conversation
 ===================================================== */
 
-useEffect(() => {
-
+  useEffect(() => {
     if (!conversationId) {
-        return;
+      return;
     }
 
-
     const loadConversation = async () => {
-
-        try {
-
-            await fetchChatHistory(
-                conversationId
-            );
-
-        } catch (err) {
-
-            console.error(
-                "Failed to load conversation history:",
-                err
-            );
-
-        }
-
+      try {
+        await fetchChatHistory(conversationId);
+      } catch (err) {
+        console.error("Failed to load conversation history:", err);
+      }
     };
 
-
     loadConversation();
+  }, [conversationId, fetchChatHistory]);
 
-}, [conversationId, fetchChatHistory]);
-
-
-/* =====================================================
+  /* =====================================================
    Format Message Time
 ===================================================== */
 
-const formatTime = (value) => {
-
+  const formatTime = (value) => {
     if (!value) {
-        return null;
+      return null;
     }
 
     const date = new Date(value);
 
     if (Number.isNaN(date.getTime())) {
-        return null;
+      return null;
     }
 
-    return date.toLocaleString(
-        "en-IN",
-        {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-            hour: "numeric",
-            minute: "2-digit",
-        }
-    );
+    return date.toLocaleString("en-IN", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    });
+  };
 
-};
-
-
-/* =====================================================
+  /* =====================================================
    Start New Conversation
 ===================================================== */
 
-const handleStartNewConversation = () => {
+  const handleStartNewConversation = () => {
+    navigate("/career-coach");
+  };
 
-    startNewConversation();
-
-    window.location.href =
-        "/dashboard/chat";
-
-};
-
-
-/* =====================================================
+  /* =====================================================
    Open a Conversation from the Summary List
 ===================================================== */
 
-const handleOpenConversation = async (conversation) => {
+  const handleOpenConversation = (conversation) => {
+  if (!conversation?.conversation_id) {
+    return;
+  }
 
-    try {
-
-        await fetchChatHistory(
-            conversation.conversation_id
-        );
-
-    } catch (err) {
-
-        console.error(
-            "Failed to load selected conversation:",
-            err
-        );
-
-    }
-
+  navigate("/career-coach", {
+    state: {
+      conversationId: conversation.conversation_id,
+    },
+  });
 };
 
-
-/* =====================================================
+  /* =====================================================
    Render Message
 ===================================================== */
 
-const renderMessage = (message, index) => {
+  const renderMessage = (message, index) => {
+    const isUser = message.role === "user";
 
-    const isUser =
-        message.role === "user";
-
-
-    const timestamp =
-        formatTime(
-            message.created_at ||
-            message.timestamp
-        );
-
+    const timestamp = formatTime(message.created_at || message.timestamp);
 
     return (
-
-        <div
-            key={
-                message.id ||
-                `${message.role}-${index}`
-            }
-            className={`
+      <div
+        key={message.id || `${message.role}-${index}`}
+        className={`
                 flex
                 gap-4
-                ${
-                    isUser
-                        ? "flex-row-reverse"
-                        : "flex-row"
-                }
+                ${isUser ? "flex-row-reverse" : "flex-row"}
             `}
-        >
-
-            {/* =================================================
+      >
+        {/* =================================================
                 Avatar
             ================================================= */}
 
-            <div
-                className={`
+        <div
+          className={`
                     flex
                     h-10
                     w-10
@@ -216,14 +150,14 @@ const renderMessage = (message, index) => {
                     text-white
                     shadow-sm
                     ${
-                        isUser
-                            ? `
+                      isUser
+                        ? `
                                 bg-gradient-to-br
                                 from-orange-400
                                 via-amber-400
                                 to-yellow-300
                               `
-                            : `
+                        : `
                                 bg-gradient-to-br
                                 from-violet-500
                                 via-fuchsia-500
@@ -231,58 +165,38 @@ const renderMessage = (message, index) => {
                               `
                     }
                 `}
-            >
+        >
+          {isUser ? <User className="h-5 w-5" /> : <Bot className="h-5 w-5" />}
+        </div>
 
-                {isUser ? (
-
-                    <User
-                        className="h-5 w-5"
-                    />
-
-                ) : (
-
-                    <Bot
-                        className="h-5 w-5"
-                    />
-
-                )}
-
-            </div>
-
-
-            {/* =================================================
+        {/* =================================================
                 Message
             ================================================= */}
 
-            <div
-                className={`
+        <div
+          className={`
                     max-w-[85%]
                     lg:max-w-[75%]
-                    ${
-                        isUser
-                            ? "items-end"
-                            : "items-start"
-                    }
+                    ${isUser ? "items-end" : "items-start"}
                 `}
-            >
-
-                <div
-                    className={`
+        >
+          <div
+            className={`
                         rounded-2xl
                         px-5
                         py-4
                         text-sm
                         leading-7
                         ${
-                            isUser
-                                ? `
+                          isUser
+                            ? `
                                     rounded-tr-md
                                     bg-gradient-to-br
                                     from-orange-400
                                     to-amber-500
                                     text-white
                                   `
-                                : `
+                            : `
                                     rounded-tl-md
                                     border
                                     border-zinc-200
@@ -291,90 +205,70 @@ const renderMessage = (message, index) => {
                                   `
                         }
                     `}
-                >
-
-                    <p
-                        className="
+          >
+            <p
+              className="
                             whitespace-pre-wrap
                             break-words
                         "
-                    >
-                        {message.content}
-                    </p>
+            >
+              {message.message ?? message.content}
+            </p>
+          </div>
 
-                </div>
-
-
-                {timestamp && (
-
-                    <div
-                        className={`
+          {timestamp && (
+            <div
+              className={`
                             mt-2
                             flex
                             items-center
                             gap-1.5
                             text-[11px]
                             text-zinc-400
-                            ${
-                                isUser
-                                    ? "justify-end"
-                                    : "justify-start"
-                            }
+                            ${isUser ? "justify-end" : "justify-start"}
                         `}
-                    >
-
-                        <Clock3
-                            className="
+            >
+              <Clock3
+                className="
                                 h-3
                                 w-3
                             "
-                        />
+              />
 
-                        {timestamp}
-
-                    </div>
-
-                )}
-
+              {timestamp}
             </div>
-
+          )}
         </div>
-
+      </div>
     );
+  };
 
-};
-
-
-/* =====================================================
+  /* =====================================================
    Render
 ===================================================== */
 
-return (
-
+  return (
     <div className="space-y-8">
-
-        {/* =================================================
+      {/* =================================================
             Header
         ================================================= */}
 
-        <ProfileHeader
-            title="Conversation History"
-            description="
+      <ProfileHeader
+        title="Conversation History"
+        description="
                 Review your conversations with CareerCompass AI
                 and revisit your previous career discussions.
             "
-            icon={MessageCircle}
-        />
+        icon={MessageCircle}
+      />
 
-
-        {/* =================================================
+      {/* =================================================
             Error
         ================================================= */}
 
-        {error && !loading && (
-
-            <div
-                className="
+      {error && !loading && (
+        <div
+          className="
                     rounded-2xl
                     border
                     border-red-200
@@ -384,52 +278,36 @@ return (
                     text-sm
                     text-red-600
                 "
-            >
-                {error}
-            </div>
+        >
+          {error}
+        </div>
+      )}
 
-        )}
-
-
-        {/* =================================================
+      {/* =================================================
             Loading
         ================================================= */}
 
-        {loading && (
+      {loading && <ProfileLoading type="chat" count={5} />}
 
-            <ProfileLoading
-                type="chat"
-                count={5}
-            />
-
-        )}
-
-
-        {/* =================================================
+      {/* =================================================
             Conversation Summaries
         ================================================= */}
 
-        {!loading &&
-            !error &&
-            conversations?.length > 0 && (
-
-                <ProfileSectionCard
-                    title="Recent Conversations"
-                    description="
+      {!loading && !error && conversations?.length > 0 && (
+        <ProfileSectionCard
+          title="Recent Conversations"
+          description="
                         Your latest CareerCompass AI discussions.
                     "
-                    icon={MessageCircle}
-                    variant="fuchsia"
-                >
-
-                    <div className="space-y-3">
-
-                        {conversations.map((conversation) => (
-
-                            <button
-                                key={conversation.conversation_id}
-                                type="button"
-                                className="
+          icon={MessageCircle}
+          variant="fuchsia"
+        >
+          <div className="space-y-3">
+            {conversations.map((conversation) => (
+              <button
+                key={conversation.conversation_id}
+                type="button"
+                className="
                                     w-full
                                     rounded-2xl
                                     border
@@ -442,91 +320,65 @@ return (
                                     hover:border-fuchsia-300
                                     hover:bg-fuchsia-50
                                 "
-                                onClick={() =>
-                                    handleOpenConversation(
-                                        conversation
-                                    )
-                                }
-                            >
+                onClick={() => handleOpenConversation(conversation)}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-zinc-900">
+                      {conversation.title}
+                    </p>
 
-                                <div className="flex items-start justify-between gap-4">
+                    <p className="mt-2 line-clamp-2 text-xs leading-6 text-zinc-500">
+                      {conversation.last_message}
+                    </p>
+                  </div>
 
-                                    <div className="min-w-0">
+                  <span className="shrink-0 text-[11px] font-medium text-zinc-400">
+                    {formatTime(conversation.updated_at)}
+                  </span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </ProfileSectionCard>
+      )}
 
-                                        <p className="truncate text-sm font-semibold text-zinc-900">
-                                            {conversation.title}
-                                        </p>
-
-                                        <p className="mt-2 line-clamp-2 text-xs leading-6 text-zinc-500">
-                                            {conversation.last_message}
-                                        </p>
-
-                                    </div>
-
-                                    <span className="shrink-0 text-[11px] font-medium text-zinc-400">
-                                        {formatTime(conversation.updated_at)}
-                                    </span>
-
-                                </div>
-
-                            </button>
-
-                        ))}
-
-                    </div>
-
-                </ProfileSectionCard>
-
-            )}
-
-
-        {/* =================================================
+      {/* =================================================
             No Conversation
         ================================================= */}
 
-        {!loading &&
-            !error &&
-            conversations?.length === 0 &&
-            !conversationId && (
-
-                <ProfileEmptyState
-                    icon={MessageCircle}
-                    title="No conversation selected"
-                    description="
+      {!loading && !error && conversations?.length === 0 && !conversationId && (
+        <ProfileEmptyState
+          icon={MessageCircle}
+          title="No conversation selected"
+          description="
                         Your CareerCompass AI conversations will
                         appear here once a conversation is available.
                         Start chatting with the AI to create one.
                     "
-                    actionLabel="Open AI Chat"
-                    onAction={handleStartNewConversation}
-                    variant="fuchsia"
-                />
+          actionLabel="Open AI Chat"
+          onAction={handleStartNewConversation}
+          variant="fuchsia"
+        />
+      )}
 
-            )}
-
-
-        {/* =================================================
+      {/* =================================================
             Conversation
         ================================================= */}
 
-        {!loading &&
-            !error &&
-            conversationId &&
-            messages?.length > 0 && (
-
-                <ProfileSectionCard
-                    title="AI Conversation"
-                    description="
+      {!loading && !error && conversationId && messages?.length > 0 && (
+        <ProfileSectionCard
+          title="AI Conversation"
+          description="
                         Your conversation with CareerCompass AI.
                     "
-                    icon={MessageCircle}
-                    variant="fuchsia"
-                >
+          icon={MessageCircle}
+          variant="fuchsia"
+        >
+          {/* Conversation ID */}
 
-                    {/* Conversation ID */}
-
-                    <div
-                        className="
+          <div
+            className="
                             mb-6
                             flex
                             flex-col
@@ -543,18 +395,16 @@ return (
                             sm:items-center
                             sm:justify-between
                         "
-                    >
-
-                        <div
-                            className="
+          >
+            <div
+              className="
                                 flex
                                 items-center
                                 gap-3
                             "
-                        >
-
-                            <div
-                                className="
+            >
+              <div
+                className="
                                     flex
                                     h-9
                                     w-9
@@ -565,32 +415,28 @@ return (
                                     text-fuchsia-500
                                     shadow-sm
                                 "
-                            >
-
-                                <Sparkles
-                                    className="
+              >
+                <Sparkles
+                  className="
                                         h-4
                                         w-4
                                     "
-                                />
+                />
+              </div>
 
-                            </div>
-
-
-                            <div>
-
-                                <p
-                                    className="
+              <div>
+                <p
+                  className="
                                         text-xs
                                         font-semibold
                                         text-zinc-500
                                     "
-                                >
-                                    Conversation ID
-                                </p>
+                >
+                  Conversation ID
+                </p>
 
-                                <p
-                                    className="
+                <p
+                  className="
                                         mt-0.5
                                         max-w-[250px]
                                         truncate
@@ -598,91 +444,64 @@ return (
                                         text-xs
                                         text-zinc-700
                                     "
-                                >
-                                    {conversationId}
-                                </p>
+                >
+                  {conversationId}
+                </p>
+              </div>
+            </div>
 
-                            </div>
-
-                        </div>
-
-
-                        <Button
-                            type="button"
-                            variant="outline"
-                            className="
+            <Button
+              type="button"
+              variant="outline"
+              className="
                                 rounded-xl
                                 border-fuchsia-200
                                 text-fuchsia-600
                                 hover:bg-fuchsia-50
                             "
-                            onClick={
-                                handleStartNewConversation
-                            }
-                        >
-
-                            New Conversation
-
-                            <ArrowRight
-                                className="
+              onClick={handleStartNewConversation}
+            >
+              New Conversation
+              <ArrowRight
+                className="
                                     ml-2
                                     h-4
                                     w-4
                                 "
-                            />
+              />
+            </Button>
+          </div>
 
-                        </Button>
+          {/* Messages */}
 
-                    </div>
-
-
-                    {/* Messages */}
-
-                    <div
-                        className="
+          <div
+            className="
                             space-y-6
                         "
-                    >
+          >
+            {messages.map(renderMessage)}
+          </div>
+        </ProfileSectionCard>
+      )}
 
-                        {messages.map(
-                            renderMessage
-                        )}
-
-                    </div>
-
-                </ProfileSectionCard>
-
-            )}
-
-
-        {/* =================================================
+      {/* =================================================
             Empty Conversation
         ================================================= */}
 
-        {!loading &&
-            !error &&
-            conversationId &&
-            messages?.length === 0 && (
-
-                <ProfileEmptyState
-                    icon={MessageCircle}
-                    title="This conversation is empty"
-                    description="
+      {!loading && !error && conversationId && messages?.length === 0 && (
+        <ProfileEmptyState
+          icon={MessageCircle}
+          title="This conversation is empty"
+          description="
                         No messages were found for this conversation.
                     "
-                    actionLabel="Start New Conversation"
-                    onAction={
-                        handleStartNewConversation
-                    }
-                    variant="fuchsia"
-                />
-
-            )}
-
+          actionLabel="Start New Conversation"
+          onAction={handleStartNewConversation}
+          variant="fuchsia"
+        />
+      )}
     </div>
-
-);
-
+  );
 }
 
 export default ProfileConversationHistory;

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-
+import {useLocation} from "react-router-dom";
 import { Bot } from "lucide-react";
 
 import CareerCoachHeader from "../components/careerCoach/CareerCoachHeader.jsx";
@@ -29,6 +29,33 @@ function CareerCoach() {
     fetchChatHistory,
     startNewConversation,
   } = useAIChat();
+
+  const location = useLocation();
+
+  const navigationConversationId =
+    location.state?.conversationId ?? null;
+
+  useEffect(() => {
+  if (!navigationConversationId) {
+    return;
+  }
+
+  const openConversationFromProfile = async () => {
+    try {
+      await fetchChatHistory(navigationConversationId);
+    } catch (err) {
+      console.error(
+        "Failed to open conversation from profile:",
+        err,
+      );
+    }
+  };
+
+  openConversationFromProfile();
+}, [
+  navigationConversationId,
+  fetchChatHistory,
+]);
 
   /* =====================================================
        Resume State
