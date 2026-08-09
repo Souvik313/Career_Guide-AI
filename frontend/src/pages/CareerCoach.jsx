@@ -12,499 +12,328 @@ import useAIChat from "../hooks/useAIChat.js";
 import useResume from "../hooks/useResume.js";
 
 function CareerCoach() {
-    /* =====================================================
+  /* =====================================================
        AI Chat State
     ===================================================== */
 
-    const {
-        conversationId,
-        resumeId,
-        messages,
-        conversations,
-        loading: chatLoading,
-        error: chatError,
+  const {
+    conversationId,
+    resumeId,
+    messages,
+    conversations,
+    loading: chatLoading,
+    error: chatError,
 
-        sendMessage,
-        fetchConversations,
-        fetchChatHistory,
-        startNewConversation,
-    } = useAIChat();
+    sendMessage,
+    fetchConversations,
+    fetchChatHistory,
+    startNewConversation,
+  } = useAIChat();
 
-
-    /* =====================================================
+  /* =====================================================
        Resume State
     ===================================================== */
 
-    const {
-        resumes,
-        loading: resumeLoading,
-        error: resumeError,
-        fetchUserResumes,
-    } = useResume();
+  const {
+    resumes,
+    loading: resumeLoading,
+    error: resumeError,
+    fetchUserResumes,
+  } = useResume();
 
-
-    /* =====================================================
+  /* =====================================================
        Local UI State
     ===================================================== */
 
-    /*
-     * Resume selected while preparing a NEW conversation.
-     *
-     * This is intentionally separate from resumeId from
-     * useAIChat, which represents the resume context of
-     * the ACTIVE conversation.
-     */
+  /*
+   * Resume selected while preparing a NEW conversation.
+   *
+   * This is intentionally separate from resumeId from
+   * useAIChat, which represents the resume context of
+   * the ACTIVE conversation.
+   */
 
-    const [
-        selectedResumeId,
-        setSelectedResumeId,
-    ] = useState(null);
+  const [selectedResumeId, setSelectedResumeId] = useState(null);
 
+  /*
+   * Lightweight conversation information used
+   * by the ChatWindow UI.
+   */
 
-    /*
-     * Lightweight conversation information used
-     * by the ChatWindow UI.
-     */
+  const [activeConversation, setActiveConversation] = useState(null);
 
-    const [
-        activeConversation,
-        setActiveConversation,
-    ] = useState(null);
+  /*
+   * Current composer value.
+   */
 
+  const [message, setMessage] = useState("");
 
-    /*
-     * Current composer value.
-     */
-
-    const [
-        message,
-        setMessage,
-    ] = useState("");
-
-
-    /* =====================================================
+  /* =====================================================
        Derived State
     ===================================================== */
 
-    const loading =
-        chatLoading ||
-        resumeLoading;
+  const loading = chatLoading || resumeLoading;
 
-    const error =
-        chatError ||
-        resumeError;
+  const error = chatError || resumeError;
 
-
-    /* =====================================================
+  /* =====================================================
        Load Initial Career Coach Data
     ===================================================== */
 
-    useEffect(() => {
+  useEffect(() => {
+    const loadCareerCoachData = async () => {
+      try {
+        await Promise.all([fetchConversations(), fetchUserResumes()]);
+      } catch (err) {
+        console.error("Failed to load Career Coach:", err);
+      }
+    };
 
-        const loadCareerCoachData = async () => {
+    loadCareerCoachData();
+  }, [fetchConversations, fetchUserResumes]);
 
-            try {
-
-                await Promise.all([
-                    fetchConversations(),
-                    fetchUserResumes(),
-                ]);
-
-            } catch (err) {
-
-                console.error(
-                    "Failed to load Career Coach:",
-                    err
-                );
-
-            }
-
-        };
-
-
-        loadCareerCoachData();
-
-    }, [
-        fetchConversations,
-        fetchUserResumes,
-    ]);
-
-
-    /* =====================================================
+  /* =====================================================
        Synchronize Active Conversation
     ===================================================== */
 
-    useEffect(() => {
+  useEffect(() => {
+    if (!conversationId) {
+      setActiveConversation(null);
 
-        if (!conversationId) {
+      return;
+    }
 
-            setActiveConversation(null);
+    const selectedConversation = conversations.find(
+      (conversation) => conversation.conversation_id === conversationId,
+    );
 
-            return;
+    if (selectedConversation) {
+      setActiveConversation(selectedConversation);
+    }
+  }, [conversationId, conversations]);
 
-        }
-
-
-        const selectedConversation =
-            conversations.find(
-                (conversation) =>
-                    conversation.conversation_id ===
-                    conversationId
-            );
-
-
-        if (selectedConversation) {
-
-            setActiveConversation(
-                selectedConversation
-            );
-
-        }
-
-    }, [
-        conversationId,
-        conversations,
-    ]);
-
-
-    /* =====================================================
+  /* =====================================================
        Open Existing Conversation
     ===================================================== */
 
-    const handleSelectConversation =
-        useCallback(
-            async (conversation) => {
+  const handleSelectConversation = useCallback(
+    async (conversation) => {
+      if (!conversation) {
+        return;
+      }
 
-                if (!conversation) {
-                    return;
-                }
+      try {
+        /*
+         * Update the UI immediately.
+         */
 
+        setActiveConversation(conversation);
 
-                try {
+        /*
+         * Do NOT use selectedResumeId as the
+         * source of truth here.
+         *
+         * fetchChatHistory() will retrieve the
+         * authoritative resume_id associated
+         * with this conversation.
+         */
 
-                    /*
-                     * Update the UI immediately.
-                     */
+        await fetchChatHistory(conversation.conversation_id);
+      } catch (err) {
+        console.error("Failed to open conversation:", err);
+      }
+    },
+    [fetchChatHistory],
+  );
 
-                    setActiveConversation(
-                        conversation
-                    );
-
-
-                    /*
-                     * Do NOT use selectedResumeId as the
-                     * source of truth here.
-                     *
-                     * fetchChatHistory() will retrieve the
-                     * authoritative resume_id associated
-                     * with this conversation.
-                     */
-
-                    await fetchChatHistory(
-                        conversation.conversation_id
-                    );
-
-
-                } catch (err) {
-
-                    console.error(
-                        "Failed to open conversation:",
-                        err
-                    );
-
-                }
-
-            },
-            [
-                fetchChatHistory,
-            ]
-        );
-
-
-    /* =====================================================
+  /* =====================================================
        Start New Conversation
     ===================================================== */
 
-    const handleNewConversation =
-        useCallback(
-            () => {
+  const handleNewConversation = useCallback(() => {
+    /*
+     * If the currently active conversation
+     * has resume context, preserve that resume
+     * as the default for the new conversation.
+     */
 
-                /*
-                 * If the currently active conversation
-                 * has resume context, preserve that resume
-                 * as the default for the new conversation.
-                 */
+    setSelectedResumeId(resumeId ?? selectedResumeId ?? null);
 
-                setSelectedResumeId(
-                    resumeId ?? selectedResumeId ?? null
-                );
+    /*
+     * Clear active AI conversation state.
+     */
 
+    startNewConversation();
 
-                /*
-                 * Clear active AI conversation state.
-                 */
+    /*
+     * Clear UI-specific conversation state.
+     */
 
-                startNewConversation();
+    setActiveConversation(null);
 
+    setMessage("");
+  }, [resumeId, selectedResumeId, startNewConversation]);
 
-                /*
-                 * Clear UI-specific conversation state.
-                 */
-
-                setActiveConversation(null);
-
-                setMessage("");
-
-            },
-            [
-                resumeId,
-                selectedResumeId,
-                startNewConversation,
-            ]
-        );
-
-
-    /* =====================================================
+  /* =====================================================
        Start Conversation from Empty State
     ===================================================== */
 
-    const handleStartConversation =
-        useCallback(
-            async (
-                newResumeId,
-                initialMessage = ""
-            ) => {
+  const handleStartConversation = useCallback(
+    async (newResumeId, initialMessage = "") => {
+      try {
+        /*
+         * This resume belongs to the NEW
+         * conversation being created.
+         */
 
-                try {
+        const activeResumeId = newResumeId ?? null;
 
-                    /*
-                     * This resume belongs to the NEW
-                     * conversation being created.
-                     */
+        setSelectedResumeId(activeResumeId);
 
-                    const activeResumeId =
-                        newResumeId ?? null;
+        /*
+         * Ensure we are not accidentally
+         * continuing an old conversation.
+         */
 
+        startNewConversation();
 
-                    setSelectedResumeId(
-                        activeResumeId
-                    );
+        setActiveConversation(null);
 
+        /*
+         * If there is no initial message,
+         * simply prepare the chat.
+         */
 
-                    /*
-                     * Ensure we are not accidentally
-                     * continuing an old conversation.
-                     */
+        if (!initialMessage?.trim()) {
+          return;
+        }
 
-                    startNewConversation();
+        /*
+         * Create the new conversation.
+         *
+         * useAIChat will send:
+         *
+         * resume_id
+         * conversation_id = null
+         * message
+         */
 
+        await sendMessage({
+          resumeId: activeResumeId,
 
-                    setActiveConversation(
-                        null
-                    );
+          message: initialMessage.trim(),
+        });
 
+        setMessage("");
 
-                    /*
-                     * If there is no initial message,
-                     * simply prepare the chat.
-                     */
+        /*
+         * Refresh sidebar summaries.
+         */
 
-                    if (
-                        !initialMessage?.trim()
-                    ) {
+        await fetchConversations();
+      } catch (err) {
+        console.error("Failed to start conversation:", err);
+      }
+    },
+    [sendMessage, fetchConversations, startNewConversation],
+  );
 
-                        return;
-
-                    }
-
-
-                    /*
-                     * Create the new conversation.
-                     *
-                     * useAIChat will send:
-                     *
-                     * resume_id
-                     * conversation_id = null
-                     * message
-                     */
-
-                    await sendMessage({
-
-                        resumeId:
-                            activeResumeId,
-
-                        message:
-                            initialMessage.trim(),
-
-                    });
-
-
-                    setMessage("");
-
-
-                    /*
-                     * Refresh sidebar summaries.
-                     */
-
-                    await fetchConversations();
-
-
-                } catch (err) {
-
-                    console.error(
-                        "Failed to start conversation:",
-                        err
-                    );
-
-                }
-
-            },
-            [
-                sendMessage,
-                fetchConversations,
-                startNewConversation,
-            ]
-        );
-
-
-    /* =====================================================
+  /* =====================================================
        Send Message
     ===================================================== */
 
-    const handleSendMessage =
-        useCallback(
-            async (messageToSend) => {
+  const handleSendMessage = useCallback(
+    async (messageToSend) => {
+      const trimmedMessage = messageToSend?.trim();
 
-                const trimmedMessage =
-                    messageToSend?.trim();
+      if (!trimmedMessage || chatLoading) {
+        return;
+      }
 
+      try {
+        /*
+         * EXISTING CONVERSATION
+         *
+         * useAIChat.resumeId is the
+         * authoritative resume context.
+         *
+         *
+         * NEW CONVERSATION
+         *
+         * selectedResumeId is the resume
+         * selected by the user.
+         */
 
-                if (
-                    !trimmedMessage ||
-                    chatLoading
-                ) {
+        const activeResumeId = conversationId ? resumeId : selectedResumeId;
 
-                    return;
+        await sendMessage({
+          resumeId: activeResumeId ?? null,
 
-                }
+          message: trimmedMessage,
+        });
 
+        /*
+         * Clear composer.
+         */
 
-                try {
+        setMessage("");
 
-                    /*
-                     * EXISTING CONVERSATION
-                     *
-                     * useAIChat.resumeId is the
-                     * authoritative resume context.
-                     *
-                     *
-                     * NEW CONVERSATION
-                     *
-                     * selectedResumeId is the resume
-                     * selected by the user.
-                     */
+        /*
+         * Refresh conversation summaries
+         * for the sidebar.
+         */
 
-                    const activeResumeId =
-                        conversationId
-                            ? resumeId
-                            : selectedResumeId;
+        await fetchConversations();
+      } catch (err) {
+        console.error("Failed to send message:", err);
+      }
+    },
+    [
+      conversationId,
+      resumeId,
+      selectedResumeId,
+      chatLoading,
+      sendMessage,
+      fetchConversations,
+    ],
+  );
 
-
-                    await sendMessage({
-
-                        resumeId:
-                            activeResumeId ?? null,
-
-                        message:
-                            trimmedMessage,
-
-                    });
-
-
-                    /*
-                     * Clear composer.
-                     */
-
-                    setMessage("");
-
-
-                    /*
-                     * Refresh conversation summaries
-                     * for the sidebar.
-                     */
-
-                    await fetchConversations();
-
-
-                } catch (err) {
-
-                    console.error(
-                        "Failed to send message:",
-                        err
-                    );
-
-                }
-
-            },
-            [
-                conversationId,
-                resumeId,
-                selectedResumeId,
-                chatLoading,
-                sendMessage,
-                fetchConversations,
-            ]
-        );
-
-
-    /* =====================================================
+  /* =====================================================
        Handle Resume Change
     ===================================================== */
 
-    const handleResumeChange =
-        useCallback(
-            (newResumeId) => {
+  const handleResumeChange = useCallback((newResumeId) => {
+    /*
+     * This handler is only relevant when
+     * preparing a NEW conversation.
+     */
 
-                /*
-                 * This handler is only relevant when
-                 * preparing a NEW conversation.
-                 */
+    setSelectedResumeId(newResumeId ?? null);
+  }, []);
 
-                setSelectedResumeId(
-                    newResumeId ?? null
-                );
-
-            },
-            []
-        );
-
-
-    /* =====================================================
+  /* =====================================================
        Render
     ===================================================== */
 
-    return (
-
-        <div
-            className="
+  return (
+    <div
+      className="
                 min-h-screen
                 bg-[#fafaf9]
             "
-        >
-
-            {/* =================================================
+    >
+      {/* =================================================
                 Career Coach Header
             ================================================= */}
 
-            <CareerCoachHeader />
+      <CareerCoachHeader />
 
-
-            {/* =================================================
+      {/* =================================================
                 Career Coach Workspace
             ================================================= */}
 
-            <div
-                className="
+      <div
+        className="
                     flex
                     h-[calc(100vh-5rem)]
                     min-h-[600px]
@@ -514,74 +343,60 @@ function CareerCoach() {
                     border-zinc-200
                     bg-[#fafaf9]
                 "
-            >
-
-                {/* =================================================
+      >
+        {/* =================================================
                     Sidebar
                 ================================================= */}
 
-                <CareerCoachSidebar
-                    conversations={conversations}
-                    activeConversationId={
-                        conversationId
-                    }
-                    onSelectConversation={
-                        handleSelectConversation
-                    }
-                    onNewConversation={
-                        handleNewConversation
-                    }
-                    loading={chatLoading}
-                />
+        <CareerCoachSidebar
+          conversations={conversations}
+          activeConversationId={conversationId}
+          onSelectConversation={handleSelectConversation}
+          onNewConversation={handleNewConversation}
+          loading={chatLoading}
+        />
 
-
-                {/* =================================================
+        {/* =================================================
                     Main Chat Area
                 ================================================= */}
 
-                <main
-                    className="
+        <main
+          className="
                         flex
                         min-w-0
                         flex-1
                         flex-col
                     "
-                >
-
-                    {/* =================================================
+        >
+          {/* =================================================
                         No Active Conversation
                     ================================================= */}
 
-                    {!conversationId ? (
-
-                        <div
-                            className="
+          {!conversationId ? (
+            <div
+              className="
                                 flex
                                 min-h-0
                                 flex-1
                                 flex-col
                             "
-                        >
-
-                            {loading ? (
-
-                                <div
-                                    className="
+            >
+              {loading ? (
+                <div
+                  className="
                                         flex
                                         flex-1
                                         items-center
                                         justify-center
                                     "
-                                >
-
-                                    <div
-                                        className="
+                >
+                  <div
+                    className="
                                             text-center
                                         "
-                                    >
-
-                                        <div
-                                            className="
+                  >
+                    <div
+                      className="
                                                 mx-auto
                                                 flex
                                                 h-14
@@ -594,98 +409,63 @@ function CareerCoach() {
                                                 from-amber-100
                                                 to-emerald-100
                                             "
-                                        >
-
-                                            <Bot
-                                                className="
+                    >
+                      <Bot
+                        className="
                                                     h-6
                                                     w-6
                                                     text-emerald-500
                                                 "
-                                            />
+                      />
+                    </div>
 
-                                        </div>
-
-
-                                        <p
-                                            className="
+                    <p
+                      className="
                                                 mt-4
                                                 text-sm
                                                 font-medium
                                                 text-zinc-500
                                             "
-                                        >
-                                            Preparing your Career Coach...
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
-                            ) : (
-
-                                <CareerCoachEmptyState
-                                    resumes={resumes}
-                                    selectedResumeId={
-                                        selectedResumeId
-                                    }
-                                    onResumeChange={
-                                        handleResumeChange
-                                    }
-                                    onStartConversation={
-                                        handleStartConversation
-                                    }
-                                    loading={chatLoading}
-                                />
-
-                            )}
-
-                        </div>
-
-                    ) : (
-
-                        /* =================================================
+                    >
+                      Preparing your Career Coach...
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <CareerCoachEmptyState
+                  resumes={resumes}
+                  selectedResumeId={selectedResumeId}
+                  onResumeChange={handleResumeChange}
+                  onStartConversation={handleStartConversation}
+                  loading={chatLoading}
+                />
+              )}
+            </div>
+          ) : (
+            /* =================================================
                            Active Conversation
                         ================================================= */
 
-                        <ChatWindow
-                            conversation={
-                                activeConversation
-                            }
-                            messages={
-                                messages
-                            }
-                            loading={
-                                chatLoading
-                            }
-                            error={
-                                error
-                            }
-                            onNewConversation={
-                                handleNewConversation
-                            }
-                        >
-
-                            <ChatInput
-                                value={message}
-                                onChange={setMessage}
-                                onSend={handleSendMessage}
-                                loading={chatLoading}
-                                disabled={!conversationId}
-                            />
-
-                        </ChatWindow>
-
-                    )}
-
-                </main>
-
-            </div>
-
-        </div>
-
-    );
-
+            <ChatWindow
+              conversation={activeConversation}
+              messages={messages}
+              loading={chatLoading}
+              error={error}
+              onNewConversation={handleNewConversation}
+            >
+              <ChatInput
+                value={message}
+                onChange={setMessage}
+                onSend={handleSendMessage}
+                loading={chatLoading}
+                disabled={!conversationId}
+              />
+            </ChatWindow>
+          )}
+        </main>
+      </div>
+    </div>
+  );
 }
 
 export default CareerCoach;

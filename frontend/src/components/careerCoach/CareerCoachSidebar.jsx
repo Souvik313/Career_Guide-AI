@@ -199,7 +199,8 @@ function CareerCoachSidebar({
             className="
                 flex
                 h-full
-                w-full
+                w-80
+                shrink-0
                 flex-col
                 border-r
                 border-zinc-200
