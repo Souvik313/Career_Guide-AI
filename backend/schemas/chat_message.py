@@ -10,7 +10,7 @@ class ChatRequest(BaseModel):
     """
 
     resume_id: int | None = None
-    conversation_id: str
+    conversation_id: str | None = None
     message: str
 
 class ChatResponse(BaseModel):
