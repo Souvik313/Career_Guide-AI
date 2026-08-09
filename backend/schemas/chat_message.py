@@ -52,7 +52,7 @@ class ChatHistoryResponse(BaseModel):
 
     conversation_id: str
 
-    resume_id: int | None
+    resume_id: int | None = None
 
     messages: list[ChatMessageResponse]
 

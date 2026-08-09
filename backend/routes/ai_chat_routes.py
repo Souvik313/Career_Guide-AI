@@ -106,7 +106,17 @@ def get_chat_history(
         conversation_id=conversation_id,
     )
 
+    resume_id = next(
+        (
+            message.resume_id
+            for message in messages
+            if message.resume_id is not None
+        ),
+        None,
+    )
+
     return ChatHistoryResponse(
         conversation_id=conversation_id,
+        resume_id=resume_id,
         messages=messages,
     )
