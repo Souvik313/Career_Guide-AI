@@ -1,261 +1,235 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 import {
-    sendMessage,
-    getUserConversations,
-    getChatHistory,
+  sendMessage,
+  getUserConversations,
+  getChatHistory,
 } from "../services/aiChatService.js";
 
-
 const useAIChat = () => {
+  /* =====================================================
+       Conversation State
+    ===================================================== */
 
-    const [conversationId, setConversationId] = useState(null);
+  const [conversationId, setConversationId] = useState(null);
 
-    const [messages, setMessages] = useState([]);
+  const [resumeId, setResumeId] = useState(null);
 
-    const [conversations, setConversations] = useState([]);
+  const [messages, setMessages] = useState([]);
 
-    const [loading, setLoading] = useState(false);
+  const [conversations, setConversations] = useState([]);
 
-    const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
+  const [error, setError] = useState(null);
 
-    /* =====================================================
+  /* =====================================================
        Send Message
     ===================================================== */
 
-    const handleSendMessage = async ({
-        resumeId,
-        message,
-    }) => {
+  const handleSendMessage = useCallback(
+    async ({ resumeId: providedResumeId, message }) => {
+      try {
+        setLoading(true);
+        setError(null);
 
-        try {
+        const activeResumeId = resumeId ?? providedResumeId;
 
-            setLoading(true);
-            setError(null);
+        setMessages((currentMessages) => [
+          ...currentMessages,
 
-            /*
-             * Add the user's message immediately to the UI.
-             */
+          {
+            role: "user",
+            content: message,
+          },
+        ]);
 
-            setMessages((currentMessages) => [
-                ...currentMessages,
+        /*
+         * Send message to backend.
+         */
 
-                {
-                    role: "user",
-                    content: message,
-                },
-            ]);
+        const data = await sendMessage({
+          resume_id: activeResumeId,
 
+          conversation_id: conversationId,
 
-            const data = await sendMessage({
+          message,
+        });
 
-                resume_id: resumeId,
+        /*
+         * Synchronize conversation ID.
+         *
+         * This is especially important when starting
+         * a completely new conversation.
+         */
 
-                conversation_id: conversationId,
-
-                message,
-
-            });
-
-
-            /*
-             * The backend returns the conversation ID.
-             *
-             * This becomes especially important for the
-             * first message when conversationId is null.
-             */
-
-            if (data.conversation_id) {
-
-                setConversationId(
-                    data.conversation_id
-                );
-
-            }
-
-
-            /*
-             * Add AI response to the conversation.
-             */
-
-            setMessages((currentMessages) => [
-
-                ...currentMessages,
-
-                {
-                    role: "assistant",
-                    content: data.response,
-                },
-
-            ]);
-
-
-            return data;
-
-        } catch (err) {
-
-            const message =
-                err?.response?.data?.detail ||
-                "Failed to send message.";
-
-            setError(message);
-
-            /*
-             * Re-throw so the component can optionally
-             * perform its own handling.
-             */
-
-            throw err;
-
-        } finally {
-
-            setLoading(false);
-
+        if (data.conversation_id) {
+          setConversationId(data.conversation_id);
         }
 
-    };
+        /*
+         * Keep the resume ID synchronized.
+         *
+         * If this was a new conversation and a resume
+         * was provided, remember it for subsequent
+         * messages.
+         */
 
+        if (activeResumeId) {
+          setResumeId(activeResumeId);
+        }
 
-    /* =====================================================
+        /*
+         * Add AI response to the conversation.
+         */
+
+        setMessages((currentMessages) => [
+          ...currentMessages,
+
+          {
+            role: "assistant",
+            content: data.response,
+          },
+        ]);
+
+        return data;
+      } catch (err) {
+        const message =
+          err?.response?.data?.detail || "Failed to send message.";
+
+        setError(message);
+
+        /*
+         * Re-throw so the component can optionally
+         * handle the error.
+         */
+
+        throw err;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [conversationId, resumeId],
+  );
+
+  /* =====================================================
        Get Conversation Summaries
     ===================================================== */
 
-    const fetchConversations = async () => {
+  const fetchConversations = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-        try {
+      const data = await getUserConversations();
 
-            setLoading(true);
-            setError(null);
+      setConversations(data || []);
 
-            const data = await getUserConversations();
+      return data;
+    } catch (err) {
+      const message =
+        err?.response?.data?.detail || "Failed to fetch conversations.";
 
-            setConversations(data || []);
+      setError(message);
 
-            return data;
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-        } catch (err) {
-
-            const message =
-                err?.response?.data?.detail ||
-                "Failed to fetch conversations.";
-
-            setError(message);
-
-            throw err;
-
-        } finally {
-
-            setLoading(false);
-
-        }
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        Get Conversation History
     ===================================================== */
 
-    const fetchChatHistory = async (conversationId) => {
+  const fetchChatHistory = useCallback(async (selectedConversationId) => {
+    try {
+      setLoading(true);
+      setError(null);
 
-        try {
+      const data = await getChatHistory(selectedConversationId);
 
-            setLoading(true);
-            setError(null);
+      /*
+       * Synchronize conversation ID.
+       */
 
-            const data = await getChatHistory(
-                conversationId
-            );
+      setConversationId(data.conversation_id);
 
+      /*
+       * Synchronize the resume associated
+       * with this conversation.
+       */
 
-            /*
-             * Make sure the hook is synchronized with
-             * the conversation being loaded.
-             */
+      setResumeId(data.resume_id ?? null);
 
-            setConversationId(
-                data.conversation_id
-            );
+      /*
+       * Load previous messages.
+       */
 
+      setMessages(data.messages || []);
 
-            setMessages(
-                data.messages || []
-            );
+      return data;
+    } catch (err) {
+      const message =
+        err?.response?.data?.detail || "Failed to fetch chat history.";
 
+      setError(message);
 
-            return data;
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-        } catch (err) {
-
-            const message =
-                err?.response?.data?.detail ||
-                "Failed to fetch chat history.";
-
-            setError(message);
-
-            throw err;
-
-        } finally {
-
-            setLoading(false);
-
-        }
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        Start New Conversation
     ===================================================== */
 
-    const startNewConversation = () => {
+  const startNewConversation = useCallback(() => {
+    setConversationId(null);
 
-        setConversationId(null);
+    setResumeId(null);
 
-        setMessages([]);
+    setMessages([]);
 
-        setError(null);
+    setError(null);
+  }, []);
 
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        Clear Error
     ===================================================== */
 
-    const clearError = () => {
+  const clearError = () => {
+    setError(null);
+  };
 
-        setError(null);
+  /* =====================================================
+       Return Hook API
+    ===================================================== */
 
-    };
+  return {
+    conversationId,
 
+    resumeId,
 
-    return {
+    messages,
 
-        conversationId,
+    conversations,
 
-        messages,
+    loading,
 
-        conversations,
+    error,
 
-        loading,
+    sendMessage: handleSendMessage,
 
-        error,
+    fetchConversations,
 
-        sendMessage: handleSendMessage,
+    fetchChatHistory,
 
-        fetchConversations,
+    startNewConversation,
 
-        fetchChatHistory,
-
-        startNewConversation,
-
-        clearError,
-
-    };
-
+    clearError,
+  };
 };
-
 
 export default useAIChat;

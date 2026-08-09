@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 import {
     uploadResume,
@@ -23,7 +23,7 @@ const useResume = () => {
        Upload Resume
     ===================================================== */
 
-    const handleUploadResume = async (file) => {
+    const handleUploadResume = useCallback(async (file) => {
 
         try {
 
@@ -57,14 +57,14 @@ const useResume = () => {
 
         }
 
-    };
+    }, []);
 
 
     /* =====================================================
        Get All User Resumes
     ===================================================== */
 
-    const fetchUserResumes = async () => {
+    const fetchUserResumes = useCallback(async () => {
 
         try {
 
@@ -93,14 +93,14 @@ const useResume = () => {
 
         }
 
-    };
+    }, []);
 
 
     /* =====================================================
        Get Resume By ID
     ===================================================== */
 
-    const fetchResumeById = async (resumeId) => {
+    const fetchResumeById = useCallback(async (resumeId) => {
 
         try {
 
@@ -129,14 +129,14 @@ const useResume = () => {
 
         }
 
-    };
+    }, []);
 
 
     /* =====================================================
        Delete Resume
     ===================================================== */
 
-    const removeResume = async (resumeId) => {
+    const removeResume = useCallback(async (resumeId) => {
 
         try {
 
@@ -184,18 +184,18 @@ const useResume = () => {
 
         }
 
-    };
+    }, []);
 
 
     /* =====================================================
        Clear Error
     ===================================================== */
 
-    const clearError = () => {
+    const clearError = useCallback(() => {
 
         setError(null);
 
-    };
+    }, []);
 
 
     return {

@@ -52,6 +52,8 @@ class ChatHistoryResponse(BaseModel):
 
     conversation_id: str
 
+    resume_id: int | None
+
     messages: list[ChatMessageResponse]
 
 
@@ -61,6 +63,8 @@ class ConversationSummaryResponse(BaseModel):
     """
 
     conversation_id: str
+
+    resume_id: int | None
 
     title: str
 

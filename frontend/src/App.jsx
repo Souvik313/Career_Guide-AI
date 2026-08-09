@@ -10,6 +10,7 @@ import ReportPage from "./pages/ReportPage";
 import NotFound from "./pages/NotFound";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import Contact from "./pages/Contact";
+import CareerCoach from "./pages/CareerCoach.jsx";
 
 import MainLayout from "./layouts/MainLayout";
 import ProtectedRoute from "./layouts/ProtectedRoute";
@@ -66,6 +67,15 @@ function App() {
           element={
             <ProtectedRoute>
               <AnalyticsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/career-coach"
+          element={
+            <ProtectedRoute>
+              <CareerCoach />
             </ProtectedRoute>
           }
         />

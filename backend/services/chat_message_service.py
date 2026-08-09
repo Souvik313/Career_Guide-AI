@@ -88,9 +88,11 @@ class ChatMessageService:
                 continue
 
             latest_message = history[-1]
+
             first_user_message = None
 
             for message in history:
+
                 if message.role == "user":
                     first_user_message = message.message
                     break
@@ -103,6 +105,7 @@ class ChatMessageService:
             summaries.append(
                 {
                     "conversation_id": conversation_id,
+                    "resume_id": latest_message.resume_id,
                     "title": title,
                     "last_message": latest_message.message,
                     "updated_at": latest_message.created_at,
