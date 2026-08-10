@@ -299,8 +299,7 @@ return (
                                                     text-zinc-900
                                                 "
                                             >
-                                                {resume.filename ||
-                                                    resume.file_name ||
+                                                {resume.file_name ||
                                                     "Untitled Resume"}
                                             </h3>
 

@@ -24,7 +24,9 @@ function ChatInput({
         onChange?.(
             event.target.value
         );
-
+        const textarea = event.target;
+        textarea.style.height = "auto";
+        textarea.style.height = `${Math.min(textarea.scrollHeight, 120)}px`;
     };
 
 
@@ -119,21 +121,17 @@ function ChatInput({
                     value={value}
                     onChange={handleChange}
                     onKeyDown={handleKeyDown}
-                    disabled={
-                        loading ||
-                        disabled
-                    }
-                    placeholder="
-                        Ask Career Coach anything about
-                        your career...
-                    "
+                    disabled={loading || disabled}
+                    placeholder="Ask Career Coach anything about your career..."
                     className="
-                        min-h-[90px]
+                        min-h-[44px]
+                        max-h-[120px]
                         resize-none
+                        overflow-y-auto
                         border-0
                         bg-transparent
                         px-3
-                        py-3
+                        py-2.5
                         text-sm
                         leading-6
                         text-zinc-800
