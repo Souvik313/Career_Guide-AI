@@ -6,6 +6,8 @@ import {
     Plus,
     BriefcaseBusiness,
 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import { Separator } from "../ui/separator.jsx";
 
@@ -215,14 +217,11 @@ function ChatWindow({
                         `}
                     >
 
-                        <p
-                            className="
-                                whitespace-pre-wrap
-                                break-words
-                            "
-                        >
-                            {content}
-                        </p>
+                        <div className="prose prose-sm max-w-none">
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                {content}
+                            </ReactMarkdown>
+                        </div>
 
                     </div>
 
