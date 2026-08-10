@@ -1,10 +1,10 @@
 import {
-    Bot,
-    User,
-    Sparkles,
-    Clock3,
-    Plus,
-    BriefcaseBusiness,
+  Bot,
+  User,
+  Sparkles,
+  Clock3,
+  Plus,
+  BriefcaseBusiness,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -12,104 +12,70 @@ import remarkGfm from "remark-gfm";
 import { Separator } from "../ui/separator.jsx";
 
 function ChatWindow({
-    conversation = null,
-    messages = [],
-    loading = false,
-    error = null,
-    onNewConversation,
-    children,
+  conversation = null,
+  messages = [],
+  loading = false,
+  error = null,
+  resumeName = null,
+  onNewConversation,
+  children,
 }) {
-
-
-    /* =====================================================
+  /* =====================================================
        Format Message Time
     ===================================================== */
 
-    const formatTime = (value) => {
+  const formatTime = (value) => {
+    if (!value) {
+      return null;
+    }
 
-        if (!value) {
-            return null;
-        }
+    const date = new Date(value);
 
-        const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return null;
+    }
 
-        if (Number.isNaN(date.getTime())) {
-            return null;
-        }
+    return date.toLocaleString("en-IN", {
+      day: "numeric",
+      month: "short",
+      hour: "numeric",
+      minute: "2-digit",
+    });
+  };
 
-        return date.toLocaleString(
-            "en-IN",
-            {
-                day: "numeric",
-                month: "short",
-                hour: "numeric",
-                minute: "2-digit",
-            }
-        );
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        Resolve Conversation Title
     ===================================================== */
 
-    const conversationTitle =
-        conversation?.title ||
-        "Career Coach";
+  const conversationTitle = conversation?.title || "Career Coach";
 
-
-    /* =====================================================
+  /* =====================================================
        Render Message
     ===================================================== */
 
-    const renderMessage = (
-        message,
-        index
-    ) => {
+  const renderMessage = (message, index) => {
+    const isUser = message.role === "user";
 
-        const isUser =
-            message.role === "user";
+    const content = message.content ?? message.message ?? "";
 
+    const timestamp = formatTime(message.created_at || message.timestamp);
 
-        const content =
-            message.content ??
-            message.message ??
-            "";
-
-
-        const timestamp =
-            formatTime(
-                message.created_at ||
-                message.timestamp
-            );
-
-
-        return (
-
-            <div
-                key={
-                    message.id ||
-                    `${message.role}-${index}`
-                }
-                className={`
+    return (
+      <div
+        key={message.id || `${message.role}-${index}`}
+        className={`
                     flex
                     gap-3
                     sm:gap-4
-                    ${
-                        isUser
-                            ? "flex-row-reverse"
-                            : "flex-row"
-                    }
+                    ${isUser ? "flex-row-reverse" : "flex-row"}
                 `}
-            >
-
-                {/* =================================================
+      >
+        {/* =================================================
                     Avatar
                 ================================================= */}
 
-                <div
-                    className={`
+        <div
+          className={`
                         flex
                         h-9
                         w-9
@@ -122,14 +88,14 @@ function ChatWindow({
                         sm:h-10
                         sm:w-10
                         ${
-                            isUser
-                                ? `
+                          isUser
+                            ? `
                                     bg-gradient-to-br
                                     from-amber-400
                                     via-orange-400
                                     to-yellow-300
                                   `
-                                : `
+                            : `
                                     bg-gradient-to-br
                                     from-emerald-400
                                     via-teal-500
@@ -137,57 +103,45 @@ function ChatWindow({
                                   `
                         }
                     `}
-                >
-
-                    {isUser ? (
-
-                        <User
-                            className="
+        >
+          {isUser ? (
+            <User
+              className="
                                 h-4
                                 w-4
                                 sm:h-5
                                 sm:w-5
                             "
-                        />
-
-                    ) : (
-
-                        <Bot
-                            className="
+            />
+          ) : (
+            <Bot
+              className="
                                 h-4
                                 w-4
                                 sm:h-5
                                 sm:w-5
                             "
-                        />
+            />
+          )}
+        </div>
 
-                    )}
-
-                </div>
-
-
-                {/* =================================================
+        {/* =================================================
                     Message Content
                 ================================================= */}
 
-                <div
-                    className={`
+        <div
+          className={`
                         flex
                         max-w-[85%]
                         flex-col
                         lg:max-w-[75%]
-                        ${
-                            isUser
-                                ? "items-end"
-                                : "items-start"
-                        }
+                        ${isUser ? "items-end" : "items-start"}
                     `}
-                >
+        >
+          {/* Message Bubble */}
 
-                    {/* Message Bubble */}
-
-                    <div
-                        className={`
+          <div
+            className={`
                             rounded-2xl
                             px-4
                             py-3.5
@@ -196,8 +150,8 @@ function ChatWindow({
                             sm:px-5
                             sm:py-4
                             ${
-                                isUser
-                                    ? `
+                              isUser
+                                ? `
                                         rounded-tr-md
                                         bg-gradient-to-br
                                         from-amber-400
@@ -205,7 +159,7 @@ function ChatWindow({
                                         text-white
                                         shadow-sm
                                       `
-                                    : `
+                                : `
                                         rounded-tl-md
                                         border
                                         border-zinc-200
@@ -215,23 +169,19 @@ function ChatWindow({
                                       `
                             }
                         `}
-                    >
+          >
+            <div className="prose prose-sm max-w-none">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {content}
+              </ReactMarkdown>
+            </div>
+          </div>
 
-                        <div className="prose prose-sm max-w-none">
-                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                {content}
-                            </ReactMarkdown>
-                        </div>
+          {/* Timestamp */}
 
-                    </div>
-
-
-                    {/* Timestamp */}
-
-                    {timestamp && (
-
-                        <div
-                            className={`
+          {timestamp && (
+            <div
+              className={`
                                 mt-2
                                 flex
                                 items-center
@@ -239,62 +189,46 @@ function ChatWindow({
                                 text-[10px]
                                 text-zinc-400
                                 sm:text-[11px]
-                                ${
-                                    isUser
-                                        ? "justify-end"
-                                        : "justify-start"
-                                }
+                                ${isUser ? "justify-end" : "justify-start"}
                             `}
-                        >
-
-                            <Clock3
-                                className="
+            >
+              <Clock3
+                className="
                                     h-3
                                     w-3
                                 "
-                            />
+              />
 
-                            {timestamp}
-
-                        </div>
-
-                    )}
-
-                </div>
-
+              {timestamp}
             </div>
+          )}
+        </div>
+      </div>
+    );
+  };
 
-        );
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        AI Thinking Indicator
     ===================================================== */
 
-    const renderThinkingIndicator = () => {
+  const renderThinkingIndicator = () => {
+    if (!loading) {
+      return null;
+    }
 
-        if (!loading) {
-            return null;
-        }
-
-
-        return (
-
-            <div
-                className="
+    return (
+      <div
+        className="
                     flex
                     items-start
                     gap-3
                     sm:gap-4
                 "
-            >
+      >
+        {/* AI Avatar */}
 
-                {/* AI Avatar */}
-
-                <div
-                    className="
+        <div
+          className="
                         flex
                         h-9
                         w-9
@@ -311,24 +245,21 @@ function ChatWindow({
                         sm:h-10
                         sm:w-10
                     "
-                >
-
-                    <Bot
-                        className="
+        >
+          <Bot
+            className="
                             h-4
                             w-4
                             sm:h-5
                             sm:w-5
                         "
-                    />
+          />
+        </div>
 
-                </div>
+        {/* Thinking Bubble */}
 
-
-                {/* Thinking Bubble */}
-
-                <div
-                    className="
+        <div
+          className="
                         rounded-2xl
                         rounded-tl-md
                         border
@@ -338,28 +269,26 @@ function ChatWindow({
                         py-4
                         shadow-sm
                     "
-                >
-
-                    <div
-                        className="
+        >
+          <div
+            className="
                             flex
                             items-center
                             gap-1.5
                         "
-                    >
-
-                        <span
-                            className="
+          >
+            <span
+              className="
                                 h-2
                                 w-2
                                 animate-bounce
                                 rounded-full
                                 bg-emerald-400
                             "
-                        />
+            />
 
-                        <span
-                            className="
+            <span
+              className="
                                 h-2
                                 w-2
                                 animate-bounce
@@ -367,10 +296,10 @@ function ChatWindow({
                                 bg-teal-400
                                 [animation-delay:120ms]
                             "
-                        />
+            />
 
-                        <span
-                            className="
+            <span
+              className="
                                 h-2
                                 w-2
                                 animate-bounce
@@ -378,29 +307,21 @@ function ChatWindow({
                                 bg-cyan-400
                                 [animation-delay:240ms]
                             "
-                        />
+            />
+          </div>
+        </div>
+      </div>
+    );
+  };
 
-                    </div>
-
-                </div>
-
-            </div>
-
-        );
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        Empty Conversation
     ===================================================== */
 
-    const renderEmptyConversation = () => {
-
-        return (
-
-            <div
-                className="
+  const renderEmptyConversation = () => {
+    return (
+      <div
+        className="
                     flex
                     min-h-full
                     items-center
@@ -408,17 +329,15 @@ function ChatWindow({
                     px-6
                     py-12
                 "
-            >
-
-                <div
-                    className="
+      >
+        <div
+          className="
                         max-w-md
                         text-center
                     "
-                >
-
-                    <div
-                        className="
+        >
+          <div
+            className="
                             mx-auto
                             flex
                             h-16
@@ -432,61 +351,50 @@ function ChatWindow({
                             to-emerald-100
                             text-amber-600
                         "
-                    >
-
-                        <Sparkles
-                            className="
+          >
+            <Sparkles
+              className="
                                 h-7
                                 w-7
                             "
-                        />
+            />
+          </div>
 
-                    </div>
-
-
-                    <h2
-                        className="
+          <h2
+            className="
                             mt-5
                             text-xl
                             font-bold
                             text-zinc-900
                         "
-                    >
-                        Start your career conversation
-                    </h2>
+          >
+            Start your career conversation
+          </h2>
 
-
-                    <p
-                        className="
+          <p
+            className="
                             mt-2
                             text-sm
                             leading-6
                             text-zinc-500
                         "
-                    >
-                        Ask Career Coach about your resume,
-                        career direction, skills, job
-                        opportunities, interviews, or anything
-                        related to your professional journey.
-                    </p>
+          >
+            Ask Career Coach about your resume, career direction, skills, job
+            opportunities, interviews, or anything related to your professional
+            journey.
+          </p>
+        </div>
+      </div>
+    );
+  };
 
-                </div>
-
-            </div>
-
-        );
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        Render
     ===================================================== */
 
-    return (
-
-        <section
-            className="
+  return (
+    <section
+      className="
                 flex
                 min-h-0
                 flex-1
@@ -494,14 +402,13 @@ function ChatWindow({
                 overflow-hidden
                 bg-[#fafaf9]
             "
-        >
-
-            {/* =================================================
+    >
+      {/* =================================================
                 Chat Header
             ================================================= */}
 
-            <div
-                className="
+      <div
+        className="
                     flex
                     shrink-0
                     items-center
@@ -512,21 +419,19 @@ function ChatWindow({
                     py-4
                     sm:px-6
                 "
-            >
+      >
+        {/* Left */}
 
-                {/* Left */}
-
-                <div
-                    className="
+        <div
+          className="
                         flex
                         min-w-0
                         items-center
                         gap-3
                     "
-                >
-
-                    <div
-                        className="
+        >
+          <div
+            className="
                             flex
                             h-10
                             w-10
@@ -537,80 +442,68 @@ function ChatWindow({
                             bg-emerald-100
                             text-emerald-600
                         "
-                    >
-
-                        <Bot
-                            className="
+          >
+            <Bot
+              className="
                                 h-5
                                 w-5
                             "
-                        />
+            />
+          </div>
 
-                    </div>
-
-
-                    <div
-                        className="
+          <div
+            className="
                             min-w-0
                         "
-                    >
-
-                        <h2
-                            className="
+          >
+            <h2
+              className="
                                 truncate
                                 text-sm
                                 font-bold
                                 text-zinc-900
                                 sm:text-base
                             "
-                        >
-                            {conversationTitle}
-                        </h2>
+            >
+              {conversationTitle}
+            </h2>
 
-
-                        <div
-                            className="
+            <div
+              className="
                                 mt-0.5
                                 flex
                                 items-center
                                 gap-1.5
                             "
-                        >
-
-                            <span
-                                className="
+            >
+              <span
+                className="
                                     h-1.5
                                     w-1.5
                                     rounded-full
                                     bg-emerald-500
                                 "
-                            />
+              />
 
-                            <span
-                                className="
+              <span
+                className="
                                     text-[11px]
                                     font-medium
                                     text-emerald-600
                                 "
-                            >
-                                Career Coach is ready
-                            </span>
+              >
+                Career Coach is ready
+              </span>
+            </div>
+          </div>
+        </div>
 
-                        </div>
+        {/* Right */}
 
-                    </div>
-
-                </div>
-
-
-                {/* Right */}
-
-                <button
-                    type="button"
-                    onClick={() =>
-                        onNewConversation?.()
-                    }
-                    className="
+        <button
+          type="button"
+          onClick={() => onNewConversation?.()}
+          className="
                         flex
                         shrink-0
                         items-center
@@ -629,35 +522,27 @@ function ChatWindow({
                         active:scale-[0.98]
                         sm:px-4
                     "
-                >
-
-                    <Plus
-                        className="
+        >
+          <Plus
+            className="
                             h-3.5
                             w-3.5
                         "
-                    />
+          />
 
-                    <span className="hidden sm:inline">
-                        New Chat
-                    </span>
+          <span className="hidden sm:inline">New Chat</span>
+        </button>
+      </div>
 
-                </button>
+      <Separator />
 
-            </div>
-
-
-            <Separator />
-
-
-            {/* =================================================
+      {/* =================================================
                 Resume Context
             ================================================= */}
 
-            {conversation?.resume_id && (
-
-                <div
-                    className="
+      {conversation?.resume_id && (
+        <div
+          className="
                         shrink-0
                         border-b
                         border-zinc-100
@@ -666,18 +551,16 @@ function ChatWindow({
                         py-3
                         sm:px-6
                     "
-                >
-
-                    <div
-                        className="
+        >
+          <div
+            className="
                             flex
                             items-center
                             gap-2.5
                         "
-                    >
-
-                        <div
-                            className="
+          >
+            <div
+              className="
                                 flex
                                 h-7
                                 w-7
@@ -687,65 +570,54 @@ function ChatWindow({
                                 bg-amber-100
                                 text-amber-600
                             "
-                        >
-
-                            <BriefcaseBusiness
-                                className="
+            >
+              <BriefcaseBusiness
+                className="
                                     h-3.5
                                     w-3.5
                                 "
-                            />
+              />
+            </div>
 
-                        </div>
-
-
-                        <div
-                            className="
+            <div
+              className="
                                 min-w-0
                             "
-                        >
-
-                            <p
-                                className="
+            >
+              <p
+                className="
                                     text-[10px]
                                     font-semibold
                                     uppercase
                                     tracking-wider
                                     text-zinc-400
                                 "
-                            >
-                                Resume Context
-                            </p>
+              >
+                Resume Context
+              </p>
 
+              <p
+                className="
+                    truncate
+                    text-xs
+                    font-medium
+                    text-zinc-700
+                "
+                >
+                {resumeName}
+                </p>
+            </div>
+          </div>
+        </div>
+      )}
 
-                            <p
-                                className="
-                                    truncate
-                                    text-xs
-                                    font-medium
-                                    text-zinc-700
-                                "
-                            >
-                                Resume #{conversation.resume_id}
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            )}
-
-
-            {/* =================================================
+      {/* =================================================
                 Error
             ================================================= */}
 
-            {error && (
-
-                <div
-                    className="
+      {error && (
+        <div
+          className="
                         mx-5
                         mt-4
                         shrink-0
@@ -759,19 +631,17 @@ function ChatWindow({
                         text-red-600
                         sm:mx-6
                     "
-                >
-                    {error}
-                </div>
+        >
+          {error}
+        </div>
+      )}
 
-            )}
-
-
-            {/* =================================================
+      {/* =================================================
                 Messages Area
             ================================================= */}
 
-            <div
-                className="
+      <div
+        className="
                     min-h-0
                     flex-1
                     overflow-y-auto
@@ -780,50 +650,37 @@ function ChatWindow({
                     sm:px-6
                     lg:px-8
                 "
-            >
-
-                {messages.length === 0 && !loading ? (
-
-                    renderEmptyConversation()
-
-                ) : (
-
-                    <div
-                        className="
+      >
+        {messages.length === 0 && !loading ? (
+          renderEmptyConversation()
+        ) : (
+          <div
+            className="
                             mx-auto
                             w-full
                             max-w-4xl
                             space-y-6
                         "
-                    >
+          >
+            {messages.map(renderMessage)}
 
-                        {messages.map(
-                            renderMessage
-                        )}
+            {renderThinkingIndicator()}
+          </div>
+        )}
+      </div>
 
-
-                        {renderThinkingIndicator()}
-
-                    </div>
-
-                )}
-
-            </div>
-
-
-            {/* =================================================
+      {/* =================================================
                 Composer Boundary
             ================================================= */}
 
-            <Separator />
+      <Separator />
 
-
-            {/* =================================================
+      {/* =================================================
                 Chat Input Slot
             ================================================= */}
 
-            <div
-                className="
+      <div
+        className="
                     shrink-0
                     bg-white
                     px-5
@@ -831,27 +688,19 @@ function ChatWindow({
                     sm:px-6
                     lg:px-8
                 "
-            >
-
-                <div
-                    className="
+      >
+        <div
+          className="
                         mx-auto
                         w-full
                         max-w-4xl
                     "
-                >
-
-                    {children}
-
-                </div>
-
-            </div>
-
-        </section>
-
-    );
-
+        >
+          {children}
+        </div>
+      </div>
+    </section>
+  );
 }
-
 
 export default ChatWindow;

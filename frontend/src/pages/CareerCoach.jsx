@@ -68,6 +68,16 @@ function CareerCoach() {
     fetchUserResumes,
   } = useResume();
 
+  const activeResume = resumes.find(
+    (resume) => String(resume.id) === String(resumeId)
+  );
+
+  const activeResumeName =
+    activeResume?.file_name ||
+    activeResume?.filename ||
+    activeResume?.name ||
+    `Resume #${resumeId}`;
+
   /* =====================================================
        Local UI State
     ===================================================== */
@@ -492,6 +502,7 @@ function CareerCoach() {
               messages={messages}
               loading={chatLoading}
               error={error}
+              resumeName={activeResumeName}
               onNewConversation={handleNewConversation}
             >
               <ChatInput

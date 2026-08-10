@@ -1,9 +1,11 @@
+import os
 from pathlib import Path
 import shutil
 import traceback
 from fastapi import APIRouter
 from fastapi import UploadFile
 from fastapi import File
+from fastapi.responses import FileResponse
 from fastapi import HTTPException
 
 from fastapi import Depends
@@ -19,6 +21,7 @@ from backend.schemas.resume import ResumeDetailResponse, ResumeSummaryResponse
 
 from backend.core.authorization import get_current_user
 from backend.models.user import User
+from backend.models.resume import Resume
 
 from src.resume_parser.resume_parser import ResumeParser
 from src.resume_parser.resume_cleaner import ResumeCleaner
@@ -172,3 +175,52 @@ def delete_resume(
     return {
         "message": "Resume deleted successfully."
     }
+
+@router.get("/{resume_id}/file")
+def get_resume_file(
+    resume_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Return the PDF file for a resume owned by the current user.
+    """
+
+    resume = (
+        db.query(Resume)
+        .filter(
+            Resume.id == resume_id,
+            Resume.user_id == current_user.id,
+        )
+        .first()
+    )
+
+    if not resume:
+        raise HTTPException(
+            status_code=404,
+            detail="Resume not found.",
+        )
+
+    file_path = resume.file_path
+    filename = resume.filename
+
+    if not file_path:
+        raise HTTPException(
+            status_code=404,
+            detail="Resume file path is missing.",
+        )
+
+    if not os.path.isfile(file_path):
+        raise HTTPException(
+            status_code=404,
+            detail="Resume file does not exist on the server.",
+        )
+
+    return FileResponse(
+        path=file_path,
+        media_type="application/pdf",
+        filename=filename,
+        headers={
+            "Content-Disposition": "inline",
+        },
+    )

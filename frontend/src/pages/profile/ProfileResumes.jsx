@@ -13,8 +13,15 @@ import ProfileLoading from "../../components/profile/ProfileLoading.jsx";
 import ProfileEmptyState from "../../components/profile/ProfileEmptyState.jsx";
 
 import { Button } from "../../components/ui/button.jsx";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from "../../components/ui/dialog.jsx";
 
 import useResume from "../../hooks/useResume.js";
+import {getResumeFile} from "../../services/resumeService.js";
 
 function ProfileResumes() {
 
@@ -25,6 +32,14 @@ const {
     error,
     removeResume,
 } = useResume();
+
+const [selectedResume, setSelectedResume] = useState(null);
+
+const [resumePreviewUrl, setResumePreviewUrl] = useState(null);
+
+const [previewLoading, setPreviewLoading] = useState(false);
+
+const [previewError, setPreviewError] = useState(null);
 
 useEffect(() => {
 
@@ -105,6 +120,33 @@ const handleDelete = async (resumeId) => {
 
     }
 
+};
+
+// View Resume Preview
+
+const handleViewResume = async (resume) => {
+    try {
+        setPreviewLoading(true);
+        setPreviewError(null);
+
+        const blob = await getResumeFile(resume.id);
+
+        const url = URL.createObjectURL(blob);
+
+        setSelectedResume(resume);
+        setResumePreviewUrl(url);
+
+    } catch (err) {
+        console.error("Failed to load resume:", err);
+
+        setPreviewError(
+            err?.response?.data?.detail ||
+            "Failed to load resume."
+        );
+
+    } finally {
+        setPreviewLoading(false);
+    }
 };
 
 
@@ -299,7 +341,7 @@ return (
                                                     text-zinc-900
                                                 "
                                             >
-                                                {resume.file_name ||
+                                                {resume.filename ||
                                                     "Untitled Resume"}
                                             </h3>
 
@@ -375,14 +417,8 @@ return (
                                                 hover:bg-violet-50
                                                 hover:text-violet-600
                                             "
-                                            onClick={() => {
-
-                                                window.location.href =
-                                                    `/dashboard/resumes/${resume.id}`;
-
-                                            }}
+                                            onClick={() => handleViewResume(resume)}
                                         >
-
                                             <Eye
                                                 className="
                                                     mr-2
@@ -392,9 +428,7 @@ return (
                                             />
 
                                             View
-
                                         </Button>
-
 
                                         <Button
                                             type="button"
@@ -478,6 +512,110 @@ return (
                 </ProfileSectionCard>
 
             )}
+
+            <Dialog
+            open={!!selectedResume}
+            onOpenChange={(open) => {
+                if (!open) {
+                    handleClosePreview();
+                }
+            }}
+        >
+
+            <DialogContent
+                className="
+                    flex
+                    h-[90vh]
+                    max-w-5xl
+                    flex-col
+                    overflow-hidden
+                    p-0
+                "
+            >
+
+                <DialogHeader
+                    className="
+                        shrink-0
+                        border-b
+                        border-zinc-200
+                        px-6
+                        py-4
+                    "
+                >
+
+                    <DialogTitle>
+                        {selectedResume?.filename ||
+                            "Resume Preview"}
+                    </DialogTitle>
+
+                </DialogHeader>
+
+
+                {/* PDF Viewer */}
+
+                <div
+                    className="
+                        min-h-0
+                        flex-1
+                        bg-zinc-100
+                    "
+                >
+
+                    {previewLoading && (
+                        <div
+                            className="
+                                flex
+                                h-full
+                                items-center
+                                justify-center
+                                text-sm
+                                text-zinc-500
+                            "
+                        >
+                            Loading resume...
+                        </div>
+                    )}
+
+
+                    {previewError && !previewLoading && (
+                        <div
+                            className="
+                                flex
+                                h-full
+                                items-center
+                                justify-center
+                                px-6
+                                text-center
+                                text-sm
+                                text-red-500
+                            "
+                        >
+                            {previewError}
+                        </div>
+                    )}
+
+
+                    {resumePreviewUrl &&
+                        !previewLoading &&
+                        !previewError && (
+
+                        <iframe
+                            src={resumePreviewUrl}
+                            title="Resume Preview"
+                            className="
+                                h-full
+                                w-full
+                                border-0
+                            "
+                        />
+
+                    )}
+
+                </div>
+
+            </DialogContent>
+
+        </Dialog>
 
     </div>
 
