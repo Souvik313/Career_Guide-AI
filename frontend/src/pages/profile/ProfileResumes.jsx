@@ -149,6 +149,16 @@ const handleViewResume = async (resume) => {
     }
 };
 
+const handleClosePreview = () => {
+    if (resumePreviewUrl) {
+        URL.revokeObjectURL(resumePreviewUrl);
+    }
+
+    setSelectedResume(null);
+    setResumePreviewUrl(null);
+    setPreviewError(null);
+};
+
 
 /* =====================================================
    Render
