@@ -98,7 +98,6 @@ const formatDate = (dateValue) => {
 ===================================================== */
 
 const handleDelete = async (resumeId) => {
-
     const confirmed = window.confirm(
         "Are you sure you want to delete this resume?"
     );
@@ -108,36 +107,45 @@ const handleDelete = async (resumeId) => {
     }
 
     try {
-
         await removeResume(resumeId);
 
-    } catch (err) {
+        // Optional: close preview if the deleted resume
+        // was currently being viewed.
+        if (selectedResume?.id === resumeId) {
+            handleClosePreview();
+        }
 
+    } catch (err) {
         console.error(
             "Failed to delete resume:",
             err
         );
-
     }
-
 };
 
-// View Resume Preview
+/* =====================================================
+   View Resume Preview
+===================================================== */
 
 const handleViewResume = async (resume) => {
     try {
         setPreviewLoading(true);
         setPreviewError(null);
 
-        const blob = await getResumeFile(resume.id);
+        const data = await getResumeFile(resume.id);
 
-        const url = URL.createObjectURL(blob);
+        setSelectedResume({
+            ...resume,
+            filename: data.filename,
+        });
 
-        setSelectedResume(resume);
-        setResumePreviewUrl(url);
+        setResumePreviewUrl(data.url);
 
     } catch (err) {
-        console.error("Failed to load resume:", err);
+        console.error(
+            "Failed to load resume:",
+            err
+        );
 
         setPreviewError(
             err?.response?.data?.detail ||
@@ -149,11 +157,11 @@ const handleViewResume = async (resume) => {
     }
 };
 
-const handleClosePreview = () => {
-    if (resumePreviewUrl) {
-        URL.revokeObjectURL(resumePreviewUrl);
-    }
+/* =====================================================
+   Close Resume Preview
+===================================================== */
 
+const handleClosePreview = () => {
     setSelectedResume(null);
     setResumePreviewUrl(null);
     setPreviewError(null);
@@ -611,7 +619,7 @@ return (
 
                         <iframe
                             src={resumePreviewUrl}
-                            title="Resume Preview"
+                            title={selectedResume?.filename || "Resume Preview"}
                             className="
                                 h-full
                                 w-full

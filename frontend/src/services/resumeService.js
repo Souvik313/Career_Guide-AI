@@ -72,10 +72,7 @@ export const deleteResume = async (resumeId) => {
 
 export const getResumeFile = async (resumeId) => {
     const response = await api.get(
-        `/resumes/${resumeId}/file`,
-        {
-            responseType: "blob",
-        }
+        `/resumes/${resumeId}/file`
     );
 
     return response.data;
