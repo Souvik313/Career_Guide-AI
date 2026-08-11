@@ -298,7 +298,7 @@ def delete_resume(
             detail=f"Failed to delete resume: {str(e)}",
         )
 
-@router.get("/{resume_id}/file")
+@router.get("/resumes/{resume_id}/file")
 def get_resume_file(
     resume_id: int,
     current_user: User = Depends(get_current_user),
