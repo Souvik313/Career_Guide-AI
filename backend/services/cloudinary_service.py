@@ -20,11 +20,12 @@ class CloudinaryService:
 
         result = cloudinary.uploader.upload(
             file_bytes,
-            resource_type="raw",
+            resource_type="image",
             folder=f"careercompass/resumes/user_{user_id}",
             use_filename=True,
             unique_filename=True,
             overwrite=False,
+            format="pdf"
         )
 
         return {
