@@ -13,7 +13,8 @@ class ResumeService:
         user_id: int,
         candidate_name: str,
         filename: str,
-        file_path: str,
+        cloudinary_public_id: str,
+        cloudinary_url: str,
         parsed_text: str,
     ):
         """
@@ -24,7 +25,8 @@ class ResumeService:
             user_id=user_id,
             candidate_name=candidate_name,
             filename=filename,
-            file_path=file_path,
+            cloudinary_public_id=cloudinary_public_id,
+            cloudinary_url=cloudinary_url,
             parsed_text=parsed_text,
         )
 

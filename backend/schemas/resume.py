@@ -11,6 +11,7 @@ class ResumeSummaryResponse(BaseModel):
     )
 
     id: int
+    candidate_name: str
     filename: str
     uploaded_at: datetime
 
@@ -23,6 +24,5 @@ class ResumeDetailResponse(BaseModel):
     id: int
     candidate_name: str
     filename: str
-    file_path: str
     parsed_text: str
     uploaded_at: datetime

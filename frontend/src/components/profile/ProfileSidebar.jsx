@@ -71,6 +71,7 @@ function ProfileSidebar() {
             px-5
             py-7
             lg:flex
+            overflow-y-auto
         "
     >
       {/* Profile Identity */}

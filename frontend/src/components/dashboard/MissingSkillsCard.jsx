@@ -66,7 +66,7 @@ function MissingSkillsCard({ skills }) {
 
                         >
 
-                            {skill[0]}
+                            {skill[0].replace(/\b\w/g, char => char.toUpperCase())}
 
                         </span>
 

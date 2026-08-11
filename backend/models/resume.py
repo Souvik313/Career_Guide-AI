@@ -31,9 +31,13 @@ class Resume(Base):
         String(255),
         nullable=False,
     )
-    file_path: Mapped[str] = mapped_column(
+    cloudinary_public_id: Mapped[str] = mapped_column(
         String(500),
-        nullable=False,
+        nullable=True,
+    )
+    cloudinary_url: Mapped[str] = mapped_column(
+        String(1000),
+        nullable=True,
     )
     parsed_text: Mapped[str] = mapped_column(
         Text,

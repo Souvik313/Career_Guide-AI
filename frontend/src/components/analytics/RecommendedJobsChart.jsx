@@ -16,9 +16,9 @@ function RecommendedJobsChart({ report }) {
         .slice(0, 5)
         .map((job) => ({
 
-            job: job.Position,
+            job: job.job_title,
 
-            score: Number((job["Similarity Score"] * 120).toFixed(1))
+            score: Number((job["similarity_score"] * 120).toFixed(1))
 
         }));
 

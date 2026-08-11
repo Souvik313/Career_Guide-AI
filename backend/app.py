@@ -8,6 +8,8 @@ from backend.routes.career_evaluation_routes import router as career_evaluation_
 from backend.routes.saved_job_routes import router as saved_job_router
 from backend.routes.ai_chat_routes import router as chat_router
 
+from backend.config import cloudinary_config
+
 app = FastAPI(
     title="CareerAdvisor AI API",
     description="AI powered Resume analysis and career recommendation API",

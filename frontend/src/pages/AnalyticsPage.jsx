@@ -26,7 +26,7 @@ function AnalyticsPage() {
 
         <main className="min-h-screen bg-slate-100">
 
-            <div className="mx-auto max-w-7xl px-8 py-8 space-y-8">
+            <div className="mx-auto max-w-[1500px] px-4 py-8 sm:px-6 lg:px-8 space-y-8">
 
                 {/* Page Header */}
 
@@ -38,11 +38,19 @@ function AnalyticsPage() {
 
                 {/* Charts */}
 
-                <div className="grid grid-cols-1 gap-8 xl:grid-cols-2">
+                <div className="grid grid-cols-1 gap-8 xl:grid-cols-[minmax(560px,1.05fr)_minmax(460px,0.95fr)]">
 
-                    <SkillOverviewChart report={report} />
+                    <div className="min-w-0">
 
-                    <CareerMatchChart report={report} />
+                        <SkillOverviewChart report={report} />
+
+                    </div>
+
+                    <div className="min-w-0">
+
+                        <CareerMatchChart report={report} />
+
+                    </div>
 
                 </div>
 

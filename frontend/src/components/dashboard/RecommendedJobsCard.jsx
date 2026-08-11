@@ -67,13 +67,13 @@ function RecommendedJobsCard({ jobs }) {
 
                                     <h3 className="text-xl font-semibold">
 
-                                        {job.Position}
+                                        {job.job_title}
 
                                     </h3>
 
                                     <p className="mt-1 text-slate-600">
 
-                                        {job["Company Name"]}
+                                        {job["company_name"]}
 
                                     </p>
 
@@ -88,7 +88,7 @@ function RecommendedJobsCard({ jobs }) {
 
                                     <span className="font-semibold">
 
-                                        {Math.round(job["Similarity Score"] * 120)}%
+                                        {Math.round(job["similarity_score"] * 120)}%
 
                                     </span>
 
@@ -115,6 +115,11 @@ function RecommendedJobsCard({ jobs }) {
                 }
 
             </div>
+
+            <p className="mt-4 text-sm text-gray-600 italic leading-relaxed bg-gray-100 p-3 rounded-md">
+                *Only the top 5 job recommendations are shown here. 
+                To view all 10 recommendations, please view your profile page.
+            </p>
 
         </section>
 

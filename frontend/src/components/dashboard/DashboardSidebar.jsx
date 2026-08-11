@@ -61,7 +61,11 @@ function DashboardSidebar({ report }) {
 
   return (
     <aside className="sticky top-0 h-screen w-72 border-r border-slate-200 bg-white p-6 flex flex-col">
-      <h2 className="text-2xl font-bold text-blue-600">CareerCompass AI</h2>
+      <h2 className="text-2xl font-bold text-emerald-600 hover:text-teal-600 transition-colors">
+  CareerCompass AI
+</h2>
+
+
 
       <div className="my-6 h-px bg-slate-200"></div>
 

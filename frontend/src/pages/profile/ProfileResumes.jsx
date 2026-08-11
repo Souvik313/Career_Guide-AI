@@ -385,7 +385,7 @@ return (
                                                     />
 
                                                     {formatDate(
-                                                        resume.created_at
+                                                        resume.uploaded_at
                                                     )}
 
                                                 </span>

@@ -85,7 +85,7 @@ function ResumeSkillsCard({ skills }) {
                             className={`rounded-full px-5 py-2 text-sm font-medium ${getSkillColor(skill)}`}
                         >
 
-                            {skill}
+                            {skill.replace(/\b\w/g, char => char.toUpperCase())}
 
                         </span>
 

@@ -79,7 +79,7 @@ function AnalyticsInsight({ report }) {
 
                     <p className="mt-2 text-slate-700">
 
-                        {report.career_report.missing_skills[0]}
+                        {report.career_report.missing_skills[0].replace(/\b\w/g, char => char.toUpperCase())}
 
                     </p>
 
