@@ -45,7 +45,9 @@ class CloudinaryService:
 
         result = cloudinary.uploader.destroy(
             public_id,
-            resource_type="raw",
+            resource_type="image",
+            type="upload",
+            invalidate=True,
         )
 
         return result
