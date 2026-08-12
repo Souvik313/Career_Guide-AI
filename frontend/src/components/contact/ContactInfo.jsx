@@ -41,15 +41,15 @@ function ContactInfo() {
 
     return (
 
-        <div className="rounded-3xl bg-white p-8 shadow-lg border border-slate-200">
+        <div className="rounded-3xl border border-border bg-card p-8 shadow-lg">
 
-            <h2 className="text-2xl font-bold text-slate-800">
+            <h2 className="text-2xl font-bold text-foreground">
 
                 Contact Information
 
             </h2>
 
-            <p className="mt-2 text-slate-500 leading-7">
+            <p className="mt-2 text-muted-foreground leading-7">
 
                 Feel free to connect through any of the platforms below.
                 I'm always happy to discuss software engineering,
@@ -65,10 +65,10 @@ function ContactInfo() {
 
                         <div
                             key={item.title}
-                            className="flex items-start gap-4 rounded-2xl border border-slate-200 p-4 transition hover:border-blue-500 hover:bg-blue-50"
+                            className="flex items-start gap-4 rounded-2xl border border-border bg-background p-4 transition hover:border-primary/50 hover:bg-muted"
                         >
 
-                            <div className="rounded-xl bg-blue-100 p-3 text-blue-600">
+                            <div className="rounded-xl bg-primary/10 p-3 text-primary">
 
                                 <item.icon size={22} />
 
@@ -76,7 +76,7 @@ function ContactInfo() {
 
                             <div className="flex-1">
 
-                                <h3 className="font-semibold text-slate-800">
+                                <h3 className="font-semibold text-foreground">
 
                                     {item.title}
 
@@ -90,7 +90,7 @@ function ContactInfo() {
                                             href={item.href}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="mt-1 inline-flex items-center gap-1 text-blue-600 hover:underline break-all"
+                                            className="mt-1 inline-flex items-center gap-1 text-primary hover:underline break-all"
                                         >
 
                                             {item.value}
@@ -101,7 +101,7 @@ function ContactInfo() {
 
                                     ) : (
 
-                                        <p className="mt-1 text-slate-600">
+                                        <p className="mt-1 text-muted-foreground">
 
                                             {item.value}
 

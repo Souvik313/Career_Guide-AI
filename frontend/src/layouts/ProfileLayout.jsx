@@ -9,7 +9,7 @@ return (
     <div
         className="
             min-h-screen
-            bg-[#faf9ff]
+            bg-background
         "
     >
 

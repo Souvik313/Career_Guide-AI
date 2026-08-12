@@ -2,7 +2,7 @@ import { Mail, Sparkles } from "lucide-react";
 
 function ContactHeader() {
     return (
-        <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 px-10 py-16 text-white shadow-xl">
+        <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-10 py-16 text-white shadow-xl">
 
             {/* Background Glow */}
             <div className="absolute -top-16 -right-16 h-56 w-56 rounded-full bg-white/10 blur-3xl"></div>
@@ -10,7 +10,7 @@ function ContactHeader() {
 
             <div className="relative z-10 max-w-3xl">
 
-                <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2 backdrop-blur">
+                <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 backdrop-blur">
 
                     <Sparkles size={18} />
 
@@ -26,7 +26,7 @@ function ContactHeader() {
 
                 </h1>
 
-                <p className="mt-6 max-w-2xl text-lg leading-8 text-blue-50">
+                <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-200">
 
                     Whether you have a question about CareerCompass AI,
                     a collaboration opportunity, or a software engineering
@@ -45,7 +45,7 @@ function ContactHeader() {
 
                     <div>
 
-                        <p className="text-sm text-blue-100">
+                        <p className="text-sm text-slate-300">
 
                             Usually replies within 24 hours
 

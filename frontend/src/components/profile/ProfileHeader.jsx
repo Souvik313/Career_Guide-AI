@@ -35,7 +35,7 @@ function ProfileHeader({ title, description, icon: Icon = Sparkles }) {
                         text-3xl
                         font-bold
                         tracking-tight
-                        text-zinc-900
+                        text-foreground
                         sm:text-4xl
                     "
           >
@@ -48,7 +48,7 @@ function ProfileHeader({ title, description, icon: Icon = Sparkles }) {
                         max-w-2xl
                         text-sm
                         leading-6
-                        text-zinc-500
+                        text-muted-foreground
                         sm:text-base
                     "
           >
@@ -64,10 +64,7 @@ function ProfileHeader({ title, description, icon: Icon = Sparkles }) {
                 mt-6
                 h-px
                 w-full
-                bg-gradient-to-r
-                from-violet-200
-                via-fuchsia-200
-                to-orange-200
+                bg-border
             "
       />
     </div>

@@ -41,17 +41,17 @@ function SocialLinks() {
 
     return (
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg">
+        <section className="rounded-3xl border border-border bg-card p-8 shadow-lg">
 
             <div className="text-center">
 
-                <h2 className="text-2xl font-bold text-slate-800">
+                <h2 className="text-2xl font-bold text-foreground">
 
                     Connect With Me
 
                 </h2>
 
-                <p className="mt-3 text-slate-500">
+                <p className="mt-3 text-muted-foreground">
 
                     You can also reach me through these platforms.
 
@@ -74,12 +74,12 @@ function SocialLinks() {
                                     : "_blank"
                             }
                             rel="noopener noreferrer"
-                            className="group flex items-center justify-between rounded-2xl border border-slate-200 p-5 transition hover:border-blue-500 hover:bg-blue-50 hover:shadow-md"
+                            className="group flex items-center justify-between rounded-2xl border border-border bg-background p-5 transition hover:border-primary/50 hover:bg-muted hover:shadow-md"
                         >
 
                             <div className="flex items-center gap-4">
 
-                                <div className="rounded-xl bg-blue-100 p-3 text-blue-600">
+                                <div className="rounded-xl bg-primary/10 p-3 text-primary">
 
                                     <social.icon size={22} />
 
@@ -87,13 +87,13 @@ function SocialLinks() {
 
                                 <div>
 
-                                    <h3 className="font-semibold text-slate-800">
+                                    <h3 className="font-semibold text-foreground">
 
                                         {social.name}
 
                                     </h3>
 
-                                    <p className="text-sm text-slate-500">
+                                    <p className="text-sm text-muted-foreground">
 
                                         {social.username}
 
@@ -105,7 +105,7 @@ function SocialLinks() {
 
                             <ArrowUpRight
                                 size={20}
-                                className="text-slate-400 transition group-hover:text-blue-600"
+                                className="text-muted-foreground transition group-hover:text-primary"
                             />
 
                         </a>

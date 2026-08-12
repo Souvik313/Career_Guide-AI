@@ -9,7 +9,7 @@ function Contact() {
 
     return (
 
-        <main className="min-h-screen bg-slate-100">
+        <main className="min-h-screen bg-background">
 
             <div className="mx-auto max-w-7xl px-6 py-12">
 
@@ -19,7 +19,7 @@ function Contact() {
 
                     <Link
                         to="/"
-                        className="inline-flex items-center gap-2 text-blue-600 transition hover:text-blue-700"
+                        className="inline-flex items-center gap-2 text-primary transition hover:text-primary/80"
                     >
 
                         <ArrowLeft size={18} />

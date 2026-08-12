@@ -33,11 +33,11 @@ function CareerPathsCard({ roles, explanation }) {
 
     return (
 
-        <section id="career-paths" className="mt-8 rounded-3xl bg-white p-8 shadow-md">
+        <section id="career-paths" className="mt-8 rounded-3xl border border-border bg-card p-8 shadow-md">
   {/* Heading */}
   <div className="flex items-center gap-3">
-    <BriefcaseBusiness size={30} className="text-emerald-600" />
-    <h2 className="text-2xl font-bold text-slate-900">
+    <BriefcaseBusiness size={30} className="text-emerald-500" />
+    <h2 className="text-2xl font-bold text-foreground">
       Recommended Career Paths
     </h2>
   </div>
@@ -47,11 +47,11 @@ function CareerPathsCard({ roles, explanation }) {
     {roles.map((role, index) => (
       <div
         key={index}
-        className="rounded-2xl border border-slate-200 bg-slate-50 p-5 transition-all hover:border-emerald-400 hover:bg-emerald-50"
+        className="rounded-2xl border border-border bg-muted p-5 transition-all hover:border-emerald-500/50 hover:bg-emerald-500/5"
       >
         <div className="flex items-center gap-4">
           {getCareerIcon(role.role)}
-          <p className="text-lg font-semibold text-slate-800">
+          <p className="text-lg font-semibold text-foreground">
             {role.role}
           </p>
         </div>
@@ -60,14 +60,14 @@ function CareerPathsCard({ roles, explanation }) {
   </div>
 
   {/* Divider */}
-  <div className="my-8 border-t"/>
+  <div className="my-8 border-t border-border"/>
 
   {/* AI Explanation */}
-  <h3 className="text-xl font-semibold text-slate-900">
+  <h3 className="text-xl font-semibold text-foreground">
     Why these careers?
   </h3>
-  <div className="mt-5 rounded-2xl bg-emerald-50 border border-emerald-100 p-6">
-    <p className="leading-8 text-slate-700 whitespace-pre-line">
+  <div className="mt-5 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6">
+    <p className="leading-8 text-foreground whitespace-pre-line">
       {explanation}
     </p>
   </div>

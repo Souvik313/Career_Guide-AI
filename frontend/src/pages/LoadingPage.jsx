@@ -85,25 +85,25 @@ function LoadingPage() {
 
     return (
 
-        <section className="min-h-screen bg-slate-50 flex items-center justify-center px-6">
+        <section className="min-h-screen bg-background flex items-center justify-center px-6">
 
-            <div className="w-full max-w-2xl rounded-3xl bg-white p-10 shadow-xl">
+            <div className="w-full max-w-2xl rounded-3xl border border-border bg-card p-10 shadow-xl">
 
                 {/* Heading */}
 
                 <div className="text-center">
 
                     <Loader2
-                        className="mx-auto h-16 w-16 animate-spin text-blue-600"
+                        className="mx-auto h-16 w-16 animate-spin text-primary"
                     />
 
-                    <h1 className="mt-6 text-4xl font-bold text-slate-900">
+                    <h1 className="mt-6 text-4xl font-bold text-foreground">
 
                         Analyzing Your Resume
 
                     </h1>
 
-                    <p className="mt-3 text-slate-600">
+                    <p className="mt-3 text-muted-foreground">
 
                         Our AI is processing your resume and preparing your
                         personalized career report.
@@ -116,10 +116,10 @@ function LoadingPage() {
 
                 <div className="mt-10">
 
-                    <div className="h-3 overflow-hidden rounded-full bg-slate-200">
+                    <div className="h-3 overflow-hidden rounded-full bg-muted">
 
                         <div
-                            className="h-full rounded-full bg-blue-600 transition-all duration-300"
+                            className="h-full rounded-full bg-primary transition-all duration-300"
                             style={{
                                 width: `${progress}%`
                             }}
@@ -127,7 +127,7 @@ function LoadingPage() {
 
                     </div>
 
-                    <p className="mt-3 text-center font-medium text-slate-700">
+                    <p className="mt-3 text-center font-medium text-foreground">
 
                        {progress}% Complete
 
@@ -156,11 +156,11 @@ function LoadingPage() {
 
                                     index === currentStep ?
 
-                                        <Loader2 className="animate-spin text-blue-600"/>
+                                        <Loader2 className="animate-spin text-primary"/>
 
                                     :
 
-                                        <Circle className="text-slate-400"/>
+                                        <Circle className="text-muted-foreground"/>
 
                                 }
 
@@ -187,7 +187,7 @@ function LoadingPage() {
 
                 <div className="mt-10 text-center">
 
-                    <p className="text-sm text-slate-500">
+                    <p className="text-sm text-muted-foreground">
 
                         Please don't close this window.
                         This usually takes 10–20 seconds.

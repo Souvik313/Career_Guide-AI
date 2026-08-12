@@ -1,7 +1,7 @@
 import { TriangleAlert } from "lucide-react";
 
 const getMissingSkillColor = () => {
-    return "bg-red-100 text-red-700";
+    return "bg-red-500/10 text-red-400";
 };
 
 function MissingSkillsCard({ skills }) {
@@ -10,7 +10,7 @@ function MissingSkillsCard({ skills }) {
 
         <section
             id="missing-skills"
-            className="mt-8 rounded-3xl bg-white p-8 shadow-md"
+            className="mt-8 rounded-3xl border border-border bg-card p-8 shadow-md"
         >
 
             {/* Header */}
@@ -26,13 +26,13 @@ function MissingSkillsCard({ skills }) {
 
                     <div>
 
-                        <h2 className="text-2xl font-bold text-slate-900">
+                        <h2 className="text-2xl font-bold text-foreground">
 
                             Missing Skills
 
                         </h2>
 
-                        <p className="mt-1 text-slate-600">
+                        <p className="mt-1 text-muted-foreground">
 
                             Skills frequently required for your recommended careers.
 

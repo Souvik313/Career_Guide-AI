@@ -87,15 +87,15 @@ function ContactForm() {
 
     return (
 
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg">
+        <div className="rounded-3xl border border-border bg-card p-8 shadow-lg">
 
-            <h2 className="text-2xl font-bold text-slate-800">
+            <h2 className="text-2xl font-bold text-foreground">
 
                 Send a Message
 
             </h2>
 
-            <p className="mt-2 text-slate-500">
+            <p className="mt-2 text-muted-foreground">
 
                 Have an opportunity, collaboration idea,
                 or just want to say hello?
@@ -191,7 +191,7 @@ function ContactForm() {
                         onChange={handleChange}
                         required
                         placeholder="Write your message here..."
-                        className="w-full resize-none rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                        className="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-foreground outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/10"
                     />
 
                 </div>
@@ -201,7 +201,7 @@ function ContactForm() {
                 <button
                     type="submit"
                     disabled={buttonState === "sending"}
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-4 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-400"
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                 >
 
                     {buttonState === "idle" && (

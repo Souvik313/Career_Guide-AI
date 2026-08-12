@@ -22,19 +22,19 @@ function UploadResume() {
 
     return (
 
-        <section className="min-h-screen bg-slate-50 py-20">
+        <section className="min-h-screen bg-background py-20">
 
             <div className="mx-auto max-w-3xl px-6">
 
                 <div className="text-center">
 
-                    <h1 className="text-5xl font-bold text-slate-900">
+                    <h1 className="text-5xl font-bold text-foreground">
 
                         Upload Your Resume
 
                     </h1>
 
-                    <p className="mt-5 text-lg text-slate-600">
+                    <p className="mt-5 text-lg text-muted-foreground">
 
                         Upload your PDF resume and let CareerCompass AI
                         analyze your profile, match jobs, identify skill gaps,
@@ -44,7 +44,7 @@ function UploadResume() {
 
                 </div>
 
-                <div className="mt-12 rounded-3xl bg-white p-10 shadow-lg">
+                <div className="mt-12 rounded-3xl border border-border bg-card p-10 shadow-lg">
 
                     <UploadBox
                         setSelectedFile={setSelectedFile}

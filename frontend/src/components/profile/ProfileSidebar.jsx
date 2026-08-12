@@ -66,8 +66,8 @@ function ProfileSidebar() {
             shrink-0
             flex-col
             border-r
-            border-violet-100
-            bg-white
+            border-border
+            bg-card
             px-5
             py-7
             lg:flex
@@ -103,7 +103,7 @@ function ProfileSidebar() {
                     text-xl
                     font-bold
                     tracking-tight
-                    text-zinc-900
+                    text-foreground
                 "
         >
           Your Profile
@@ -114,14 +114,14 @@ function ProfileSidebar() {
                     mt-1
                     text-sm
                     leading-6
-                    text-zinc-500
+                    text-muted-foreground
                 "
         >
           Manage your CareerCompass AI workspace and account.
         </p>
       </div>
 
-      <Separator className="mb-6 bg-violet-100" />
+      <Separator className="mb-6 bg-border" />
 
       {/* Navigation */}
 
@@ -156,16 +156,16 @@ function ProfileSidebar() {
                               isActive
                                 ? `
                                         bg-gradient-to-r
-                                        from-violet-100
-                                        via-fuchsia-50
-                                        to-orange-50
-                                        text-zinc-900
+                                        from-violet-500/10
+                                        via-fuchsia-500/5
+                                        to-orange-500/10
+                                        text-foreground
                                         shadow-sm
                                     `
                                 : `
-                                        text-zinc-500
-                                        hover:bg-violet-50/70
-                                        hover:text-zinc-900
+                                        text-muted-foreground
+                                        hover:bg-muted
+                                        hover:text-foreground
                                     `
                             }
                         `}
@@ -217,10 +217,10 @@ function ProfileSidebar() {
                                                     shadow-fuchsia-200
                                                 `
                                             : `
-                                                    bg-zinc-100
-                                                    text-zinc-500
-                                                    group-hover:bg-violet-100
-                                                    group-hover:text-violet-600
+                                                    bg-muted
+                                                    text-muted-foreground
+                                                    group-hover:bg-accent
+                                                    group-hover:text-primary
                                                 `
                                         }
                                     `}
@@ -253,8 +253,8 @@ function ProfileSidebar() {
                                             text-xs
                                             ${
                                               isActive
-                                                ? "text-zinc-500"
-                                                : "text-zinc-400"
+                                                ? "text-muted-foreground"
+                                                : "text-muted-foreground/80"
                                             }
                                         `}
                     >
@@ -271,7 +271,7 @@ function ProfileSidebar() {
       {/* Logout */}
 
       <div className="mt-auto pt-6">
-        <Separator className="mb-5 bg-violet-100" />
+        <Separator className="mb-5 bg-border" />
 
         <Button
           type="button"
@@ -284,9 +284,9 @@ function ProfileSidebar() {
                     justify-start
                     rounded-2xl
                     px-4
-                    text-zinc-500
-                    hover:bg-orange-50
-                    hover:text-orange-600
+                    text-muted-foreground
+                    hover:bg-muted
+                    hover:text-destructive
                 "
         >
           <div
@@ -298,10 +298,10 @@ function ProfileSidebar() {
                         items-center
                         justify-center
                         rounded-xl
-                        bg-orange-50
-                        text-orange-500
+                        bg-destructive/10
+                        text-destructive
                         transition-colors
-                        group-hover:bg-orange-100
+                        group-hover:bg-destructive/15
                     "
           >
             <LogOut className="h-4 w-4" />
@@ -320,8 +320,8 @@ function ProfileSidebar() {
             <p
               className="
                             text-xs
-                            text-zinc-400
-                            group-hover:text-orange-400
+                            text-muted-foreground
+                            group-hover:text-destructive
                         "
             >
               Sign out of your account

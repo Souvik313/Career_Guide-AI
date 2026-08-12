@@ -11,50 +11,50 @@ function ProfileSectionCard({
 }) {
   const variants = {
     default: `
-        border-zinc-200
-        bg-white
+        border-border
+        bg-card
         shadow-sm
-        shadow-zinc-200/40
+        shadow-black/5
     `,
 
     violet: `
-        border-violet-200
+        border-violet-500/20
         bg-gradient-to-br
-        from-violet-50
-        via-white
-        to-fuchsia-50/50
+        from-violet-500/10
+        via-card
+        to-fuchsia-500/5
         shadow-sm
-        shadow-violet-200/40
+        shadow-violet-500/10
     `,
 
     orange: `
-        border-orange-200
+        border-orange-500/20
         bg-gradient-to-br
-        from-orange-50
-        via-white
-        to-amber-50
+        from-orange-500/8
+        via-card
+        to-amber-500/5
         shadow-sm
-        shadow-orange-200/40
+        shadow-orange-500/10
     `,
 
     teal: `
-        border-teal-200
+        border-teal-500/20
         bg-gradient-to-br
-        from-teal-50
-        via-white
-        to-emerald-50
+        from-teal-500/8
+        via-card
+        to-emerald-500/5
         shadow-sm
-        shadow-teal-200/40
+        shadow-teal-500/10
     `,
 
     colorful: `
-        border-violet-200
+        border-violet-500/20
         bg-gradient-to-br
-        from-violet-50
-        via-fuchsia-50/40
-        to-orange-50
+        from-violet-500/10
+        via-fuchsia-500/5
+        to-orange-500/8
         shadow-md
-        shadow-fuchsia-200/30
+        shadow-violet-500/10
     `,
   };
 
@@ -100,7 +100,7 @@ function ProfileSectionCard({
                 flex-col
                 gap-4
                 border-b
-                border-zinc-100
+                border-border
                 px-6
                 py-5
                 sm:flex-row
@@ -145,7 +145,7 @@ function ProfileSectionCard({
                             truncate
                             text-base
                             font-bold
-                            text-zinc-900
+                            text-foreground
                             sm:text-lg
                         "
             >
@@ -159,7 +159,7 @@ function ProfileSectionCard({
                                 max-w-xl
                                 text-xs
                                 leading-5
-                                text-zinc-500
+                                text-muted-foreground
                                 sm:text-sm
                             "
               >

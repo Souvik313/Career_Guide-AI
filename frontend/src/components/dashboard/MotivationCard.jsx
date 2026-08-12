@@ -6,24 +6,24 @@ function MotivationCard({ motivation }) {
 
         <section
   id="motivation"
-  className="mt-8 mb-10 rounded-3xl bg-white p-8 shadow-md"
+  className="mt-8 mb-10 rounded-3xl border border-border bg-card p-8 shadow-md"
 >
   {/* Header */}
   <div className="flex items-center gap-3">
     <Rocket size={30} className="text-amber-600" />
     <div>
-      <h2 className="text-2xl font-bold text-slate-900">
+      <h2 className="text-2xl font-bold text-foreground">
         Stay Motivated
       </h2>
-      <p className="mt-1 text-slate-600">
+      <p className="mt-1 text-muted-foreground">
         A final message from your AI career mentor.
       </p>
     </div>
   </div>
 
   {/* Motivation Box */}
-  <div className="mt-8 rounded-2xl border border-amber-100 bg-amber-50 p-8">
-    <p className="text-lg leading-9 text-slate-700 whitespace-pre-line">
+  <div className="mt-8 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-8">
+    <p className="text-lg leading-9 text-foreground whitespace-pre-line">
       {motivation}
     </p>
   </div>

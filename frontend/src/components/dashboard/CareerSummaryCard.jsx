@@ -4,16 +4,16 @@ function CareerSummaryCard({ summary }) {
 
     return (
 
-        <section id="career-summary" className="mt-8 rounded-3xl bg-white p-8 shadow-md">
+        <section id="career-summary" className="mt-8 rounded-3xl border border-border bg-card p-8 shadow-md">
 
             <div className="flex items-center gap-3">
 
                 <BrainCircuit
-                    className="text-blue-600"
+                    className="text-primary"
                     size={30}
                 />
 
-                <h2 className="text-2xl font-bold text-slate-900">
+                <h2 className="text-2xl font-bold text-foreground">
 
                     AI Career Summary
 
@@ -21,15 +21,15 @@ function CareerSummaryCard({ summary }) {
 
             </div>
 
-            <p className="mt-6 leading-8 text-slate-700 whitespace-pre-line">
+            <p className="mt-6 leading-8 text-foreground whitespace-pre-line">
 
                 {summary}
 
             </p>
 
-            <div className="mt-8 border-t pt-5">
+            <div className="mt-8 border-t border-border pt-5">
 
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-muted-foreground">
 
                     📄 Generated using CareerCompass AI
 
