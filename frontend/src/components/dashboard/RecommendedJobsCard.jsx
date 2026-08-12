@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import { Building2, MapPin, Star , ChevronLeft, ChevronRight, Bookmark} from "lucide-react";
-import {useSavedJobs} from '../../hooks/useSavedJobs.js';
+import useSavedJobs from '../../hooks/useSavedJobs.js';
 import toast from 'react-hot-toast';
 
 function RecommendedJobsCard({ jobs }) {
