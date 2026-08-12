@@ -351,6 +351,7 @@ function CareerCoachSidebar({
                     overflow-y-auto
                     px-3
                     py-4
+                    scrollbar-thin
                 "
             >
 

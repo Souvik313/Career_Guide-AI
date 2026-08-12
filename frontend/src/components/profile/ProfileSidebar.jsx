@@ -72,6 +72,7 @@ function ProfileSidebar() {
             py-7
             lg:flex
             overflow-y-auto
+            scrollbar-thin
         "
     >
       {/* Profile Identity */}

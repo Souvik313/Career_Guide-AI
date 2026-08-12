@@ -649,6 +649,7 @@ function ChatWindow({
                     py-6
                     sm:px-6
                     lg:px-8
+                    scrollbar-thin
                 "
       >
         {messages.length === 0 && !loading ? (
