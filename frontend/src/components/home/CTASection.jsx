@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 function CTASection() {
     return (
-        <section id="cta" className="relative overflow-hidden bg-[#10182B] py-28">
-            {/* faint dotted path, echoing the roadmap motif from the hero */}
+        <section id="cta" className="relative overflow-hidden bg-slate-950 py-28">
+
             <div
                 className="pointer-events-none absolute inset-x-0 top-0 h-px opacity-30"
                 style={{
@@ -26,7 +26,7 @@ function CTASection() {
                     Ready to see your roadmap?
                 </h2>
 
-                <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-slate-400">
+                <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-slate-300">
                     Upload your resume and let CareerCompass AI find your
                     strengths, flag what's missing, and lay out exactly
                     what to learn next — in seconds.

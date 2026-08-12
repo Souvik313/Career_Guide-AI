@@ -2,7 +2,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 function Footer() {
     return (
-        <footer className="border-t bg-slate-900 py-12 text-white">
+        <footer className="border-t border-border bg-foreground py-12 text-background">
 
             <div className="mx-auto flex max-w-7xl flex-col items-center px-6">
 
@@ -12,7 +12,7 @@ function Footer() {
 
                 </h2>
 
-                <p className="mt-4 max-w-xl text-center leading-7 text-slate-300">
+                <p className="mt-4 max-w-xl text-center leading-7 text-background/80">
 
                     AI-powered career guidance platform built using
                     semantic search, machine learning, and large language
@@ -27,7 +27,7 @@ function Footer() {
                         href="https://github.com/Souvik313"
                         target="_blank"
                         rel="noreferrer"
-                        className="transition hover:text-blue-400"
+                        className="transition hover:text-primary"
                     >
 
                         <FaGithub size={28} />
@@ -38,7 +38,7 @@ function Footer() {
                         href="https://www.linkedin.com/in/souvik-roy-a8ab04337"
                         target="_blank"
                         rel="noreferrer"
-                        className="transition hover:text-blue-400"
+                        className="transition hover:text-primary"
                     >
 
                         <FaLinkedin size={28} />
@@ -47,9 +47,9 @@ function Footer() {
 
                 </div>
 
-                <div className="mt-8 h-px w-full bg-slate-700"></div>
+                <div className="mt-8 h-px w-full bg-background/20"></div>
 
-                <p className="mt-8 text-center text-sm text-slate-400">
+                <p className="mt-8 text-center text-sm text-background/70">
 
                     © 2026 CareerCompass AI • Built with ❤️ by Souvik Roy
 

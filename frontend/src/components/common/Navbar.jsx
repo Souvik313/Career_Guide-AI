@@ -1,14 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-Compass,
-User,
-ChevronDown,
-BriefcaseBusiness,
-LogOut,
+    Compass,
+    User,
+    ChevronDown,
+    BriefcaseBusiness,
+    LogOut,
+    Moon,
+    Sun,
 } from "lucide-react";
 
 import { useAuth } from "../../context/AuthContext.jsx";
+import { useTheme } from "../../context/ThemeContext.jsx";
 
 function Navbar() {
 
@@ -17,6 +20,7 @@ function Navbar() {
         isAuthenticated,
         logout,
     } = useAuth();
+    const { theme, toggleTheme } = useTheme();
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -68,8 +72,8 @@ function Navbar() {
                 top-0
                 z-50
                 border-b
-                border-slate-200
-                bg-white/80
+                border-border
+                bg-background/80
                 backdrop-blur-md
             "
         >
@@ -110,7 +114,7 @@ function Navbar() {
                         className="
                             text-xl
                             font-bold
-                            text-slate-900
+                            text-foreground
                         "
                     >
 
@@ -136,9 +140,9 @@ function Navbar() {
                         to="/"
                         className="
                             font-medium
-                            text-slate-600
+                            text-muted-foreground
                             transition
-                            hover:text-blue-600
+                            hover:text-primary
                         "
                     >
                         Home
@@ -148,9 +152,9 @@ function Navbar() {
                         href="/#features"
                         className="
                             font-medium
-                            text-slate-600
+                            text-muted-foreground
                             transition
-                            hover:text-blue-600
+                            hover:text-primary
                         "
                     >
                         Features
@@ -160,9 +164,9 @@ function Navbar() {
                         href="/#how-it-works"
                         className="
                             font-medium
-                            text-slate-600
+                            text-muted-foreground
                             transition
-                            hover:text-blue-600
+                            hover:text-primary
                         "
                     >
                         How It Works
@@ -172,9 +176,9 @@ function Navbar() {
                         to="/contact"
                         className="
                             font-medium
-                            text-slate-600
+                            text-muted-foreground
                             transition
-                            hover:text-blue-600
+                            hover:text-primary
                         "
                     >
                         Contact
@@ -185,79 +189,102 @@ function Navbar() {
 
                 {/* Authentication */}
 
-                {!isAuthenticated ? (
-
-                    /* Logged Out */
-
-                    <Link
-                        to="/login"
+                <div className="flex items-center gap-3">
+                    <button
+                        type="button"
+                        onClick={toggleTheme}
+                        aria-label="Toggle dark mode"
                         className="
-                            rounded-2xl
-                            bg-slate-900
-                            px-6
-                            py-3
-                            font-semibold
-                            text-white
-                            transition-all
-                            duration-300
-                            hover:bg-slate-800
-                            hover:shadow-xl
-                            active:scale-95
+                            inline-flex
+                            h-10
+                            w-10
+                            items-center
+                            justify-center
+                            rounded-full
+                            border
+                            border-border
+                            bg-card
+                            text-foreground
+                            transition
+                            hover:bg-accent
                         "
                     >
-                        Get Started
-                    </Link>
+                        {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+                    </button>
 
-                ) : (
+                    {!isAuthenticated ? (
+
+                        /* Logged Out */
+
+                        <Link
+                            to="/login"
+                            className="
+                                rounded-2xl
+                                bg-foreground
+                                px-6
+                                py-3
+                                font-semibold
+                                text-background
+                                transition-all
+                                duration-300
+                                hover:opacity-90
+                                hover:shadow-xl
+                                active:scale-95
+                            "
+                        >
+                            Get Started
+                        </Link>
+
+                    ) : (
 
                     /* Logged In */
 
-                    <div
-                        ref={dropdownRef}
-                        className="relative"
-                    >
-
-                        {/* User Button */}
-
-                        <button
-                            type="button"
-                            onClick={() =>
-                                setIsDropdownOpen(
-                                    (previous) => !previous
-                                )
-                            }
-                            aria-label="Open account menu"
-                            aria-expanded={isDropdownOpen}
-                            className="
-                                flex
-                                items-center
-                                gap-2
-                                rounded-xl
-                                border
-                                border-slate-200
-                                bg-white
-                                px-3
-                                py-2
-                                text-slate-700
-                                shadow-sm
-                                transition
-                                hover:border-slate-300
-                                hover:bg-slate-50
-                            "
+                        <div
+                            ref={dropdownRef}
+                            className="relative"
                         >
 
-                            <div
+                            {/* User Button */}
+
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    setIsDropdownOpen(
+                                        (previous) => !previous
+                                    )
+                                }
+                                aria-label="Open account menu"
+                                aria-expanded={isDropdownOpen}
                                 className="
                                     flex
-                                    h-9
-                                    w-9
                                     items-center
-                                    justify-center
-                                    rounded-full
-                                    bg-slate-900
-                                    text-white
+                                    gap-2
+                                    rounded-xl
+                                    border
+                                    border-border
+                                    bg-card
+                                    px-3
+                                    py-2
+                                    text-foreground
+                                    shadow-sm
+                                    transition
+                                    hover:border-border/80
+                                    hover:bg-accent
                                 "
                             >
+
+                                <div
+                                    className="
+                                        flex
+                                        h-9
+                                        w-9
+                                        items-center
+                                        justify-center
+                                        rounded-full
+                                        bg-foreground
+                                        text-background
+                                    "
+                                >
                                 <User size={20} />
                             </div>
 
@@ -290,8 +317,8 @@ function Navbar() {
                                     overflow-hidden
                                     rounded-2xl
                                     border
-                                    border-slate-200
-                                    bg-white
+                                    border-border
+                                    bg-popover
                                     shadow-xl
                                 "
                             >
@@ -301,7 +328,7 @@ function Navbar() {
                                 <div
                                     className="
                                         border-b
-                                        border-slate-100
+                                        border-border
                                         px-5
                                         py-4
                                     "
@@ -310,7 +337,7 @@ function Navbar() {
                                     <p
                                         className="
                                             font-semibold
-                                            text-slate-900
+                                            text-foreground
                                         "
                                     >
                                         {user?.full_name ||
@@ -336,10 +363,10 @@ function Navbar() {
                                         py-3
                                         text-sm
                                         font-medium
-                                        text-slate-700
+                                        text-foreground
                                         transition
-                                        hover:bg-slate-50
-                                        hover:text-blue-600
+                                        hover:bg-muted
+                                        hover:text-primary
                                     "
                                 >
 
@@ -367,10 +394,10 @@ function Navbar() {
                                         py-3
                                         text-sm
                                         font-medium
-                                        text-slate-700
+                                        text-foreground
                                         transition
-                                        hover:bg-slate-50
-                                        hover:text-blue-600
+                                        hover:bg-muted
+                                        hover:text-primary
                                     "
                                 >
 
@@ -396,15 +423,15 @@ function Navbar() {
                                         items-center
                                         gap-3
                                         border-t
-                                        border-slate-100
+                                        border-border
                                         px-5
                                         py-3
                                         text-left
                                         text-sm
                                         font-medium
-                                        text-red-600
+                                        text-destructive
                                         transition
-                                        hover:bg-red-50
+                                        hover:bg-destructive/10
                                     "
                                 >
 
@@ -420,9 +447,10 @@ function Navbar() {
 
                         )}
 
-                    </div>
+                        </div>
 
-                )}
+                    )}
+                </div>
 
             </div>
 

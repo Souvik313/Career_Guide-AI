@@ -33,18 +33,18 @@ const features = [
 
 function FeaturesSection() {
     return (
-        <section id="features" className="bg-white py-28">
+        <section id="features" className="bg-background py-28">
             <div className="mx-auto max-w-5xl px-6">
                 <div className="max-w-xl">
-                    <span className="text-sm font-semibold uppercase tracking-widest text-[#2452FF]">
+                    <span className="text-sm font-semibold uppercase tracking-widest text-primary">
                         The Pipeline
                     </span>
-                    <h2 className="mt-4 font-[Fraunces] text-4xl font-medium leading-tight text-[#10182B] md:text-5xl">
+                    <h2 className="mt-4 font-[Fraunces] text-4xl font-medium leading-tight text-foreground md:text-5xl">
                         One upload,
                         <br />
                         four AI passes.
                     </h2>
-                    <p className="mt-5 text-lg leading-7 text-slate-500">
+                    <p className="mt-5 text-lg leading-7 text-muted-foreground">
                         Your resume moves through the same pipeline every
                         time — parsed, matched, measured against the role,
                         and turned into a plan.
@@ -52,7 +52,6 @@ function FeaturesSection() {
                 </div>
 
                 <div className="relative mt-20">
-                    {/* connecting spine */}
                     <div className="absolute bottom-8 left-[27px] top-8 hidden w-px border-l-2 border-dotted border-[#F5A623]/60 md:block" />
 
                     <div className="space-y-14">
@@ -64,32 +63,30 @@ function FeaturesSection() {
                                     className="relative grid gap-6 md:grid-cols-[56px_auto_1fr] md:items-start"
                                 >
                                     {/* node dot on the spine */}
-                                    <div className="z-10 hidden h-14 w-14 items-center justify-center rounded-full border-2 border-white bg-[#F4F6FB] shadow-sm md:flex">
-                                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white ring-1 ring-slate-200">
+                                    <div className="z-10 hidden h-14 w-14 items-center justify-center rounded-full border-2 border-background bg-muted shadow-sm md:flex">
+                                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-card ring-1 ring-border">
                                             <Icon
-                                                className="text-[#2452FF]"
+                                                className="text-primary"
                                                 size={18}
                                             />
                                         </div>
                                     </div>
-
-                                    {/* ghost numeral */}
-                                    <span className="font-[Fraunces] text-6xl font-medium leading-none text-slate-100 md:text-7xl">
+                                    <span className="font-[Fraunces] text-6xl font-medium leading-none text-muted md:text-7xl">
                                         {feature.step}
                                     </span>
 
                                     <div className="flex items-center gap-3 md:hidden">
                                         <Icon
-                                            className="text-[#2452FF]"
+                                            className="text-primary"
                                             size={22}
                                         />
                                     </div>
 
                                     <div>
-                                        <h3 className="text-xl font-semibold text-[#10182B]">
+                                        <h3 className="text-xl font-semibold text-foreground">
                                             {feature.title}
                                         </h3>
-                                        <p className="mt-2 max-w-md leading-7 text-slate-500">
+                                        <p className="mt-2 max-w-md leading-7 text-muted-foreground">
                                             {feature.description}
                                         </p>
                                     </div>
