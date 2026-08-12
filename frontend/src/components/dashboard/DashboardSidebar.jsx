@@ -60,20 +60,18 @@ function DashboardSidebar({ report }) {
   ];
 
   return (
-    <aside className="sticky top-0 h-screen w-72 border-r border-slate-200 bg-white p-6 flex flex-col">
+    <aside className="sticky top-0 h-screen w-72 border-r border-border bg-card p-6 flex flex-col">
       <h2 className="text-2xl font-bold text-emerald-600 hover:text-teal-600 transition-colors">
   CareerCompass AI
 </h2>
 
-
-
-      <div className="my-6 h-px bg-slate-200"></div>
+      <div className="my-6 h-px bg-border"></div>
 
       <nav className="flex-1 overflow-y-auto hide-scrollbar">
         {menuItems.map((item) => (
           <button
             key={item.id}
-            className="flex w-full items-center gap-4 rounded-xl px-4 py-3 text-left text-slate-700 transition hover:bg-blue-50 hover:text-blue-600"
+            className="flex w-full items-center gap-4 rounded-xl px-4 py-3 text-left text-foreground/80 transition hover:bg-accent hover:text-foreground"
             onClick={() => {
               /* ============================= Career Coach ============================= */ 
               if (item.label === "Career Coach") {
@@ -101,9 +99,9 @@ function DashboardSidebar({ report }) {
         ))}
       </nav>
 
-      <div className="border-t pt-6">
+      <div className="border-t border-border pt-6">
         <button
-          className="flex w-full items-center gap-3 rounded-xl px-4 py-3 hover:bg-slate-100"
+          className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-foreground/80 hover:bg-muted hover:text-foreground"
           onClick={() => generatePDF(report)}
         >
           <Download size={20} />
@@ -111,7 +109,7 @@ function DashboardSidebar({ report }) {
         </button>
 
         <button
-          className="flex w-full items-center gap-3 rounded-xl px-4 py-3 hover:bg-slate-100"
+          className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-foreground/80 hover:bg-muted hover:text-foreground"
           onClick={() => navigate("/upload")}
         >
           <RotateCcw size={20} />

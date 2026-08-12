@@ -23,8 +23,8 @@ if (type === "profile") {
                     gap-5
                     rounded-3xl
                     border
-                    border-violet-100
-                    bg-white
+                    border-border
+                    bg-card
                     p-6
                     shadow-sm
                 "
@@ -83,8 +83,8 @@ if (type === "profile") {
                                 className="
                                     rounded-3xl
                                     border
-                                    border-zinc-200
-                                    bg-white
+                                    border-border
+                                    bg-card
                                     p-6
                                     shadow-sm
                                 "
@@ -241,8 +241,8 @@ if (type === "list") {
                 overflow-hidden
                 rounded-3xl
                 border
-                border-zinc-200
-                bg-white
+                border-border
+                bg-card
                 shadow-sm
             "
         >

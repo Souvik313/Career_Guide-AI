@@ -36,11 +36,11 @@ const ToggleRow = ({
                 gap-5
                 rounded-2xl
                 border
-                border-zinc-100
-                bg-zinc-50/70
+                border-border
+                bg-muted/70
                 p-4
                 transition-colors
-                hover:bg-zinc-50
+                hover:bg-muted
             "
         >
 
@@ -79,7 +79,7 @@ const ToggleRow = ({
                         className="
                             text-sm
                             font-semibold
-                            text-zinc-900
+                            text-foreground
                         "
                     >
                         {title}
@@ -90,7 +90,7 @@ const ToggleRow = ({
                             mt-1
                             text-xs
                             leading-5
-                            text-zinc-500
+                            text-muted-foreground
                         "
                     >
                         {description}
@@ -354,7 +354,7 @@ return (
                                 className="
                                     h-11
                                     rounded-xl
-                                    border-zinc-200
+                                    border-border
                                     pl-10
                                 "
                             />
@@ -386,7 +386,7 @@ return (
                             className="
                                 h-11
                                 rounded-xl
-                                border-zinc-200
+                                border-border
                             "
                         />
 
@@ -512,8 +512,8 @@ return (
                         gap-4
                         rounded-2xl
                         border
-                        border-zinc-100
-                        bg-zinc-50/70
+                        border-border
+                        bg-muted/70
                         p-5
                         sm:flex-row
                         sm:items-center
@@ -561,7 +561,7 @@ return (
                                 className="
                                     text-sm
                                     font-semibold
-                                    text-zinc-900
+                                    text-foreground
                                 "
                             >
                                 Password
@@ -571,7 +571,7 @@ return (
                                 className="
                                     mt-1
                                     text-xs
-                                    text-zinc-500
+                                    text-muted-foreground
                                 "
                             >
                                 Update your account password
@@ -627,8 +627,8 @@ return (
                     gap-4
                     rounded-2xl
                     border
-                    border-zinc-200
-                    bg-white
+                    border-border
+                    bg-card
                     p-5
                     shadow-sm
                     sm:flex-row
@@ -656,7 +656,7 @@ return (
                         <p
                             className="
                                 text-sm
-                                text-zinc-500
+                                text-muted-foreground
                             "
                         >
                             Changes are currently stored only

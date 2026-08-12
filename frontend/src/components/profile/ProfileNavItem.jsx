@@ -21,20 +21,17 @@ function ProfileNavItem({ label, description, path, icon: Icon }) {
               isActive
                 ? `
                         bg-gradient-to-r
-                        from-violet-100
-                        via-fuchsia-50
-                        to-orange-50
-                        text-zinc-900
+                        from-violet-500/10
+                        via-fuchsia-500/5
+                        to-orange-500/10
+                        text-foreground
                         shadow-sm
-                        shadow-fuchsia-100/60
+                        shadow-violet-500/10
                     `
                 : `
-                        text-zinc-500
-                        hover:bg-gradient-to-r
-                        hover:from-violet-50/80
-                        hover:via-fuchsia-50/60
-                        hover:to-orange-50/50
-                        hover:text-zinc-900
+                        text-muted-foreground
+                        hover:bg-muted
+                        hover:text-foreground
                     `
             }
         `}
@@ -94,10 +91,10 @@ function ProfileNavItem({ label, description, path, icon: Icon }) {
                                     scale-105
                                 `
                             : `
-                                    bg-zinc-100
-                                    text-zinc-500
-                                    group-hover:bg-violet-100
-                                    group-hover:text-violet-600
+                                    bg-muted
+                                    text-muted-foreground
+                                    group-hover:bg-accent
+                                    group-hover:text-primary
                                     group-hover:scale-105
                                 `
                         }
@@ -142,10 +139,10 @@ function ProfileNavItem({ label, description, path, icon: Icon }) {
 
                             ${
                               isActive
-                                ? "text-zinc-500"
+                                ? "text-muted-foreground"
                                 : `
-                                        text-zinc-400
-                                        group-hover:text-zinc-500
+                                        text-muted-foreground/80
+                                        group-hover:text-foreground
                                     `
                             }
                         `}

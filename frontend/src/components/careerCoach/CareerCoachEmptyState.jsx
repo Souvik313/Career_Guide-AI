@@ -138,7 +138,7 @@ function CareerCoachEmptyState({
                             text-2xl
                             font-bold
                             tracking-tight
-                            text-zinc-900
+                            text-foreground
                             sm:text-3xl
                         "
           >
@@ -154,7 +154,7 @@ function CareerCoachEmptyState({
                             max-w-xl
                             text-sm
                             leading-7
-                            text-zinc-500
+                            text-muted-foreground
                             sm:text-base
                         "
           >
@@ -172,11 +172,11 @@ function CareerCoachEmptyState({
                         mt-8
                         rounded-3xl
                         border
-                        border-amber-100
+                        border-amber-200/60
                         bg-gradient-to-br
-                        from-amber-50
-                        via-orange-50
-                        to-emerald-50
+                        from-amber-500/10
+                        via-card
+                        to-emerald-500/10
                         p-5
                         shadow-sm
                         sm:p-6
@@ -220,7 +220,7 @@ function CareerCoachEmptyState({
                 className="
                                     text-sm
                                     font-bold
-                                    text-zinc-900
+                                    text-foreground
                                 "
               >
                 Choose your resume context
@@ -231,7 +231,7 @@ function CareerCoachEmptyState({
                                     mt-1
                                     text-xs
                                     leading-5
-                                    text-zinc-500
+                                    text-muted-foreground
                                 "
               >
                 Select a resume so Career Coach can give you advice based on
@@ -260,13 +260,13 @@ function CareerCoachEmptyState({
                                 appearance-none
                                 rounded-xl
                                 border
-                                border-zinc-200
-                                bg-white
+                                border-border
+                                bg-card
                                 px-4
                                 pr-11
                                 text-sm
                                 font-medium
-                                text-zinc-700
+                                text-foreground
                                 outline-none
                                 transition
                                 focus:border-amber-300
@@ -294,7 +294,7 @@ function CareerCoachEmptyState({
                                 h-4
                                 w-4
                                 -translate-y-1/2
-                                text-zinc-400
+                                text-muted-foreground
                             "
             />
           </div>
@@ -310,8 +310,8 @@ function CareerCoachEmptyState({
                                 gap-2
                                 rounded-xl
                                 border
-                                border-emerald-100
-                                bg-white/80
+                                border-emerald-500/20
+                                bg-card/80
                                 px-3
                                 py-2.5
                             "
@@ -331,14 +331,14 @@ function CareerCoachEmptyState({
                                     truncate
                                     text-xs
                                     font-medium
-                                    text-zinc-600
+                                    text-muted-foreground
                                 "
               >
                 Using{" "}
                 <span
                   className="
                                         font-semibold
-                                        text-zinc-800
+                                        text-foreground
                                     "
                 >
                   {selectedResume.title ||
@@ -435,7 +435,7 @@ function CareerCoachEmptyState({
               className="
                                 text-xs
                                 font-semibold
-                                text-zinc-500
+                                text-muted-foreground
                             "
             >
               Popular things to ask Career Coach
@@ -474,18 +474,18 @@ function CareerCoachEmptyState({
                                             gap-2
                                             rounded-full
                                             border
-                                            border-zinc-200
-                                            bg-white
+                                            border-border
+                                            bg-card
                                             px-3.5
                                             py-2
                                             text-xs
                                             font-medium
-                                            text-zinc-600
+                                            text-foreground/80
                                             shadow-sm
                                             transition
-                                            hover:border-amber-200
-                                            hover:bg-amber-50
-                                            hover:text-amber-700
+                                            hover:border-amber-300
+                                            hover:bg-amber-500/10
+                                            hover:text-amber-600
                                             disabled:cursor-not-allowed
                                             disabled:opacity-50
                                         "
@@ -516,7 +516,7 @@ function CareerCoachEmptyState({
                         text-center
                         text-[10px]
                         leading-5
-                        text-zinc-400
+                        text-muted-foreground
                     "
         >
           Your selected resume is used as context for personalized career

@@ -101,14 +101,14 @@ function ChatInput({
                 className="
                     rounded-2xl
                     border
-                    border-zinc-200
-                    bg-zinc-50
+                    border-border
+                    bg-muted/60
                     p-2
                     shadow-sm
                     transition-all
                     duration-200
                     focus-within:border-amber-300
-                    focus-within:bg-white
+                    focus-within:bg-card
                     focus-within:shadow-md
                 "
             >
@@ -134,10 +134,10 @@ function ChatInput({
                         py-2.5
                         text-sm
                         leading-6
-                        text-zinc-800
+                        text-foreground
                         shadow-none
                         outline-none
-                        placeholder:text-zinc-400
+                        placeholder:text-muted-foreground
                         focus-visible:ring-0
                     "
                 />
@@ -154,7 +154,7 @@ function ChatInput({
                         justify-between
                         gap-3
                         border-t
-                        border-zinc-200
+                        border-border
                         px-2
                         pt-2
                     "
@@ -185,7 +185,7 @@ function ChatInput({
                                 truncate
                                 text-[10px]
                                 font-medium
-                                text-zinc-400
+                                text-muted-foreground
                                 sm:text-[11px]
                             "
                         >

@@ -63,8 +63,8 @@ function CareerCoachSidebar({
                             animate-pulse
                             rounded-2xl
                             border
-                            border-zinc-200
-                            bg-white
+                            border-border
+                            bg-card
                             p-4
                         "
                     >
@@ -126,8 +126,8 @@ function CareerCoachSidebar({
                     rounded-2xl
                     border
                     border-dashed
-                    border-zinc-200
-                    bg-white/60
+                    border-border
+                    bg-card/80
                     px-5
                     py-10
                     text-center
@@ -162,7 +162,7 @@ function CareerCoachSidebar({
                         mt-4
                         text-sm
                         font-semibold
-                        text-zinc-800
+                        text-foreground
                     "
                 >
                     No conversations yet
@@ -175,7 +175,7 @@ function CareerCoachSidebar({
                         max-w-[210px]
                         text-xs
                         leading-5
-                        text-zinc-500
+                        text-muted-foreground
                     "
                 >
                     Start a conversation with your
@@ -203,8 +203,8 @@ function CareerCoachSidebar({
                 shrink-0
                 flex-col
                 border-r
-                border-zinc-200
-                bg-[#fafaf9]
+                border-border
+                bg-background
             "
         >
 
@@ -215,7 +215,7 @@ function CareerCoachSidebar({
             <div
                 className="
                     border-b
-                    border-zinc-200
+                    border-border
                     px-5
                     py-5
                 "
@@ -267,7 +267,7 @@ function CareerCoachSidebar({
                                 className="
                                     text-sm
                                     font-bold
-                                    text-zinc-900
+                                    text-foreground
                                 "
                             >
                                 Conversations
@@ -276,7 +276,7 @@ function CareerCoachSidebar({
                             <p
                                 className="
                                     text-[11px]
-                                    text-zinc-400
+                                    text-muted-foreground
                                 "
                             >
                                 Your career discussions
@@ -378,7 +378,7 @@ function CareerCoachSidebar({
                             font-semibold
                             uppercase
                             tracking-wider
-                            text-zinc-400
+                            text-muted-foreground
                         "
                     >
                         Recent
@@ -442,7 +442,7 @@ function CareerCoachSidebar({
                         items-center
                         gap-2
                         text-[11px]
-                        text-zinc-400
+                        text-muted-foreground
                     "
                 >
 

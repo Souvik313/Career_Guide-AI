@@ -241,15 +241,15 @@ return (
                                     group
                                     rounded-2xl
                                     border
-                                    border-zinc-200
-                                    bg-white
+                                    border-border
+                                    bg-card
                                     p-5
                                     transition-all
                                     duration-200
                                     hover:-translate-y-0.5
-                                    hover:border-orange-200
+                                    hover:border-orange-500/30
                                     hover:shadow-md
-                                    hover:shadow-orange-100/50
+                                    hover:shadow-orange-500/10
                                 "
                             >
 
@@ -322,7 +322,7 @@ return (
                                                         text-lg
                                                         font-bold
                                                         tracking-tight
-                                                        text-zinc-900
+                                                        text-foreground
                                                     "
                                                 >
                                                     {job.job_title ||
@@ -340,7 +340,7 @@ return (
                                                             gap-1.5
                                                             text-sm
                                                             font-medium
-                                                            text-zinc-500
+                                                            text-muted-foreground
                                                         "
                                                     >
 
@@ -494,7 +494,7 @@ return (
                                                             font-semibold
                                                             uppercase
                                                             tracking-wide
-                                                            text-zinc-400
+                                                            text-muted-foreground
                                                         "
                                                     >
 
@@ -525,12 +525,12 @@ return (
                                                                     key={`${skill}-${index}`}
                                                                     className="
                                                                         rounded-lg
-                                                                        bg-zinc-100
+                                                                        bg-muted
                                                                         px-2.5
                                                                         py-1
                                                                         text-xs
                                                                         font-medium
-                                                                        text-zinc-600
+                                                                        text-foreground/80
                                                                     "
                                                                 >
                                                                     {skill}
@@ -625,10 +625,10 @@ return (
                                             items-center
                                             gap-2
                                             border-t
-                                            border-zinc-100
+                                            border-border
                                             pt-4
                                             text-xs
-                                            text-zinc-400
+                                            text-muted-foreground
                                         "
                                     >
 
@@ -644,7 +644,7 @@ return (
                                         <span
                                             className="
                                                 font-medium
-                                                text-zinc-500
+                                                text-foreground/80
                                             "
                                         >
                                             {formatDate(

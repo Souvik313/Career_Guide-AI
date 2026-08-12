@@ -14,11 +14,11 @@ function CareerCoachHeader() {
                 overflow-hidden
                 rounded-3xl
                 border
-                border-amber-100
+                border-amber-200/60
                 bg-gradient-to-br
-                from-amber-50
-                via-orange-50
-                to-emerald-50
+                from-amber-500/10
+                via-card
+                to-emerald-500/10
                 px-6
                 py-6
                 shadow-sm
@@ -137,7 +137,7 @@ function CareerCoachHeader() {
                                     text-2xl
                                     font-bold
                                     tracking-tight
-                                    text-zinc-900
+                                    text-foreground
                                     sm:text-3xl
                                 "
                             >
@@ -160,7 +160,7 @@ function CareerCoachHeader() {
                                 max-w-2xl
                                 text-sm
                                 leading-6
-                                text-zinc-600
+                                text-muted-foreground
                                 sm:text-base
                             "
                         >
@@ -187,8 +187,8 @@ function CareerCoachHeader() {
                         gap-3
                         rounded-2xl
                         border
-                        border-white/80
-                        bg-white/70
+                        border-border
+                        bg-card/80
                         px-4
                         py-3
                         shadow-sm
@@ -227,7 +227,7 @@ function CareerCoachHeader() {
                                 font-semibold
                                 uppercase
                                 tracking-wider
-                                text-zinc-400
+                                text-muted-foreground
                             "
                         >
                             AI Career Assistant

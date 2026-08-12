@@ -91,18 +91,18 @@ function ConversationListItem({
                 ${
                     isActive
                         ? `
-                            border-amber-200
+                            border-amber-200/60
                             bg-gradient-to-r
-                            from-amber-50
-                            via-orange-50
-                            to-yellow-50
+                            from-amber-500/10
+                            via-orange-500/5
+                            to-yellow-500/10
                             shadow-sm
                           `
                         : `
                             border-transparent
                             bg-transparent
-                            hover:border-zinc-200
-                            hover:bg-white
+                            hover:border-border
+                            hover:bg-accent
                             hover:shadow-sm
                           `
                 }
@@ -192,8 +192,8 @@ function ConversationListItem({
                                 font-semibold
                                 ${
                                     isActive
-                                        ? "text-zinc-900"
-                                        : "text-zinc-700"
+                                        ? "text-foreground"
+                                        : "text-foreground/80"
                                 }
                             `}
                         >
@@ -212,7 +212,7 @@ function ConversationListItem({
                                     pt-0.5
                                     text-[10px]
                                     font-medium
-                                    text-zinc-400
+                                    text-muted-foreground
                                 "
                             >
 
@@ -240,7 +240,7 @@ function ConversationListItem({
                             line-clamp-2
                             text-xs
                             leading-5
-                            text-zinc-500
+                            text-muted-foreground
                         "
                     >
                         {lastMessage}

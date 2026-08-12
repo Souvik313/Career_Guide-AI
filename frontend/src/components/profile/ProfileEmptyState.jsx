@@ -15,11 +15,11 @@ const variants = {
 
     violet: {
         container: `
-            border-violet-200
+            border-violet-500/20
             bg-gradient-to-br
-            from-violet-50
-            via-white
-            to-fuchsia-50
+            from-violet-500/10
+            via-card
+            to-fuchsia-500/10
         `,
         icon: `
             from-violet-500
@@ -34,11 +34,11 @@ const variants = {
 
     orange: {
         container: `
-            border-orange-200
+            border-orange-500/20
             bg-gradient-to-br
-            from-orange-50
-            via-white
-            to-amber-50
+            from-orange-500/10
+            via-card
+            to-amber-500/10
         `,
         icon: `
             from-orange-400
@@ -53,11 +53,11 @@ const variants = {
 
     teal: {
         container: `
-            border-teal-200
+            border-teal-500/20
             bg-gradient-to-br
-            from-teal-50
-            via-white
-            to-emerald-50
+            from-teal-500/10
+            via-card
+            to-emerald-500/10
         `,
         icon: `
             from-teal-400
@@ -72,11 +72,11 @@ const variants = {
 
     colorful: {
         container: `
-            border-fuchsia-200
+            border-fuchsia-500/20
             bg-gradient-to-br
-            from-violet-50
-            via-fuchsia-50
-            to-orange-50
+            from-violet-500/10
+            via-fuchsia-500/10
+            to-orange-500/10
         `,
         icon: `
             from-violet-500
@@ -160,10 +160,10 @@ return (
                 items-center
                 justify-center
                 rounded-2xl
-                bg-white
+                bg-card
                 shadow-md
                 ring-1
-                ring-zinc-100
+                ring-border
             "
         >
 
@@ -199,7 +199,7 @@ return (
                 text-xl
                 font-bold
                 tracking-tight
-                text-zinc-900
+                text-foreground
             "
         >
             {title}
@@ -216,7 +216,7 @@ return (
                 max-w-md
                 text-sm
                 leading-6
-                text-zinc-500
+                text-muted-foreground
             "
         >
             {description}

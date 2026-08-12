@@ -279,15 +279,15 @@ return (
                                     group
                                     rounded-2xl
                                     border
-                                    border-zinc-200
-                                    bg-white
+                                    border-border
+                                    bg-card
                                     p-5
                                     transition-all
                                     duration-200
                                     hover:-translate-y-0.5
-                                    hover:border-violet-200
+                                    hover:border-violet-500/30
                                     hover:shadow-md
-                                    hover:shadow-violet-100/50
+                                    hover:shadow-violet-500/10
                                 "
                             >
 
@@ -356,7 +356,7 @@ return (
                                                     truncate
                                                     text-base
                                                     font-bold
-                                                    text-zinc-900
+                                                    text-foreground
                                                 "
                                             >
                                                 {resume.filename ||
@@ -373,7 +373,7 @@ return (
                                                     gap-x-4
                                                     gap-y-2
                                                     text-xs
-                                                    text-zinc-400
+                                                    text-muted-foreground
                                                 "
                                             >
 
@@ -429,11 +429,11 @@ return (
                                             variant="outline"
                                             className="
                                                 rounded-xl
-                                                border-zinc-200
-                                                text-zinc-600
-                                                hover:border-violet-200
-                                                hover:bg-violet-50
-                                                hover:text-violet-600
+                                                border-border
+                                                text-foreground
+                                                hover:border-violet-500/30
+                                                hover:bg-violet-500/10
+                                                hover:text-violet-400
                                             "
                                             onClick={() => handleViewResume(resume)}
                                         >
@@ -491,10 +491,10 @@ return (
                                             items-center
                                             gap-2
                                             border-t
-                                            border-zinc-100
+                                            border-border
                                             pt-4
                                             text-xs
-                                            text-zinc-500
+                                            text-muted-foreground
                                         "
                                     >
 
@@ -511,7 +511,7 @@ return (
                                         <span
                                             className="
                                                 font-semibold
-                                                text-zinc-700
+                                                text-foreground
                                             "
                                         >
                                             {resume.status}
@@ -555,7 +555,7 @@ return (
                     className="
                         shrink-0
                         border-b
-                        border-zinc-200
+                        border-border
                         px-6
                         py-4
                     "
@@ -575,7 +575,7 @@ return (
                     className="
                         min-h-0
                         flex-1
-                        bg-zinc-100
+                        bg-muted
                     "
                 >
 
@@ -587,7 +587,7 @@ return (
                                 items-center
                                 justify-center
                                 text-sm
-                                text-zinc-500
+                                text-muted-foreground
                             "
                         >
                             Loading resume...

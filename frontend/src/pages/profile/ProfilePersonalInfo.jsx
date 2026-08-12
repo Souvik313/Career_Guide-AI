@@ -91,9 +91,9 @@ return (
                     disabled
                     className="
                         rounded-xl
-                        border-zinc-200
-                        bg-white/70
-                        text-zinc-500
+                        border-border
+                        bg-card/80
+                        text-muted-foreground
                     "
                 >
 
@@ -134,7 +134,7 @@ return (
                             text-2xl
                             font-bold
                             tracking-tight
-                            text-zinc-900
+                            text-foreground
                         "
                     >
                         {username}
@@ -146,7 +146,7 @@ return (
                             mt-1
                             break-all
                             text-sm
-                            text-zinc-500
+                            text-muted-foreground
                         "
                     >
                         {email}
@@ -160,14 +160,14 @@ return (
                             items-center
                             gap-2
                             rounded-full
-                            bg-white/80
+                            bg-muted
                             px-3
                             py-1.5
                             text-xs
                             font-medium
-                            text-zinc-600
+                            text-foreground
                             ring-1
-                            ring-zinc-200/70
+                            ring-border
                         "
                     >
 
@@ -217,8 +217,8 @@ return (
                     className="
                         rounded-2xl
                         border
-                        border-zinc-100
-                        bg-zinc-50/70
+                        border-border
+                        bg-muted/60
                         p-5
                     "
                 >
@@ -246,7 +246,7 @@ return (
                                 font-semibold
                                 uppercase
                                 tracking-wide
-                                text-zinc-400
+                                text-muted-foreground
                             "
                         >
                             Email
@@ -260,7 +260,7 @@ return (
                             break-all
                             text-sm
                             font-semibold
-                            text-zinc-800
+                            text-foreground
                         "
                     >
                         {email}
@@ -275,8 +275,8 @@ return (
                     className="
                         rounded-2xl
                         border
-                        border-zinc-100
-                        bg-zinc-50/70
+                        border-border
+                        bg-muted/60
                         p-5
                     "
                 >
@@ -304,7 +304,7 @@ return (
                                 font-semibold
                                 uppercase
                                 tracking-wide
-                                text-zinc-400
+                                text-muted-foreground
                             "
                         >
                             Phone
@@ -317,7 +317,7 @@ return (
                         className="
                             text-sm
                             font-semibold
-                            text-zinc-800
+                            text-foreground
                         "
                     >
                         {phone}
@@ -332,8 +332,8 @@ return (
                     className="
                         rounded-2xl
                         border
-                        border-zinc-100
-                        bg-zinc-50/70
+                        border-border
+                        bg-muted/60
                         p-5
                         sm:col-span-2
                     "
@@ -362,7 +362,7 @@ return (
                                 font-semibold
                                 uppercase
                                 tracking-wide
-                                text-zinc-400
+                                text-muted-foreground
                             "
                         >
                             Address
@@ -375,7 +375,7 @@ return (
                         className="
                             text-sm
                             font-semibold
-                            text-zinc-800
+                            text-foreground
                         "
                     >
                         {address}
@@ -413,8 +413,8 @@ return (
                     className="
                         rounded-2xl
                         border
-                        border-zinc-100
-                        bg-white
+                        border-border
+                        bg-card
                         p-5
                     "
                 >
@@ -425,7 +425,7 @@ return (
                             font-semibold
                             uppercase
                             tracking-wide
-                            text-zinc-400
+                            text-muted-foreground
                         "
                     >
                         Username
@@ -437,7 +437,7 @@ return (
                             mt-2
                             text-sm
                             font-semibold
-                            text-zinc-800
+                            text-foreground
                         "
                     >
                         {username}
@@ -450,8 +450,8 @@ return (
                     className="
                         rounded-2xl
                         border
-                        border-zinc-100
-                        bg-white
+                        border-border
+                        bg-card
                         p-5
                     "
                 >
@@ -462,7 +462,7 @@ return (
                             font-semibold
                             uppercase
                             tracking-wide
-                            text-zinc-400
+                            text-muted-foreground
                         "
                     >
                         Account Status

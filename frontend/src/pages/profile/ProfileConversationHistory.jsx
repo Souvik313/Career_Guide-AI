@@ -199,9 +199,9 @@ function ProfileConversationHistory() {
                             : `
                                     rounded-tl-md
                                     border
-                                    border-zinc-200
-                                    bg-zinc-50
-                                    text-zinc-700
+                                    border-border
+                                    bg-muted
+                                    text-foreground
                                   `
                         }
                     `}
@@ -224,7 +224,7 @@ function ProfileConversationHistory() {
                             items-center
                             gap-1.5
                             text-[11px]
-                            text-zinc-400
+                            text-muted-foreground
                             ${isUser ? "justify-end" : "justify-start"}
                         `}
             >
@@ -311,29 +311,29 @@ function ProfileConversationHistory() {
                                     w-full
                                     rounded-2xl
                                     border
-                                    border-zinc-200
-                                    bg-white
+                                    border-border
+                                    bg-card
                                     px-4
                                     py-4
                                     text-left
                                     transition
-                                    hover:border-fuchsia-300
-                                    hover:bg-fuchsia-50
+                                    hover:border-fuchsia-400/40
+                                    hover:bg-fuchsia-500/10
                                 "
                 onClick={() => handleOpenConversation(conversation)}
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold text-zinc-900">
+                    <p className="truncate text-sm font-semibold text-foreground">
                       {conversation.title}
                     </p>
 
-                    <p className="mt-2 line-clamp-2 text-xs leading-6 text-zinc-500">
+                    <p className="mt-2 line-clamp-2 text-xs leading-6 text-muted-foreground">
                       {conversation.last_message}
                     </p>
                   </div>
 
-                  <span className="shrink-0 text-[11px] font-medium text-zinc-400">
+                  <span className="shrink-0 text-[11px] font-medium text-muted-foreground">
                     {formatTime(conversation.updated_at)}
                   </span>
                 </div>
@@ -385,11 +385,11 @@ function ProfileConversationHistory() {
                             gap-3
                             rounded-2xl
                             border
-                            border-fuchsia-100
+                            border-fuchsia-500/20
                             bg-gradient-to-r
-                            from-fuchsia-50
-                            via-pink-50
-                            to-orange-50
+                            from-fuchsia-500/10
+                            via-pink-500/10
+                            to-orange-500/10
                             p-4
                             sm:flex-row
                             sm:items-center
@@ -429,7 +429,7 @@ function ProfileConversationHistory() {
                   className="
                                         text-xs
                                         font-semibold
-                                        text-zinc-500
+                                        text-muted-foreground
                                     "
                 >
                   Conversation ID
@@ -442,7 +442,7 @@ function ProfileConversationHistory() {
                                         truncate
                                         font-mono
                                         text-xs
-                                        text-zinc-700
+                                        text-foreground
                                     "
                 >
                   {conversationId}

@@ -162,9 +162,9 @@ function ChatWindow({
                                 : `
                                         rounded-tl-md
                                         border
-                                        border-zinc-200
-                                        bg-white
-                                        text-zinc-700
+                                        border-border
+                                        bg-card
+                                        text-foreground
                                         shadow-sm
                                       `
                             }
@@ -187,7 +187,7 @@ function ChatWindow({
                                 items-center
                                 gap-1.5
                                 text-[10px]
-                                text-zinc-400
+                                text-muted-foreground
                                 sm:text-[11px]
                                 ${isUser ? "justify-end" : "justify-start"}
                             `}
@@ -263,8 +263,8 @@ function ChatWindow({
                         rounded-2xl
                         rounded-tl-md
                         border
-                        border-zinc-200
-                        bg-white
+                        border-border
+                        bg-card
                         px-5
                         py-4
                         shadow-sm
@@ -365,7 +365,7 @@ function ChatWindow({
                             mt-5
                             text-xl
                             font-bold
-                            text-zinc-900
+                            text-foreground
                         "
           >
             Start your career conversation
@@ -376,7 +376,7 @@ function ChatWindow({
                             mt-2
                             text-sm
                             leading-6
-                            text-zinc-500
+                            text-muted-foreground
                         "
           >
             Ask Career Coach about your resume, career direction, skills, job
@@ -400,7 +400,7 @@ function ChatWindow({
                 flex-1
                 flex-col
                 overflow-hidden
-                bg-[#fafaf9]
+                bg-background
             "
     >
       {/* =================================================
@@ -414,7 +414,7 @@ function ChatWindow({
                     items-center
                     justify-between
                     gap-4
-                    bg-white
+                    bg-card
                     px-5
                     py-4
                     sm:px-6
@@ -461,7 +461,7 @@ function ChatWindow({
                                 truncate
                                 text-sm
                                 font-bold
-                                text-zinc-900
+                                text-foreground
                                 sm:text-base
                             "
             >
@@ -545,8 +545,8 @@ function ChatWindow({
           className="
                         shrink-0
                         border-b
-                        border-zinc-100
-                        bg-white
+                        border-border
+                        bg-card
                         px-5
                         py-3
                         sm:px-6
@@ -590,7 +590,7 @@ function ChatWindow({
                                     font-semibold
                                     uppercase
                                     tracking-wider
-                                    text-zinc-400
+                                    text-muted-foreground
                                 "
               >
                 Resume Context
@@ -601,7 +601,7 @@ function ChatWindow({
                     truncate
                     text-xs
                     font-medium
-                    text-zinc-700
+                    text-foreground
                 "
                 >
                 {resumeName}
@@ -682,7 +682,7 @@ function ChatWindow({
       <div
         className="
                     shrink-0
-                    bg-white
+                    bg-card
                     px-5
                     py-4
                     sm:px-6
