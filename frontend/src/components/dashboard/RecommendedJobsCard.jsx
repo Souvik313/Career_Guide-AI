@@ -136,7 +136,7 @@ function RecommendedJobsCard({ jobs }) {
 
         <section
             id="recommended-jobs"
-            className="mt-8 rounded-3xl bg-white p-8 shadow-md"
+            className="mt-8 rounded-3xl border border-border bg-card p-8 shadow-md"
         >
 
             {/* Header */}
@@ -152,13 +152,13 @@ function RecommendedJobsCard({ jobs }) {
 
                     <div>
 
-                        <h2 className="text-2xl font-bold text-slate-900">
+                        <h2 className="text-2xl font-bold text-foreground">
 
                             Recommended Jobs
 
                         </h2>
 
-                        <p className="mt-1 text-slate-600">
+                        <p className="mt-1 text-muted-foreground">
 
                             AI-selected opportunities matching your profile.
 
@@ -244,8 +244,8 @@ function RecommendedJobsCard({ jobs }) {
                                         transition-all
                                         ${
                                             isSaved
-                                                ? "border-blue-200 bg-blue-50 text-blue-600"
-                                                : "border-slate-200 bg-white text-slate-400 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600"
+                                                ? "border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-500/40 dark:bg-blue-500/10 dark:text-blue-300"
+                                                : "border-border bg-background text-muted-foreground hover:border-blue-300 hover:bg-blue-500/10 hover:text-blue-500 dark:hover:text-blue-300"
                                         }
                                     `}
                                 >
@@ -266,17 +266,21 @@ function RecommendedJobsCard({ jobs }) {
                                         items-center
                                         gap-2
                                         rounded-full
-                                        bg-yellow-100
+                                        border
+                                        border-amber-300/50
+                                        bg-amber-100
                                         px-4
                                         py-2
+                                        dark:border-amber-400/30
+                                        dark:bg-amber-500/15
                                     "
                                 >
                                     <Star
                                         size={18}
-                                        className="fill-yellow-500 text-yellow-500"
+                                        className="fill-amber-500 text-amber-500 dark:fill-amber-300 dark:text-amber-300"
                                     />
 
-                                    <span className="font-semibold">
+                                    <span className="font-semibold text-amber-700 dark:text-amber-200">
                                         {Math.round(
                                             job.similarity_score * 120
                                         )}%

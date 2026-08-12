@@ -13,8 +13,8 @@ function ResumePreview({ selectedFile }) {
                 mt-8
                 rounded-2xl
                 border
-                border-green-200
-                bg-green-50
+                border-emerald-500/30
+                bg-emerald-500/10
                 p-6
             "
         >
@@ -24,13 +24,13 @@ function ResumePreview({ selectedFile }) {
                 <div
                     className="
                         rounded-xl
-                        bg-green-100
+                        bg-emerald-500/15
                         p-3
                     "
                 >
 
                     <FileText
-                        className="text-green-600"
+                        className="text-emerald-600 dark:text-emerald-300"
                         size={28}
                     />
 
@@ -42,7 +42,7 @@ function ResumePreview({ selectedFile }) {
                         className="
                             text-lg
                             font-semibold
-                            text-slate-900
+                            text-foreground
                         "
                     >
 
@@ -50,7 +50,7 @@ function ResumePreview({ selectedFile }) {
 
                     </h3>
 
-                    <p className="text-slate-600">
+                    <p className="text-muted-foreground">
 
                         {fileSize} KB
 
@@ -63,8 +63,9 @@ function ResumePreview({ selectedFile }) {
                         flex
                         items-center
                         gap-2
-                        text-green-600
+                        text-emerald-700
                         font-medium
+                        dark:text-emerald-300
                     "
                 >
 

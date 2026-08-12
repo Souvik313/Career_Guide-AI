@@ -44,25 +44,25 @@ function KpiCards({ report }) {
 
                         <div
                             key={index}
-                            className="rounded-3xl bg-white p-7 shadow-md transition hover:-translate-y-1 hover:shadow-lg"
+                            className="rounded-3xl border border-border bg-card p-7 shadow-md transition hover:-translate-y-1 hover:shadow-lg"
                         >
 
                             <div className="flex items-center justify-between">
 
                                 <div>
 
-                                    <p className="text-sm font-medium text-slate-500">
+                                    <p className="text-sm font-medium text-muted-foreground">
 
                                         {kpi.title}
 
                                     </p>
 
-                                    <h2 className="mt-3 text-4xl font-bold text-slate-900">
+                                    <h2 className="mt-3 text-4xl font-bold text-foreground">
 
                                         {kpi.value}
 
                                     </h2>
-                                    <p className="mt-2 text-sm text-slate-500">
+                                    <p className="mt-2 text-sm text-muted-foreground">
 
                                         Skills Identified
 

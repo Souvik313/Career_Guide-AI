@@ -4,7 +4,7 @@ function AnalyticsInsight({ report }) {
 
     return (
 
-        <section className="rounded-3xl bg-white p-8 shadow-md">
+        <section className="rounded-3xl border border-border bg-card p-8 shadow-md">
 
             {/* Header */}
 
@@ -21,13 +21,13 @@ function AnalyticsInsight({ report }) {
 
                 <div>
 
-                    <h2 className="text-2xl font-bold text-slate-900">
+                    <h2 className="text-2xl font-bold text-foreground">
 
                         AI Insight
 
                     </h2>
 
-                    <p className="mt-1 text-slate-600">
+                    <p className="mt-1 text-muted-foreground">
 
                         A quick interpretation of your analytics by CareerCompass AI.
 
@@ -39,9 +39,9 @@ function AnalyticsInsight({ report }) {
 
             {/* Insight */}
 
-            <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-6">
+            <div className="mt-8 rounded-2xl border border-border bg-muted/80 p-6">
 
-                <p className="leading-8 text-slate-700">
+                <p className="leading-8 text-foreground/90">
 
                     {report.ai_report.career_summary}
 
@@ -53,15 +53,15 @@ function AnalyticsInsight({ report }) {
 
             <div className="mt-8 grid gap-5 md:grid-cols-2">
 
-                <div className="rounded-2xl border border-green-200 bg-green-50 p-5">
+                <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-5 dark:border-emerald-400/40 dark:bg-emerald-500/15">
 
-                    <h3 className="font-semibold text-green-700">
+                    <h3 className="font-semibold text-emerald-700 dark:text-emerald-300">
 
                         Biggest Strength
 
                     </h3>
 
-                    <p className="mt-2 text-slate-700">
+                    <p className="mt-2 text-foreground/90 dark:text-foreground">
 
                         {report.career_report.strengths[0]}
 
@@ -69,15 +69,15 @@ function AnalyticsInsight({ report }) {
 
                 </div>
 
-                <div className="rounded-2xl border border-orange-200 bg-orange-50 p-5">
+                <div className="rounded-2xl border border-orange-500/30 bg-orange-500/10 p-5 dark:border-orange-400/40 dark:bg-orange-500/15">
 
-                    <h3 className="font-semibold text-orange-700">
+                    <h3 className="font-semibold text-orange-700 dark:text-orange-300">
 
                         Priority Skill
 
                     </h3>
 
-                    <p className="mt-2 text-slate-700">
+                    <p className="mt-2 text-foreground/90 dark:text-foreground">
 
                         {report.career_report.missing_skills[0].replace(/\b\w/g, char => char.toUpperCase())}
 
