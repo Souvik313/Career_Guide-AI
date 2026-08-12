@@ -5,7 +5,8 @@ import {
     XAxis,
     YAxis,
     CartesianGrid,
-    Tooltip
+    Tooltip,
+    Cell
 } from "recharts";
 
 import { Briefcase } from "lucide-react";
