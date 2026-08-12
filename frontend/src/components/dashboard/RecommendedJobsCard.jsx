@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import { Building2, MapPin, Star , ChevronLeft, ChevronRight, Bookmark} from "lucide-react";
 import useSavedJobs from '../../hooks/useSavedJobs.js';
 import toast from 'react-hot-toast';
@@ -8,11 +8,35 @@ function RecommendedJobsCard({ jobs }) {
     const {
         savedJobs,
         loading: savedJobsLoading,
-        error: savedJobsError,
+        removeSavedJob,
         saveJob,
+        fetchSavedJobs,
     } = useSavedJobs();
 
     const [currentPage, setCurrentPage] = useState(0);
+
+    useEffect(() => {
+
+        const loadSavedJobs = async () => {
+
+            try {
+
+                await fetchSavedJobs();
+
+            } catch (err) {
+
+                console.error(
+                    "Failed to load saved jobs:",
+                    err
+                );
+
+            }
+
+        };
+
+        loadSavedJobs();
+
+    }, [fetchSavedJobs]);
 
     const jobsPerPage = 5;
 
@@ -23,8 +47,8 @@ function RecommendedJobsCard({ jobs }) {
     currentPage * jobsPerPage + jobsPerPage
     );
 
-    const isJobSaved = (job) => {
-        return savedJobs.some(
+    const getSavedJob = (job) => {
+        return savedJobs.find(
             (savedJob) =>
                 savedJob.job_title === job.job_title &&
                 savedJob.company_name === job.company_name
@@ -33,13 +57,42 @@ function RecommendedJobsCard({ jobs }) {
 
     const handleSaveJob = async (job) => {
 
-        if (isJobSaved(job)) {
-            return;
-        }
+        const existingSavedJob = savedJobs.find(
+            (savedJob) =>
+                savedJob.job_title === job.job_title &&
+                savedJob.company_name === job.company_name
+        );
 
         try {
 
+            /*
+            * JOB IS ALREADY SAVED
+            * --------------------
+            * Remove it.
+            */
+
+            if (existingSavedJob) {
+
+                await removeSavedJob(
+                    existingSavedJob.id
+                );
+
+                toast.success(
+                    "Job removed from saved jobs."
+                );
+
+                return;
+            }
+
+
+            /*
+            * JOB IS NOT SAVED
+            * ----------------
+            * Save it.
+            */
+
             await saveJob({
+
                 job_title: job.job_title,
 
                 company_name:
@@ -58,24 +111,24 @@ function RecommendedJobsCard({ jobs }) {
                     Array.isArray(job.skills)
                         ? job.skills
                         : [],
+
             });
 
             toast.success(
                 "You have successfully saved the job!"
-            )
+            );
 
         } catch (err) {
 
             console.error(
-                "Failed to save job:",
+                "Failed to update saved job:",
                 err
             );
 
             toast.error(
                 err?.response?.data?.detail ||
-                "Failed to save job."
-            )
-
+                "Failed to update saved job."
+            );
         }
     };
 
@@ -127,8 +180,12 @@ function RecommendedJobsCard({ jobs }) {
 
             <div className="mt-8 space-y-5">
 
-                {visibleJobs.map((job) => (
+                {visibleJobs.map((job) =>{
 
+                    const savedJob = getSavedJob(job);
+                    const isSaved = Boolean(savedJob);
+                
+                return (
                     <div
                         key={job.id}
                         className="
@@ -169,12 +226,11 @@ function RecommendedJobsCard({ jobs }) {
                                     type="button"
                                     onClick={() => handleSaveJob(job)}
                                     disabled={
-                                        savedJobsLoading ||
-                                        isJobSaved(job)
+                                        savedJobsLoading
                                     }
                                     aria-label={
-                                        isJobSaved(job)
-                                            ? "Job saved"
+                                        isSaved
+                                            ? "Remove saved job"
                                             : "Save job"
                                     }
                                     className={`
@@ -187,7 +243,7 @@ function RecommendedJobsCard({ jobs }) {
                                         border
                                         transition-all
                                         ${
-                                            isJobSaved(job)
+                                            isSaved
                                                 ? "border-blue-200 bg-blue-50 text-blue-600"
                                                 : "border-slate-200 bg-white text-slate-400 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600"
                                         }
@@ -196,7 +252,7 @@ function RecommendedJobsCard({ jobs }) {
                                     <Bookmark
                                         size={19}
                                         className={
-                                            isJobSaved(job)
+                                            isSaved
                                                 ? "fill-blue-600"
                                                 : ""
                                         }
@@ -246,7 +302,7 @@ function RecommendedJobsCard({ jobs }) {
 
                     </div>
 
-                ))}
+                )})}
 
             </div>
 

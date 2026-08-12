@@ -17,6 +17,18 @@ import ProfileLoading from "../../components/profile/ProfileLoading.jsx";
 import ProfileEmptyState from "../../components/profile/ProfileEmptyState.jsx";
 
 import { Button } from "../../components/ui/button.jsx";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import toast from "react-hot-toast";
 
 import useSavedJobs from "../../hooks/useSavedJobs.js";
 
@@ -92,28 +104,21 @@ const formatDate = (dateValue) => {
 ===================================================== */
 
 const handleDelete = async (savedJobId) => {
-
-    const confirmed = window.confirm(
-        "Are you sure you want to remove this saved job?"
-    );
-
-    if (!confirmed) {
-        return;
-    }
-
     try {
-
         await removeSavedJob(savedJobId);
 
+        toast.success("Saved job removed successfully.");
     } catch (err) {
-
         console.error(
             "Failed to delete saved job:",
             err
         );
 
+        toast.error(
+            err?.response?.data?.detail ||
+            "Failed to remove saved job."
+        );
     }
-
 };
 
 
@@ -547,36 +552,60 @@ return (
                                         Delete Action
                                     ================================================= */}
 
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        className="
-                                            shrink-0
-                                            rounded-xl
-                                            border-red-100
-                                            text-red-500
-                                            transition-colors
-                                            hover:border-red-200
-                                            hover:bg-red-50
-                                            hover:text-red-600
-                                        "
-                                        onClick={() =>
-                                            handleDelete(job.id)
-                                        }
-                                    >
+                                    <AlertDialog>
+                                        <AlertDialogTrigger asChild>
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                className="
+                                                    rounded-xl
+                                                    border
+                                                    border-red-100
+                                                    px-3
+                                                    py-2
+                                                    text-red-500
+                                                    transition
+                                                    hover:border-red-200
+                                                    hover:bg-red-50
+                                                    hover:text-red-600
+                                                "
+                                                aria-label="Remove saved job"
+                                            >
+                                                <Trash2 className="h-4 w-4" />
+                                            </Button>
+                                        </AlertDialogTrigger>
 
-                                        <Trash2
-                                            className="
-                                                mr-2
-                                                h-4
-                                                w-4
-                                            "
-                                        />
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>
+                                                    Remove saved job?
+                                                </AlertDialogTitle>
 
-                                        Remove
+                                                <AlertDialogDescription>
+                                                    Are you sure you want to remove this job
+                                                    from your saved jobs? This action cannot
+                                                    be undone.
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
 
-                                    </Button>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>
+                                                    Cancel
+                                                </AlertDialogCancel>
 
+                                                <AlertDialogAction
+                                                    onClick={() => handleDelete(job.id)}
+                                                    className="
+                                                        bg-red-600
+                                                        text-white
+                                                        hover:bg-red-700
+                                                    "
+                                                >
+                                                    Remove
+                                                </AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
                                 </div>
 
 

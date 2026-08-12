@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 import {
     saveJob,
@@ -20,7 +20,7 @@ const useSavedJobs = () => {
        Get All Saved Jobs
     ===================================================== */
 
-    const fetchSavedJobs = async () => {
+    const fetchSavedJobs = useCallback(async () => {
 
         try {
 
@@ -49,7 +49,7 @@ const useSavedJobs = () => {
 
         }
 
-    };
+    }, []);
 
 
     /* =====================================================
