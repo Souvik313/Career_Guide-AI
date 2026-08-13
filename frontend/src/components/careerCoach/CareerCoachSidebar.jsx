@@ -64,7 +64,9 @@ function CareerCoachSidebar({
                             rounded-2xl
                             border
                             border-border
+                            dark:border-emerald-500/10
                             bg-card
+                            dark:bg-emerald-950/20
                             p-4
                         "
                     >
@@ -75,6 +77,7 @@ function CareerCoachSidebar({
                                 w-3/4
                                 rounded
                                 bg-zinc-200
+                                dark:bg-zinc-700
                             "
                         />
 
@@ -85,6 +88,7 @@ function CareerCoachSidebar({
                                 w-full
                                 rounded
                                 bg-zinc-100
+                                dark:bg-zinc-800
                             "
                         />
 
@@ -95,6 +99,7 @@ function CareerCoachSidebar({
                                 w-2/3
                                 rounded
                                 bg-zinc-100
+                                dark:bg-zinc-800
                             "
                         />
 
@@ -127,10 +132,14 @@ function CareerCoachSidebar({
                     border
                     border-dashed
                     border-border
+                    dark:border-amber-500/20
                     bg-card/80
+                    dark:bg-amber-950/20
                     px-5
                     py-10
                     text-center
+                    transition-all
+                    duration-300
                 "
             >
 
@@ -143,7 +152,9 @@ function CareerCoachSidebar({
                         justify-center
                         rounded-xl
                         bg-amber-100
+                        dark:bg-amber-500/20
                         text-amber-600
+                        dark:text-amber-400
                     "
                 >
 
@@ -163,6 +174,7 @@ function CareerCoachSidebar({
                         text-sm
                         font-semibold
                         text-foreground
+                        dark:text-white
                     "
                 >
                     No conversations yet
@@ -176,6 +188,7 @@ function CareerCoachSidebar({
                         text-xs
                         leading-5
                         text-muted-foreground
+                        dark:text-gray-400
                     "
                 >
                     Start a conversation with your
@@ -204,7 +217,9 @@ function CareerCoachSidebar({
                 flex-col
                 border-r
                 border-border
+                dark:border-emerald-500/10
                 bg-background
+                dark:bg-black/20
             "
         >
 
@@ -216,8 +231,10 @@ function CareerCoachSidebar({
                 className="
                     border-b
                     border-border
+                    dark:border-emerald-500/10
                     px-5
                     py-5
+                    dark:bg-emerald-950/10
                 "
             >
 
@@ -247,7 +264,9 @@ function CareerCoachSidebar({
                                 justify-center
                                 rounded-xl
                                 bg-emerald-100
+                                dark:bg-emerald-500/20
                                 text-emerald-600
+                                dark:text-emerald-400
                             "
                         >
 
@@ -268,6 +287,7 @@ function CareerCoachSidebar({
                                     text-sm
                                     font-bold
                                     text-foreground
+                                    dark:text-white
                                 "
                             >
                                 Conversations
@@ -277,6 +297,7 @@ function CareerCoachSidebar({
                                 className="
                                     text-[11px]
                                     text-muted-foreground
+                                    dark:text-gray-400
                                 "
                             >
                                 Your career discussions
@@ -309,6 +330,8 @@ function CareerCoachSidebar({
                         bg-gradient-to-r
                         from-emerald-500
                         to-teal-500
+                        dark:from-emerald-500
+                        dark:to-teal-500
                         px-4
                         py-3
                         text-sm
@@ -316,11 +339,15 @@ function CareerCoachSidebar({
                         text-white
                         shadow-sm
                         shadow-emerald-200
+                        dark:shadow-emerald-500/30
                         transition-all
                         duration-200
                         hover:from-emerald-600
                         hover:to-teal-600
+                        dark:hover:from-emerald-600
+                        dark:hover:to-teal-600
                         hover:shadow-md
+                        dark:hover:shadow-emerald-500/50
                         active:scale-[0.98]
                     "
                 >
@@ -352,6 +379,9 @@ function CareerCoachSidebar({
                     px-3
                     py-4
                     scrollbar-thin
+                    dark:scrollbar-track-emerald-950/20
+                    dark:scrollbar-thumb-emerald-500/40
+                    hover:dark:scrollbar-thumb-emerald-500/60
                 "
             >
 
@@ -370,6 +400,7 @@ function CareerCoachSidebar({
                             h-3.5
                             w-3.5
                             text-amber-500
+                            dark:text-amber-400
                         "
                     />
 
@@ -380,6 +411,7 @@ function CareerCoachSidebar({
                             uppercase
                             tracking-wider
                             text-muted-foreground
+                            dark:text-gray-500
                         "
                     >
                         Recent

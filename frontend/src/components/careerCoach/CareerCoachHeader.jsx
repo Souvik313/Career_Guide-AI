@@ -14,16 +14,23 @@ function CareerCoachHeader() {
                 overflow-hidden
                 rounded-3xl
                 border
-                border-amber-200/60
+                border-amber-500/30
+                dark:border-amber-500/20
                 bg-gradient-to-br
-                from-amber-500/10
+                from-amber-500/15
                 via-card
-                to-emerald-500/10
+                to-emerald-500/15
+                dark:from-amber-600/10
+                dark:to-emerald-600/10
                 px-6
                 py-6
-                shadow-sm
+                shadow-lg
+                dark:shadow-xl
+                dark:shadow-black/40
                 lg:px-8
                 lg:py-7
+                backdrop-blur-sm
+                dark:backdrop-blur-md
             "
         >
 
@@ -40,7 +47,8 @@ function CareerCoachHeader() {
                     h-40
                     w-40
                     rounded-full
-                    bg-amber-300/20
+                    bg-amber-400/30
+                    dark:bg-amber-500/25
                     blur-3xl
                 "
             />
@@ -54,7 +62,8 @@ function CareerCoachHeader() {
                     h-40
                     w-40
                     rounded-full
-                    bg-emerald-300/20
+                    bg-emerald-400/30
+                    dark:bg-emerald-500/25
                     blur-3xl
                 "
             />
@@ -103,9 +112,17 @@ function CareerCoachHeader() {
                             from-amber-400
                             via-orange-400
                             to-emerald-400
+                            dark:from-amber-500
+                            dark:via-orange-500
+                            dark:to-emerald-500
                             text-white
                             shadow-lg
-                            shadow-amber-200/50
+                            shadow-amber-300/50
+                            dark:shadow-amber-500/40
+                            transition-all
+                            duration-300
+                            hover:shadow-xl
+                            dark:hover:shadow-amber-500/60
                         "
                     >
 
@@ -138,6 +155,7 @@ function CareerCoachHeader() {
                                     font-bold
                                     tracking-tight
                                     text-foreground
+                                    dark:text-white
                                     sm:text-3xl
                                 "
                             >
@@ -149,6 +167,8 @@ function CareerCoachHeader() {
                                     h-5
                                     w-5
                                     text-amber-500
+                                    dark:text-amber-400
+                                    animate-pulse
                                 "
                             />
 
@@ -161,6 +181,7 @@ function CareerCoachHeader() {
                                 text-sm
                                 leading-6
                                 text-muted-foreground
+                                dark:text-gray-400
                                 sm:text-base
                             "
                         >
@@ -188,11 +209,16 @@ function CareerCoachHeader() {
                         rounded-2xl
                         border
                         border-border
+                        dark:border-emerald-500/30
                         bg-card/80
+                        dark:bg-emerald-950/30
                         px-4
                         py-3
                         shadow-sm
+                        dark:shadow-lg
+                        dark:shadow-black/20
                         backdrop-blur-sm
+                        dark:backdrop-blur-md
                     "
                 >
 
@@ -205,7 +231,9 @@ function CareerCoachHeader() {
                             justify-center
                             rounded-xl
                             bg-emerald-100
+                            dark:bg-emerald-500/20
                             text-emerald-600
+                            dark:text-emerald-400
                         "
                     >
 
@@ -228,6 +256,7 @@ function CareerCoachHeader() {
                                 uppercase
                                 tracking-wider
                                 text-muted-foreground
+                                dark:text-gray-500
                             "
                         >
                             AI Career Assistant
@@ -248,6 +277,8 @@ function CareerCoachHeader() {
                                     w-2
                                     rounded-full
                                     bg-emerald-500
+                                    dark:bg-emerald-400
+                                    animate-pulse
                                 "
                             />
 
@@ -256,6 +287,7 @@ function CareerCoachHeader() {
                                     text-xs
                                     font-medium
                                     text-emerald-600
+                                    dark:text-emerald-400
                                 "
                             >
                                 Ready to help

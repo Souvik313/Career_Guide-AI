@@ -70,6 +70,11 @@ function CareerCoachEmptyState({
                 py-10
                 sm:px-8
                 lg:px-12
+                bg-gradient-to-b
+                from-background
+                via-background
+                dark:via-emerald-950/5
+                to-background
             "
     >
       <div
@@ -102,7 +107,12 @@ function CareerCoachEmptyState({
                             from-amber-100
                             via-orange-100
                             to-emerald-100
+                            dark:from-amber-500/20
+                            dark:via-orange-500/20
+                            dark:to-emerald-500/20
                             shadow-sm
+                            dark:shadow-lg
+                            dark:shadow-emerald-500/10
                         "
           >
             <div
@@ -117,8 +127,16 @@ function CareerCoachEmptyState({
                                 from-emerald-400
                                 via-teal-500
                                 to-cyan-500
+                                dark:from-emerald-500
+                                dark:via-teal-500
+                                dark:to-cyan-500
                                 text-white
                                 shadow-md
+                                dark:shadow-lg
+                                dark:shadow-emerald-500/30
+                                transition-all
+                                duration-300
+                                animate-pulse
                             "
             >
               <Bot
@@ -139,6 +157,7 @@ function CareerCoachEmptyState({
                             font-bold
                             tracking-tight
                             text-foreground
+                            dark:text-white
                             sm:text-3xl
                         "
           >
@@ -155,6 +174,7 @@ function CareerCoachEmptyState({
                             text-sm
                             leading-7
                             text-muted-foreground
+                            dark:text-gray-400
                             sm:text-base
                         "
           >
@@ -173,13 +193,21 @@ function CareerCoachEmptyState({
                         rounded-3xl
                         border
                         border-amber-200/60
+                        dark:border-amber-500/20
                         bg-gradient-to-br
                         from-amber-500/10
                         via-card
                         to-emerald-500/10
+                        dark:from-amber-600/10
+                        dark:via-card
+                        dark:to-emerald-600/10
                         p-5
                         shadow-sm
+                        dark:shadow-lg
+                        dark:shadow-black/30
                         sm:p-6
+                        backdrop-blur-sm
+                        dark:backdrop-blur-md
                     "
         >
           <div
@@ -199,7 +227,9 @@ function CareerCoachEmptyState({
                                 justify-center
                                 rounded-xl
                                 bg-white
+                                dark:bg-amber-500/20
                                 text-amber-500
+                                dark:text-amber-400
                                 shadow-sm
                             "
             >
@@ -221,6 +251,7 @@ function CareerCoachEmptyState({
                                     text-sm
                                     font-bold
                                     text-foreground
+                                    dark:text-white
                                 "
               >
                 Choose your resume context
@@ -232,6 +263,7 @@ function CareerCoachEmptyState({
                                     text-xs
                                     leading-5
                                     text-muted-foreground
+                                    dark:text-gray-400
                                 "
               >
                 Select a resume so Career Coach can give you advice based on
@@ -261,17 +293,24 @@ function CareerCoachEmptyState({
                                 rounded-xl
                                 border
                                 border-border
+                                dark:border-amber-500/30
                                 bg-card
+                                dark:bg-amber-950/20
                                 px-4
                                 pr-11
                                 text-sm
                                 font-medium
                                 text-foreground
+                                dark:text-white
+                                dark:placeholder-gray-500
                                 outline-none
                                 transition
+                                duration-200
                                 focus:border-amber-300
+                                dark:focus:border-amber-500/50
                                 focus:ring-2
                                 focus:ring-amber-100
+                                dark:focus:ring-amber-500/20
                                 disabled:cursor-not-allowed
                                 disabled:opacity-60
                             "
@@ -295,6 +334,7 @@ function CareerCoachEmptyState({
                                 w-4
                                 -translate-y-1/2
                                 text-muted-foreground
+                                dark:text-gray-500
                             "
             />
           </div>
@@ -311,9 +351,12 @@ function CareerCoachEmptyState({
                                 rounded-xl
                                 border
                                 border-emerald-500/20
+                                dark:border-emerald-500/30
                                 bg-card/80
+                                dark:bg-emerald-950/20
                                 px-3
                                 py-2.5
+                                backdrop-blur-sm
                             "
             >
               <FileText
@@ -322,6 +365,7 @@ function CareerCoachEmptyState({
                                     w-4
                                     shrink-0
                                     text-emerald-500
+                                    dark:text-emerald-400
                                 "
               />
 
@@ -332,6 +376,7 @@ function CareerCoachEmptyState({
                                     text-xs
                                     font-medium
                                     text-muted-foreground
+                                    dark:text-gray-400
                                 "
               >
                 Using{" "}
@@ -371,15 +416,24 @@ function CareerCoachEmptyState({
                             from-amber-400
                             via-orange-400
                             to-emerald-500
+                            dark:from-amber-500
+                            dark:via-orange-500
+                            dark:to-emerald-500
                             px-5
                             text-sm
                             font-bold
                             text-white
+                            dark:text-white
                             shadow-sm
+                            shadow-amber-300/40
+                            dark:shadow-lg
+                            dark:shadow-amber-500/30
                             transition-all
                             duration-200
                             hover:shadow-md
+                            dark:hover:shadow-amber-500/50
                             hover:brightness-105
+                            dark:hover:brightness-110
                             active:scale-[0.99]
                             disabled:cursor-not-allowed
                             disabled:opacity-50
@@ -428,6 +482,7 @@ function CareerCoachEmptyState({
                                 h-3.5
                                 w-3.5
                                 text-amber-500
+                                dark:text-amber-400
                             "
             />
 
@@ -436,6 +491,7 @@ function CareerCoachEmptyState({
                                 text-xs
                                 font-semibold
                                 text-muted-foreground
+                                dark:text-gray-500
                             "
             >
               Popular things to ask Career Coach
@@ -475,17 +531,26 @@ function CareerCoachEmptyState({
                                             rounded-full
                                             border
                                             border-border
+                                            dark:border-amber-500/20
                                             bg-card
+                                            dark:bg-amber-950/20
                                             px-3.5
                                             py-2
                                             text-xs
                                             font-medium
                                             text-foreground/80
+                                            dark:text-gray-300
                                             shadow-sm
+                                            dark:shadow-lg
+                                            dark:shadow-black/20
                                             transition
+                                            duration-200
                                             hover:border-amber-300
+                                            dark:hover:border-amber-500/40
                                             hover:bg-amber-500/10
+                                            dark:hover:bg-amber-500/20
                                             hover:text-amber-600
+                                            dark:hover:text-amber-400
                                             disabled:cursor-not-allowed
                                             disabled:opacity-50
                                         "
