@@ -10,7 +10,6 @@ class ResumeParser:
     def __init__(self):
         pass
 
-    # Existing filesystem-based parser
     def extract_text(self, file_path):
         file_path = Path(file_path)
 
@@ -27,7 +26,6 @@ class ResumeParser:
                 "Unsupported file format. Only PDF and DOCX are supported."
             )
 
-    # NEW
     def extract_text_from_bytes(
         self,
         file_bytes: bytes,
@@ -53,7 +51,6 @@ class ResumeParser:
                 "Unsupported file format. Only PDF and DOCX are supported."
             )
 
-    # NEW
     def _extract_pdf_bytes(self, file_bytes: bytes):
         """
         Extract text from PDF bytes using PyMuPDF.
@@ -71,7 +68,6 @@ class ResumeParser:
 
         return "\n".join(pages)
 
-    # NEW
     def _extract_docx_bytes(self, file_bytes: bytes):
         """
         Extract text from DOCX bytes.

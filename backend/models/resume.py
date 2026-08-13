@@ -5,14 +5,24 @@ from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy import Text
+from sqlalchemy import UniqueConstraint
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
+
 
 from backend.database.base import Base
 
 class Resume(Base):
     __tablename__ = "resumes"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id",
+            "content_hash",
+            name="uq_resume_user_content_hash",
+        ),
+    )
 
     id: Mapped[int] = mapped_column(
         Integer,
@@ -31,9 +41,13 @@ class Resume(Base):
         String(255),
         nullable=False,
     )
+    content_hash: Mapped[str] = mapped_column(
+        String(64),
+        nullable=True,
+    )
     cloudinary_public_id: Mapped[str] = mapped_column(
         String(500),
-        nullable=True,
+        nullable=False,
     )
     cloudinary_url: Mapped[str] = mapped_column(
         String(1000),

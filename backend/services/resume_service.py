@@ -13,6 +13,7 @@ class ResumeService:
         user_id: int,
         candidate_name: str,
         filename: str,
+        content_hash: str,
         cloudinary_public_id: str,
         cloudinary_url: str,
         parsed_text: str,
@@ -25,6 +26,7 @@ class ResumeService:
             user_id=user_id,
             candidate_name=candidate_name,
             filename=filename,
+            content_hash=content_hash,
             cloudinary_public_id=cloudinary_public_id,
             cloudinary_url=cloudinary_url,
             parsed_text=parsed_text,
@@ -67,6 +69,23 @@ class ResumeService:
         statement = select(Resume).where(
             Resume.id == resume_id,
             Resume.user_id == user_id,
+        )
+
+        return self.db.scalar(statement)
+
+    def get_resume_by_hash(
+        self,
+        user_id: int,
+        content_hash: str,
+    ):
+        """
+        Return a resume if the exact same file has
+        already been uploaded by the user.
+        """
+
+        statement = select(Resume).where(
+            Resume.user_id == user_id,
+            Resume.content_hash == content_hash,
         )
 
         return self.db.scalar(statement)

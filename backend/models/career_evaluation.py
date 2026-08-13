@@ -33,6 +33,16 @@ class CareerEvaluation(Base):
         nullable=False,
     )
 
+    resume_skills: Mapped[list[str]] = mapped_column(
+        JSONB,
+        nullable=False,
+    )
+
+    top_missing_skills: Mapped[list[str]] = mapped_column(
+        JSONB,
+        nullable=False,
+    )
+
     match_score: Mapped[float] = mapped_column(
         Float,
         nullable=False,

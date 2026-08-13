@@ -105,6 +105,41 @@ class RecommendationService:
 
         return list(self.db.scalars(statement).all())
 
+    def get_recommendation_dicts(
+        self,
+        resume_id: int,
+        user_id: int,
+    ) -> list[dict]:
+        """
+        Return persisted recommendations in the same
+        dictionary structure expected by the frontend.
+        """
+
+        recommendations = self.get_recommendations(
+            resume_id=resume_id,
+            user_id=user_id,
+        )
+
+        return [
+            {
+                "job_title": recommendation.job_title,
+                "company_name": recommendation.company_name,
+                "similarity_score": recommendation.similarity_score,
+                "rank": recommendation.rank,
+                "role_category": recommendation.role_category,
+                "exp_years": recommendation.exp_years,
+                "primary_keyword": recommendation.primary_keyword,
+                "english_level": recommendation.english_level,
+                "skills": recommendation.skills,
+                "match_reason": recommendation.match_reason,
+                "missing_skills_summary": (
+                    recommendation.missing_skills_summary
+                ),
+                "next_step": recommendation.next_step,
+            }
+            for recommendation in recommendations
+        ]
+
     def delete_recommendations(
         self,
         resume_id: int,

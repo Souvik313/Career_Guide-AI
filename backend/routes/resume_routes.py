@@ -26,6 +26,8 @@ from src.resume_parser.resume_cleaner import ResumeCleaner
 from backend.services.career_pipeline import CareerPipeline
 from backend.services.cloudinary_service import CloudinaryService
 
+from backend.utils.file_hash import calculate_content_hash
+
 router = APIRouter(
     tags=["Resume"],
 )
@@ -74,7 +76,67 @@ async def upload_resume(
             )
 
         # =================================================
-        # STEP 3 — Upload PDF to Cloudinary
+        # STEP 3 — Calculate content hash
+        # =================================================
+
+        content_hash = calculate_content_hash(
+            file_bytes
+        )
+
+        # =================================================
+        # STEP 4 — Check for duplicate resume
+        # =================================================
+
+        resume_service = ResumeService(db)
+
+        existing_resume = (
+            resume_service.get_resume_by_hash(
+                user_id=current_user.id,
+                content_hash=content_hash,
+            )
+        )
+
+        if existing_resume is not None:
+
+            print(
+                f"Duplicate resume detected. "
+                f"Using existing resume ID: {existing_resume.id}"
+            )
+
+            recommendation_service = RecommendationService(db)
+
+            recommended_jobs = (
+                recommendation_service.get_recommendation_dicts(
+                    resume_id=existing_resume.id,
+                    user_id=current_user.id,
+                )
+            )
+
+            evaluation_service = CareerEvaluationService(db)
+
+            evaluation_result = (
+                evaluation_service.get_career_result_dict(
+                    resume_id=existing_resume.id,
+                    user_id=current_user.id,
+                )
+            )
+
+            if evaluation_result is None:
+                raise HTTPException(
+                    status_code=500,
+                    detail=(
+                        "Resume exists, but its career evaluation "
+                        "could not be found."
+                    ),
+                )
+
+            return {
+                **evaluation_result,
+                "recommended_jobs": recommended_jobs,
+            }
+
+        # =================================================
+        # STEP 3 — NEW RESUME: Upload PDF to Cloudinary
         # =================================================
 
         cloudinary_data = CloudinaryService.upload_resume(
@@ -125,6 +187,7 @@ async def upload_resume(
             cloudinary_public_id=cloudinary_data["public_id"],
             cloudinary_url=cloudinary_data["secure_url"],
             parsed_text=resume_text,
+            content_hash=content_hash,
         )
 
         # =================================================
@@ -158,6 +221,8 @@ async def upload_resume(
         evaluation_service.create_or_update_evaluation(
             resume_id=resume.id,
             candidate_name=candidate_name,
+            resume_skills=result["resume_skills"],
+            top_missing_skills=result["missing_skills"],
             career_report=result["career_report"],
             ai_report=result["ai_report"],
         )
