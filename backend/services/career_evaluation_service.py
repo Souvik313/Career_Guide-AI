@@ -201,12 +201,15 @@ class CareerEvaluationService:
             "motivation": evaluation.motivation,
         }
 
+        is_duplicate = True
+
         return {
             "candidate_name": evaluation.candidate_name,
             "resume_skills": evaluation.resume_skills,
             "missing_skills": evaluation.top_missing_skills,
             "career_report": career_report,
             "ai_report": ai_report,
+            "is_duplicate": is_duplicate,
         }
 
     def delete_career_evaluation(

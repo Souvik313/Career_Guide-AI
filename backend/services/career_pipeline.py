@@ -179,5 +179,6 @@ class CareerPipeline:
                 "resume_skills": resume_skills,
                 "missing_skills": top_missing_skills,
                 "career_report": career_report,
-                "ai_report": ai_report
+                "ai_report": ai_report,
+                "is_duplicate": False
             }

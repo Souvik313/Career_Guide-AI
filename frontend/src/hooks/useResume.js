@@ -25,39 +25,44 @@ const useResume = () => {
 
     const handleUploadResume = useCallback(async (file) => {
 
-        try {
+    try {
 
-            setLoading(true);
-            setError(null);
+        setLoading(true);
+        setError(null);
 
-            const data = await uploadResume(file);
+        const data = await uploadResume(file);
 
-            /*
-             * If the backend returns the newly created
-             * resume, keep it as the current resume.
-             */
+        /*
+         * Store the backend result as the current
+         * resume/analysis result.
+         *
+         * This works for both:
+         * 1. a newly uploaded resume
+         * 2. a duplicate resume whose existing results
+         *    were retrieved from Neon.
+         */
 
-            setResume(data);
+        setResume(data);
 
-            return data;
+        return data;
 
-        } catch (err) {
+    } catch (err) {
 
-            const message =
-                err?.response?.data?.detail ||
-                "Failed to upload resume.";
+        const message =
+            err?.response?.data?.detail ||
+            "Failed to upload resume.";
 
-            setError(message);
+        setError(message);
 
-            throw err;
+        throw err;
 
-        } finally {
+    } finally {
 
-            setLoading(false);
+        setLoading(false);
 
-        }
+    }
 
-    }, []);
+}, []);
 
 
     /* =====================================================
