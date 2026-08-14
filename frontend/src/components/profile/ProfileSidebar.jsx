@@ -58,7 +58,7 @@ function ProfileSidebar() {
   return (
     <aside
       className="
-            fixed
+            relative
             top-20
             hidden
             h-[calc(100vh-5rem)]
