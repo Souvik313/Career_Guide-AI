@@ -58,10 +58,11 @@ function ProfileSidebar() {
   return (
     <aside
       className="
-            relative
+            sticky
             top-20
             hidden
-            h-[calc(100vh-5rem)]
+            h-auto
+            self-stretch
             w-80
             shrink-0
             flex-col
@@ -73,7 +74,7 @@ function ProfileSidebar() {
             lg:flex
             overflow-y-auto
             scrollbar-thin
-          "
+        "
     >
       {/* Profile Identity */}
 
