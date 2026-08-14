@@ -217,9 +217,10 @@ function CareerCoachSidebar({
                 flex-col
                 border-r
                 border-border
-                bg-background
+                bg-[#f8f8f6]
                 dark:border-slate-700
-                dark:bg-[#0f172a]
+                dark:bg-[#111827]
+                dark:shadow-[inset_-1px_0_0_rgba(148,163,184,0.18)]
             "
         >
 
@@ -231,7 +232,7 @@ function CareerCoachSidebar({
                 className="
                     border-b
                     border-border
-                    bg-white
+                    bg-[#f5f5f4]
                     px-5
                     py-5
                     dark:border-slate-700
@@ -344,11 +345,11 @@ function CareerCoachSidebar({
                         hover:to-teal-600
                         hover:shadow-md
                         active:scale-[0.98]
-                        dark:bg-emerald-500
                         dark:from-emerald-500
-                        dark:to-emerald-500
-                        dark:shadow-none
-                        dark:hover:bg-emerald-400
+                        dark:to-emerald-600
+                        dark:shadow-[0_0_0_1px_rgba(16,185,129,0.25)]
+                        dark:hover:from-emerald-400
+                        dark:hover:to-emerald-500
                     "
                 >
 
@@ -376,12 +377,14 @@ function CareerCoachSidebar({
                     min-h-0
                     flex-1
                     overflow-y-auto
+                    bg-[#f7f7f5]
                     px-3
                     py-4
                     scrollbar-thin
-                    dark:scrollbar-track-emerald-950/20
-                    dark:scrollbar-thumb-emerald-500/40
-                    hover:dark:scrollbar-thumb-emerald-500/60
+                    dark:bg-[#0f172a]
+                    dark:scrollbar-track-slate-800
+                    dark:scrollbar-thumb-slate-600
+                    hover:dark:scrollbar-thumb-slate-500
                 "
             >
 
@@ -464,8 +467,13 @@ function CareerCoachSidebar({
 
             <div
                 className="
+                    border-t
+                    border-border
+                    bg-[#f5f5f4]
                     px-5
                     py-4
+                    dark:border-slate-700
+                    dark:bg-[#111827]
                 "
             >
 
