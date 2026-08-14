@@ -110,6 +110,10 @@ function ChatInput({
                     focus-within:border-amber-300
                     focus-within:bg-card
                     focus-within:shadow-md
+                    dark:border-slate-700
+                    dark:bg-slate-900/85
+                    dark:focus-within:border-amber-500/60
+                    dark:focus-within:bg-slate-900
                 "
             >
 
@@ -228,6 +232,11 @@ function ChatInput({
                             disabled:cursor-not-allowed
                             disabled:opacity-40
                             disabled:hover:shadow-sm
+                            dark:bg-amber-500
+                            dark:from-amber-500
+                            dark:via-amber-500
+                            dark:to-amber-500
+                            dark:shadow-none
                         "
                         aria-label="Send message"
                     >

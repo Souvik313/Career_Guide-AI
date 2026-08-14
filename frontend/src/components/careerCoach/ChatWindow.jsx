@@ -90,16 +90,12 @@ function ChatWindow({
                         ${
                           isUser
                             ? `
-                                    bg-gradient-to-br
-                                    from-amber-400
-                                    via-orange-400
-                                    to-yellow-300
+                                    bg-amber-500
+                                    dark:bg-amber-500
                                   `
                             : `
-                                    bg-gradient-to-br
-                                    from-emerald-400
-                                    via-teal-500
-                                    to-cyan-500
+                                    bg-emerald-500
+                                    dark:bg-emerald-500
                                   `
                         }
                     `}
@@ -153,11 +149,10 @@ function ChatWindow({
                               isUser
                                 ? `
                                         rounded-tr-md
-                                        bg-gradient-to-br
-                                        from-amber-400
-                                        to-orange-500
+                                        bg-amber-500
                                         text-white
                                         shadow-sm
+                                        dark:bg-amber-500
                                       `
                                 : `
                                         rounded-tl-md
@@ -166,6 +161,9 @@ function ChatWindow({
                                         bg-card
                                         text-foreground
                                         shadow-sm
+                                        dark:border-slate-700
+                                        dark:bg-slate-800
+                                        dark:text-slate-100
                                       `
                             }
                         `}
@@ -350,6 +348,8 @@ function ChatWindow({
                             via-orange-100
                             to-emerald-100
                             text-amber-600
+                            dark:bg-slate-800
+                            dark:text-amber-300
                         "
           >
             <Sparkles
@@ -401,6 +401,7 @@ function ChatWindow({
                 flex-col
                 overflow-hidden
                 bg-background
+                dark:bg-[#0f172a]
             "
     >
       {/* =================================================
@@ -418,6 +419,9 @@ function ChatWindow({
                     px-5
                     py-4
                     sm:px-6
+                    dark:border-b
+                    dark:border-slate-700
+                    dark:bg-[#111827]
                 "
       >
         {/* Left */}
@@ -441,6 +445,8 @@ function ChatWindow({
                             rounded-xl
                             bg-emerald-100
                             text-emerald-600
+                            dark:bg-emerald-500/15
+                            dark:text-emerald-300
                         "
           >
             <Bot
@@ -490,6 +496,7 @@ function ChatWindow({
                                     text-[11px]
                                     font-medium
                                     text-emerald-600
+                                    dark:text-emerald-300
                                 "
               >
                 Career Coach is ready
@@ -521,6 +528,10 @@ function ChatWindow({
                         hover:bg-amber-100
                         active:scale-[0.98]
                         sm:px-4
+                        dark:border-slate-700
+                        dark:bg-slate-800
+                        dark:text-slate-100
+                        dark:hover:bg-slate-700
                     "
         >
           <Plus
@@ -550,6 +561,8 @@ function ChatWindow({
                         px-5
                         py-3
                         sm:px-6
+                        dark:border-slate-700
+                        dark:bg-slate-900/90
                     "
         >
           <div
@@ -569,6 +582,8 @@ function ChatWindow({
                                 rounded-lg
                                 bg-amber-100
                                 text-amber-600
+                                dark:bg-amber-500/15
+                                dark:text-amber-300
                             "
             >
               <BriefcaseBusiness

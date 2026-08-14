@@ -92,11 +92,11 @@ function ConversationListItem({
                     isActive
                         ? `
                             border-amber-200/60
-                            bg-gradient-to-r
-                            from-amber-500/10
-                            via-orange-500/5
-                            to-yellow-500/10
+                            bg-amber-50
                             shadow-sm
+                            dark:border-slate-700
+                            dark:bg-slate-800/90
+                            dark:shadow-none
                           `
                         : `
                             border-transparent
@@ -104,6 +104,7 @@ function ConversationListItem({
                             hover:border-border
                             hover:bg-accent
                             hover:shadow-sm
+                            dark:hover:bg-slate-800/80
                           `
                 }
             `}
@@ -136,17 +137,20 @@ function ConversationListItem({
                         ${
                             isActive
                                 ? `
-                                    bg-gradient-to-br
-                                    from-amber-400
-                                    to-orange-500
+                                    bg-amber-500
                                     text-white
                                     shadow-sm
+                                    dark:bg-amber-500
                                   `
                                 : `
                                     bg-zinc-100
                                     text-zinc-500
                                     group-hover:bg-amber-100
                                     group-hover:text-amber-600
+                                    dark:bg-slate-700
+                                    dark:text-slate-300
+                                    dark:group-hover:bg-slate-700
+                                    dark:group-hover:text-amber-300
                                   `
                         }
                     `}

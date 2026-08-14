@@ -371,6 +371,7 @@ function CareerCoach() {
       className="
                 min-h-screen
                 bg-[#fafaf9]
+                dark:bg-[#0b1220]
             "
     >
       {/* =================================================
@@ -393,6 +394,8 @@ function CareerCoach() {
                     border-t
                     border-zinc-200
                     bg-[#fafaf9]
+                    dark:border-slate-700
+                    dark:bg-[#0f172a]
                 "
       >
         {/* =================================================
@@ -417,6 +420,7 @@ function CareerCoach() {
                         min-w-0
                         flex-1
                         flex-col
+                        dark:bg-[#0f172a]
                     "
         >
           {/* =================================================

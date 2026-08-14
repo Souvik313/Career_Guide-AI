@@ -217,9 +217,9 @@ function CareerCoachSidebar({
                 flex-col
                 border-r
                 border-border
-                dark:border-emerald-500/10
                 bg-background
-                dark:bg-black/20
+                dark:border-slate-700
+                dark:bg-[#0f172a]
             "
         >
 
@@ -231,10 +231,11 @@ function CareerCoachSidebar({
                 className="
                     border-b
                     border-border
-                    dark:border-emerald-500/10
+                    bg-white
                     px-5
                     py-5
-                    dark:bg-emerald-950/10
+                    dark:border-slate-700
+                    dark:bg-[#111827]
                 "
             >
 
@@ -330,8 +331,6 @@ function CareerCoachSidebar({
                         bg-gradient-to-r
                         from-emerald-500
                         to-teal-500
-                        dark:from-emerald-500
-                        dark:to-teal-500
                         px-4
                         py-3
                         text-sm
@@ -339,16 +338,17 @@ function CareerCoachSidebar({
                         text-white
                         shadow-sm
                         shadow-emerald-200
-                        dark:shadow-emerald-500/30
                         transition-all
                         duration-200
                         hover:from-emerald-600
                         hover:to-teal-600
-                        dark:hover:from-emerald-600
-                        dark:hover:to-teal-600
                         hover:shadow-md
-                        dark:hover:shadow-emerald-500/50
                         active:scale-[0.98]
+                        dark:bg-emerald-500
+                        dark:from-emerald-500
+                        dark:to-emerald-500
+                        dark:shadow-none
+                        dark:hover:bg-emerald-400
                     "
                 >
 

@@ -70,11 +70,8 @@ function CareerCoachEmptyState({
                 py-10
                 sm:px-8
                 lg:px-12
-                bg-gradient-to-b
-                from-background
-                via-background
-                dark:via-emerald-950/5
-                to-background
+                bg-background
+                dark:bg-[#0f172a]
             "
     >
       <div
@@ -107,12 +104,9 @@ function CareerCoachEmptyState({
                             from-amber-100
                             via-orange-100
                             to-emerald-100
-                            dark:from-amber-500/20
-                            dark:via-orange-500/20
-                            dark:to-emerald-500/20
                             shadow-sm
-                            dark:shadow-lg
-                            dark:shadow-emerald-500/10
+                            dark:bg-slate-800
+                            dark:shadow-none
                         "
           >
             <div
@@ -127,16 +121,13 @@ function CareerCoachEmptyState({
                                 from-emerald-400
                                 via-teal-500
                                 to-cyan-500
-                                dark:from-emerald-500
-                                dark:via-teal-500
-                                dark:to-cyan-500
                                 text-white
                                 shadow-md
-                                dark:shadow-lg
-                                dark:shadow-emerald-500/30
                                 transition-all
                                 duration-300
                                 animate-pulse
+                                dark:bg-emerald-500
+                                dark:shadow-none
                             "
             >
               <Bot
@@ -193,21 +184,21 @@ function CareerCoachEmptyState({
                         rounded-3xl
                         border
                         border-amber-200/60
-                        dark:border-amber-500/20
                         bg-gradient-to-br
                         from-amber-500/10
                         via-card
                         to-emerald-500/10
-                        dark:from-amber-600/10
-                        dark:via-card
-                        dark:to-emerald-600/10
                         p-5
                         shadow-sm
-                        dark:shadow-lg
-                        dark:shadow-black/30
                         sm:p-6
                         backdrop-blur-sm
-                        dark:backdrop-blur-md
+                        dark:border-slate-700
+                        dark:bg-[#111827]
+                        dark:from-transparent
+                        dark:via-[#111827]
+                        dark:to-transparent
+                        dark:shadow-none
+                        dark:backdrop-blur-none
                     "
         >
           <div
@@ -227,10 +218,10 @@ function CareerCoachEmptyState({
                                 justify-center
                                 rounded-xl
                                 bg-white
-                                dark:bg-amber-500/20
                                 text-amber-500
-                                dark:text-amber-400
                                 shadow-sm
+                                dark:bg-slate-800
+                                dark:text-amber-300
                             "
             >
               <BriefcaseBusiness
@@ -416,27 +407,25 @@ function CareerCoachEmptyState({
                             from-amber-400
                             via-orange-400
                             to-emerald-500
-                            dark:from-amber-500
-                            dark:via-orange-500
-                            dark:to-emerald-500
                             px-5
                             text-sm
                             font-bold
                             text-white
-                            dark:text-white
                             shadow-sm
                             shadow-amber-300/40
-                            dark:shadow-lg
-                            dark:shadow-amber-500/30
                             transition-all
                             duration-200
                             hover:shadow-md
-                            dark:hover:shadow-amber-500/50
                             hover:brightness-105
-                            dark:hover:brightness-110
                             active:scale-[0.99]
                             disabled:cursor-not-allowed
                             disabled:opacity-50
+                            dark:bg-amber-500
+                            dark:from-amber-500
+                            dark:via-amber-500
+                            dark:to-amber-500
+                            dark:shadow-none
+                            dark:hover:brightness-110
                         "
           >
             <Sparkles
@@ -531,28 +520,27 @@ function CareerCoachEmptyState({
                                             rounded-full
                                             border
                                             border-border
-                                            dark:border-amber-500/20
                                             bg-card
-                                            dark:bg-amber-950/20
                                             px-3.5
                                             py-2
                                             text-xs
                                             font-medium
                                             text-foreground/80
-                                            dark:text-gray-300
                                             shadow-sm
-                                            dark:shadow-lg
-                                            dark:shadow-black/20
                                             transition
                                             duration-200
                                             hover:border-amber-300
-                                            dark:hover:border-amber-500/40
                                             hover:bg-amber-500/10
-                                            dark:hover:bg-amber-500/20
                                             hover:text-amber-600
-                                            dark:hover:text-amber-400
                                             disabled:cursor-not-allowed
                                             disabled:opacity-50
+                                            dark:border-slate-700
+                                            dark:bg-slate-800
+                                            dark:text-slate-200
+                                            dark:shadow-none
+                                            dark:hover:border-slate-600
+                                            dark:hover:bg-slate-700
+                                            dark:hover:text-amber-300
                                         "
                 >
                   <Icon

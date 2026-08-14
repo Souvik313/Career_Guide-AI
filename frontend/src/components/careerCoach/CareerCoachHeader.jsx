@@ -15,22 +15,23 @@ function CareerCoachHeader() {
                 rounded-3xl
                 border
                 border-amber-500/30
-                dark:border-amber-500/20
                 bg-gradient-to-br
                 from-amber-500/15
-                via-card
+                via-white
                 to-emerald-500/15
-                dark:from-amber-600/10
-                dark:to-emerald-600/10
                 px-6
                 py-6
                 shadow-lg
-                dark:shadow-xl
-                dark:shadow-black/40
+                dark:border-slate-700
+                dark:bg-[#111827]
+                dark:from-transparent
+                dark:via-[#111827]
+                dark:to-transparent
+                dark:shadow-none
                 lg:px-8
                 lg:py-7
                 backdrop-blur-sm
-                dark:backdrop-blur-md
+                dark:backdrop-blur-none
             "
         >
 
@@ -48,8 +49,8 @@ function CareerCoachHeader() {
                     w-40
                     rounded-full
                     bg-amber-400/30
-                    dark:bg-amber-500/25
                     blur-3xl
+                    dark:opacity-20
                 "
             />
 
@@ -63,8 +64,8 @@ function CareerCoachHeader() {
                     w-40
                     rounded-full
                     bg-emerald-400/30
-                    dark:bg-emerald-500/25
                     blur-3xl
+                    dark:opacity-15
                 "
             />
 
@@ -209,16 +210,15 @@ function CareerCoachHeader() {
                         rounded-2xl
                         border
                         border-border
-                        dark:border-emerald-500/30
                         bg-card/80
-                        dark:bg-emerald-950/30
                         px-4
                         py-3
                         shadow-sm
-                        dark:shadow-lg
-                        dark:shadow-black/20
+                        dark:border-slate-700
+                        dark:bg-slate-900/90
+                        dark:shadow-none
                         backdrop-blur-sm
-                        dark:backdrop-blur-md
+                        dark:backdrop-blur-none
                     "
                 >
 
@@ -231,9 +231,9 @@ function CareerCoachHeader() {
                             justify-center
                             rounded-xl
                             bg-emerald-100
-                            dark:bg-emerald-500/20
                             text-emerald-600
-                            dark:text-emerald-400
+                            dark:bg-emerald-500/15
+                            dark:text-emerald-300
                         "
                     >
 
