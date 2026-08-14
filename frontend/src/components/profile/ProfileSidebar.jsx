@@ -60,17 +60,17 @@ function ProfileSidebar() {
       className="
             fixed
             top-20
-            left-0
+            hidden
             h-[calc(100vh-5rem)]
             w-80
             shrink-0
-            flex
             flex-col
             border-r
             border-border
             bg-card
             px-5
             py-7
+            lg:flex
             overflow-y-auto
             scrollbar-thin
           "
