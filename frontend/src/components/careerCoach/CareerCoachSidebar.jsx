@@ -1,7 +1,6 @@
 import {
     MessageCircle,
     Plus,
-    Sparkles,
     History,
 } from "lucide-react";
 import { Separator } from "../ui/separator.jsx";
@@ -397,15 +396,6 @@ function CareerCoachSidebar({
                         px-2
                     "
                 >
-
-                    <Sparkles
-                        className="
-                            h-3.5
-                            w-3.5
-                            text-amber-500
-                            dark:text-amber-400
-                        "
-                    />
 
                     <span
                         className="

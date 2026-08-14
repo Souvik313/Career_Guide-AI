@@ -58,22 +58,22 @@ function ProfileSidebar() {
   return (
     <aside
       className="
-            sticky
+            fixed
             top-20
-            hidden
+            left-0
             h-[calc(100vh-5rem)]
             w-80
             shrink-0
+            flex
             flex-col
             border-r
             border-border
             bg-card
             px-5
             py-7
-            lg:flex
             overflow-y-auto
             scrollbar-thin
-        "
+          "
     >
       {/* Profile Identity */}
 

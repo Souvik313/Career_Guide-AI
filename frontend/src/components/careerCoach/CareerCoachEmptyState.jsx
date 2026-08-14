@@ -93,49 +93,48 @@ function CareerCoachEmptyState({
 
           <div
             className="
-                            mx-auto
-                            flex
-                            h-20
-                            w-20
-                            items-center
-                            justify-center
-                            rounded-3xl
-                            bg-gradient-to-br
-                            from-amber-100
-                            via-orange-100
-                            to-emerald-100
-                            shadow-sm
-                            dark:bg-slate-800
-                            dark:shadow-none
-                        "
+              mx-auto
+              flex
+              h-20
+              w-20
+              items-center
+              justify-center
+              rounded-3xl
+              bg-gradient-to-br
+              from-amber-100
+              via-orange-100
+              to-emerald-100
+              shadow-sm
+              dark:from-slate-700
+              dark:via-slate-800
+              dark:to-slate-900
+              dark:shadow-md
+            "
           >
             <div
               className="
-                                flex
-                                h-14
-                                w-14
-                                items-center
-                                justify-center
-                                rounded-2xl
-                                bg-gradient-to-br
-                                from-emerald-400
-                                via-teal-500
-                                to-cyan-500
-                                text-white
-                                shadow-md
-                                transition-all
-                                duration-300
-                                animate-pulse
-                                dark:bg-emerald-500
-                                dark:shadow-none
-                            "
+                flex
+                h-14
+                w-14
+                items-center
+                justify-center
+                rounded-2xl
+                bg-gradient-to-br
+                from-emerald-400
+                via-teal-500
+                to-cyan-500
+                text-white
+                shadow-md
+                transition-all
+                duration-300
+                animate-pulse
+                dark:from-emerald-500
+                dark:via-teal-400
+                dark:to-cyan-400
+                dark:shadow-lg
+              "
             >
-              <Bot
-                className="
-                                    h-7
-                                    w-7
-                                "
-              />
+              <Bot className="h-7 w-7" />
             </div>
           </div>
 
@@ -504,14 +503,11 @@ function CareerCoachEmptyState({
                   type="button"
                   disabled={loading}
                   onClick={() => {
-                    console.log(
-                      "CareerCoachEmptyState: suggestion clicked",
-                      {
-                          resumeId: selectedResumeId,
-                          message: suggestion.label,
-                      }
-                  );
-                    onStartConversation?.(selectedResumeId, suggestion.label)
+                    console.log("CareerCoachEmptyState: suggestion clicked", {
+                      resumeId: selectedResumeId,
+                      message: suggestion.label,
+                    });
+                    onStartConversation?.(selectedResumeId, suggestion.label);
                   }}
                   className="
                                             flex
