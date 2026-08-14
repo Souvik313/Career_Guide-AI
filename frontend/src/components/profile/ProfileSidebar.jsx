@@ -58,7 +58,7 @@ function ProfileSidebar() {
   return (
     <aside
       className="
-            sticky
+            fixed
             top-20
             hidden
             h-auto
