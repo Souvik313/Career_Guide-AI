@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
 
-        const currentUser = await getUserProfile();
+        const currentUser = await authService.getCurrentUser();
 
         setUser(currentUser);
         setIsAuthenticated(true);

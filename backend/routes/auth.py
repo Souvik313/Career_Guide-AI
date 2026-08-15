@@ -39,6 +39,10 @@ def get_me(
         "id": current_user.id,
         "full_name": current_user.full_name,
         "email": current_user.email,
+        "phone_number": current_user.phone_number,
+        "address": current_user.address,
+        "auth_provider": current_user.auth_provider,
+        "is_active": current_user.is_active,
     }
 
 @router.post(
