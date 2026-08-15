@@ -42,6 +42,10 @@ function ProfilePersonalInfo() {
         fetchUserProfile,
         updateProfile,
     } = useProfile();
+
+    useEffect(() => {
+        fetchUserProfile();
+    }, [fetchUserProfile])
   
    /* -----------------------------------------------------
    * User information
@@ -51,13 +55,13 @@ function ProfilePersonalInfo() {
   const username = user?.full_name || "CareerCompass User";
   const email = user?.email || "Email not available";
   const phone = user?.phone_number || profile?.phone || "Not added yet";
-  const address = user?.address || "Not added yet";
+  const address = user?.address || "Not added yet"
 
   const openEditProfile = () => {
         setFormData({
-            full_name: username || "",
-            phone_number: phone || "",
-            address: address || "",
+            full_name: profile?.full_name || "",
+            phone_number: profile?.phone_number || "",
+            address: profile?.address || "",
         });
 
         setEditDialogOpen(true);
