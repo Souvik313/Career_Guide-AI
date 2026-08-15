@@ -64,12 +64,16 @@ function ProfilePersonalInfo() {
     };
 
     const handleUpdateProfile = async() => {
+        console.log("SAVE Clicked")
         try{
+            console.log("BEFORE UpdateProfile")
             await updateProfile({
                 full_name: formData.full_name.trim(),
                 phone: formData.phone.trim() || null,
                 address: formData.address.trim() || null,
             });
+
+            console.log("AFTER UpdateProfile")
 
             await refreshUser();
 
@@ -153,9 +157,9 @@ function ProfilePersonalInfo() {
                     </DialogHeader>
 
                     <form 
-                        onSubmit={(e) => {
+                        onSubmit={async(e) => {
                             e.preventDefault();
-                            handleUpdateProfile();
+                            await handleUpdateProfile();
                         }}
                         className="space-y-6 py-4"
                     >
