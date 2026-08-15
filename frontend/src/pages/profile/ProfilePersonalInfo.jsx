@@ -143,118 +143,122 @@ function ProfilePersonalInfo() {
 
                 <DialogContent className="sm:max-w-lg">
 
-                    <DialogHeader>
+    <DialogHeader>
 
-                        <DialogTitle>
-                            Edit Profile
-                        </DialogTitle>
+        <DialogTitle>
+            Edit Profile
+        </DialogTitle>
 
-                        <DialogDescription>
-                            Update your personal information.
-                            Your email address cannot be changed here.
-                        </DialogDescription>
+        <DialogDescription>
+            Update your personal information.
+            Your email address cannot be changed here.
+        </DialogDescription>
 
-                    </DialogHeader>
+    </DialogHeader>
 
-                    <form 
-                        onSubmit={async(e) => {
-                            e.preventDefault();
-                            await handleUpdateProfile();
-                        }}
-                        className="space-y-6 py-4"
-                    >
+    <form
+        onSubmit={async (e) => {
+            e.preventDefault();
+            await handleUpdateProfile();
+        }}
+        className="space-y-6 py-4"
+    >
 
-                        {/* Full Name */}
+        {/* Full Name */}
 
-                        <div className="space-y-2">
+        <div className="space-y-2">
 
-                            <Label htmlFor="full_name">
-                                Full Name
-                            </Label>
+            <Label htmlFor="full_name">
+                Full Name
+            </Label>
 
-                            <Input
-                                id="full_name"
-                                value={formData.full_name}
-                                onChange={(event) =>
-                                    setFormData((current) => ({
-                                        ...current,
-                                        full_name: event.target.value,
-                                    }))
-                                }
-                                placeholder="Enter your full name"
-                            />
+            <Input
+                id="full_name"
+                value={formData.full_name}
+                onChange={(event) =>
+                    setFormData((current) => ({
+                        ...current,
+                        full_name: event.target.value,
+                    }))
+                }
+                placeholder="Enter your full name"
+            />
 
-                        </div>
-
-
-                        {/* Phone */}
-
-                        <div className="space-y-2">
-
-                            <Label htmlFor="phone">
-                                Phone Number
-                            </Label>
-
-                            <Input
-                                id="phone"
-                                type="tel"
-                                value={formData.phone}
-                                onChange={(event) =>
-                                    setFormData((current) => ({
-                                        ...current,
-                                        phone: event.target.value,
-                                    }))
-                                }
-                                placeholder="Enter your phone number"
-                            />
-
-                        </div>
+        </div>
 
 
-                        {/* Address */}
+        {/* Phone */}
 
-                        <div className="space-y-2">
+        <div className="space-y-2">
 
-                            <Label htmlFor="address">
-                                Address
-                            </Label>
+            <Label htmlFor="phone">
+                Phone Number
+            </Label>
 
-                            <Textarea
-                                id="address"
-                                value={formData.address}
-                                onChange={(event) =>
-                                    setFormData((current) => ({
-                                        ...current,
-                                        address: event.target.value,
-                                    }))
-                                }
-                                placeholder="Enter your address"
-                                rows={4}
-                            />
+            <Input
+                id="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={(event) =>
+                    setFormData((current) => ({
+                        ...current,
+                        phone: event.target.value,
+                    }))
+                }
+                placeholder="Enter your phone number"
+            />
 
-                        </div>
+        </div>
 
-                    </form>
 
-                    <DialogFooter>
+        {/* Address */}
 
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => setEditDialogOpen(false)}
-                        >
-                            Cancel
-                        </Button>
+        <div className="space-y-2">
 
-                        <Button
-                            type="button"
-                            disabled={loading}
-                        >
-                            {loading ? "Saving..." : "Save Changes"}
-                        </Button>
+            <Label htmlFor="address">
+                Address
+            </Label>
 
-                    </DialogFooter>
-                </DialogContent>
+            <Textarea
+                id="address"
+                value={formData.address}
+                onChange={(event) =>
+                    setFormData((current) => ({
+                        ...current,
+                        address: event.target.value,
+                    }))
+                }
+                placeholder="Enter your address"
+                rows={4}
+            />
+
+        </div>
+
+
+        {/* Dialog Footer */}
+
+        <DialogFooter>
+
+            <Button
+                type="button"
+                variant="outline"
+                onClick={() => setEditDialogOpen(false)}
+            >
+                Cancel
+            </Button>
+
+            <Button
+                type="submit"
+                disabled={loading}
+            >
+                {loading ? "Saving..." : "Save Changes"}
+            </Button>
+
+        </DialogFooter>
+
+    </form>
+
+</DialogContent>
             </Dialog>
         }
       >
