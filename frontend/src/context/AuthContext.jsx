@@ -1,6 +1,6 @@
 import {createContext, useContext, useState, useEffect} from "react";
 import authService from "../services/authService.js";
-import userService from "../services/userService.js";
+import {getUserProfile} from "../services/userService.js";
 
 const AuthContext = createContext();
 const TOKEN_KEY = "careercompass_access_token";
@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
 
-        const currentUser = await userService.getUserProfile();
+        const currentUser = await getUserProfile();
 
         setUser(currentUser);
         setIsAuthenticated(true);
