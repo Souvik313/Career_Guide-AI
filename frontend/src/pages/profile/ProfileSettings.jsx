@@ -234,18 +234,6 @@ const handleSave = async (event) => {
 
     event.preventDefault();
 
-
-    /*
-     * The backend PUT /auth/update endpoint has not
-     * been implemented yet.
-     *
-     * For now, we simulate the save operation so the
-     * UI and interaction can be tested.
-     *
-     * Once the backend endpoint exists, this function
-     * will call the appropriate authService method.
-     */
-
     try {
 
         setSaving(true);
@@ -295,107 +283,6 @@ return (
             onSubmit={handleSave}
             className="space-y-6"
         >
-
-            {/* =================================================
-                Personal Information
-            ================================================= */}
-
-            <ProfileSectionCard
-                title="Personal Information"
-                description="
-                    Additional information that can be associated
-                    with your CareerCompass AI profile.
-                "
-                icon={UserRound}
-                variant="violet"
-            >
-
-                <div
-                    className="
-                        grid
-                        gap-5
-                        md:grid-cols-2
-                    "
-                >
-
-                    {/* Phone */}
-
-                    <div className="space-y-2">
-
-                        <Label htmlFor="phone">
-
-                            Phone Number
-
-                        </Label>
-
-                        <div className="relative">
-
-                            <Mail
-                                className="
-                                    absolute
-                                    left-3
-                                    top-1/2
-                                    h-4
-                                    w-4
-                                    -translate-y-1/2
-                                    text-zinc-400
-                                "
-                            />
-
-                            <Input
-                                id="phone"
-                                name="phone"
-                                type="tel"
-                                placeholder="Add phone number"
-                                value={settings.phone}
-                                onChange={
-                                    handleChange
-                                }
-                                className="
-                                    h-11
-                                    rounded-xl
-                                    border-border
-                                    pl-10
-                                "
-                            />
-
-                        </div>
-
-                    </div>
-
-
-                    {/* Address */}
-
-                    <div className="space-y-2">
-
-                        <Label htmlFor="address">
-
-                            Address
-
-                        </Label>
-
-                        <Input
-                            id="address"
-                            name="address"
-                            type="text"
-                            placeholder="Add your address"
-                            value={settings.address}
-                            onChange={
-                                handleChange
-                            }
-                            className="
-                                h-11
-                                rounded-xl
-                                border-border
-                            "
-                        />
-
-                    </div>
-
-                </div>
-
-            </ProfileSectionCard>
-
 
             {/* =================================================
                 AI Preferences
