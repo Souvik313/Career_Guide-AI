@@ -56,7 +56,7 @@ function ProfilePersonalInfo() {
   const openEditProfile = () => {
         setFormData({
             full_name: username || "",
-            phone: phone || "",
+            phone_number: phone || "",
             address: address || "",
         });
 
@@ -69,7 +69,7 @@ function ProfilePersonalInfo() {
             console.log("BEFORE UpdateProfile")
             await updateProfile({
                 full_name: formData.full_name.trim(),
-                phone: formData.phone.trim() || null,
+                phone_number: formData.phone_number.trim() || null,
                 address: formData.address.trim() || null,
             });
 
