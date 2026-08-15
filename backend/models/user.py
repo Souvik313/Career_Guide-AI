@@ -4,6 +4,7 @@ from sqlalchemy import Boolean
 from sqlalchemy import DateTime
 from sqlalchemy import Integer
 from sqlalchemy import String
+from sqlalchemy import Text
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
@@ -27,6 +28,14 @@ class User(Base):
         unique=True,
         nullable=False,
         index=True,
+    )
+    phone_number: Mapped[str | None] = mapped_column(
+        String(30),
+        nullable=True,
+    )
+    address: Mapped[str | None] = mapped_column(
+        Text,
+        nullable=True,
     )
     hashed_password: Mapped[str] = mapped_column(
         String(255),

@@ -1,5 +1,6 @@
 import {createContext, useContext, useState, useEffect} from "react";
 import authService from "../services/authService.js";
+import userService from "../services/userService.js";
 
 const AuthContext = createContext();
 const TOKEN_KEY = "careercompass_access_token";
@@ -15,13 +16,10 @@ export const AuthProvider = ({ children }) => {
 
     try {
 
-        const currentUser =
-        await authService.getCurrentUser();
+        const currentUser = await userService.getUserProfile();
 
         setUser(currentUser);
-
         setIsAuthenticated(true);
-
         setError(null);
 
     } catch (err) {
@@ -38,6 +36,10 @@ export const AuthProvider = ({ children }) => {
 
     }
     };
+
+    const updateUser = (updatedUser) => {
+        setUser(updatedUser);
+    }
 
     useEffect(() => {
 
@@ -118,6 +120,7 @@ export const AuthProvider = ({ children }) => {
             register,
             logout,
             refreshUser,
+            updateUser,
         }}
         >
         {children}

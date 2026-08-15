@@ -1,10 +1,6 @@
+import { useState, useEffect } from "react";
 import {
-Mail,
-Phone,
-MapPin,
-UserRound,
-Pencil,
-ShieldCheck,
+  Mail,Phone,MapPin,UserRound,Pencil,ShieldCheck,
 } from "lucide-react";
 
 import { useAuth } from "../../context/AuthContext.jsx";
@@ -13,148 +9,300 @@ import ProfileHeader from "../../components/profile/ProfileHeader.jsx";
 import ProfileAvatar from "../../components/profile/ProfileAvatar.jsx";
 import ProfileSectionCard from "../../components/profile/ProfileSectionCard.jsx";
 
+import useProfile from "../../hooks/useProfile.js";
+
 import { Button } from "../../components/ui/button.jsx";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "../../components/ui/dialog.jsx";
+
+import { Input } from "../../components/ui/input.jsx";
+import { Label } from "../../components/ui/label.jsx";
+import { Textarea } from "../../components/ui/textarea.jsx";
+import toast from "react-hot-toast";
 
 function ProfilePersonalInfo() {
 
-const { user } = useAuth();
+    const [formData, setFormData] = useState({
+        full_name : "",
+        phone : "",
+        address : "",
+    })
+    const [editDialogOpen , setEditDialogOpen] = useState(false);
+    
+    const {refreshUser} = useAuth();
+    const {
+        profile,
+        loading,
+        fetchUserProfile,
+        updateProfile,
+    } = useProfile();
 
+    useEffect(() => {
+        fetchUserProfile();
+    }, [fetchUserProfile]);
 
-/*
- * -----------------------------------------------------
- * User information
- * -----------------------------------------------------
- *
- * At the moment, your backend primarily provides
- * username and email.
- *
- * Additional fields such as phone and address can
- * be connected later through:
- *
- * PUT /auth/update
- *
- */
+  
+   /* -----------------------------------------------------
+   * User information
+   * -----------------------------------------------------
+   */
 
-const username =
-    user?.username ||
-    user?.name ||
-    user?.full_name ||
-    "CareerCompass User";
+  const username = profile?.full_name || "CareerCompass User";
+  const email = profile?.email || "Email not available";
+  const phone = profile?.phone_number || profile?.phone || "Not added yet";
+  const address = profile?.address || "Not added yet";
 
-const email =
-    user?.email ||
-    "Email not available";
+  const openEditProfile = () => {
+        setFormData({
+            full_name: username || "",
+            phone: phone || "",
+            address: address || "",
+        });
 
-const phone =
-    user?.phone ||
-    "Not added yet";
+        setEditDialogOpen(true);
+    };
 
-const address =
-    user?.address ||
-    "Not added yet";
+    const handleUpdateProfile = async() => {
+        try{
+            await updateProfile({
+                full_name: formData.full_name.trim(),
+                phone: formData.phone.trim() || null,
+                address: formData.address.trim() || null,
+            });
 
+            await refreshUser();
 
-return (
+            toast.success(
+                "Profile updated successfully!"
+            )
 
+            setEditDialogOpen(false);
+        } catch(err) {
+            console.error(
+                "Failed to update profile",
+                err
+            )
+            toast.error(
+                err?.response?.data?.detail ||
+                "Failed to update profile. Please try again later."
+            )
+        }
+    }
+
+  return (
     <div className="space-y-8">
-
-        {/* =================================================
+      {/* =================================================
             Page Header
         ================================================= */}
 
-        <ProfileHeader
-            title="Personal Information"
-            description="
+      <ProfileHeader
+        title="Personal Information"
+        description="
                 Manage your personal details and the information
                 associated with your CareerCompass AI account.
             "
-            icon={UserRound}
-        />
+        icon={UserRound}
+      />
 
-
-        {/* =================================================
+      {/* =================================================
             Profile Identity
         ================================================= */}
 
-        <ProfileSectionCard
-            title="Profile"
-            description="
+      <ProfileSectionCard
+        title="Profile"
+        description="
                 Your basic CareerCompass AI identity.
             "
-            icon={UserRound}
-            variant="colorful"
-            action={
+        icon={UserRound}
+        variant="colorful"
+        action={
+            <Dialog
+                open={editDialogOpen}
+                onOpenChange={setEditDialogOpen}
+            >
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={openEditProfile}
+                        className="
+                            rounded-xl
+                            border-border
+                            bg-card/80
+                            text-foreground
+                            hover:bg-muted
+                        "
+                    >
+                        <Pencil className="mr-2 h-4 w-4" />
+                        Edit Profile
+                    </Button>
 
-                <Button
-                    type="button"
-                    variant="outline"
-                    disabled
-                    className="
-                        rounded-xl
-                        border-border
-                        bg-card/80
-                        text-muted-foreground
-                    "
-                >
+                <DialogContent className="sm:max-w-lg">
 
-                    <Pencil className="mr-2 h-4 w-4" />
+                    <DialogHeader>
 
-                    Edit Profile
+                        <DialogTitle>
+                            Edit Profile
+                        </DialogTitle>
 
-                </Button>
+                        <DialogDescription>
+                            Update your personal information.
+                            Your email address cannot be changed here.
+                        </DialogDescription>
 
-            }
-        >
+                    </DialogHeader>
 
-            <div
-                className="
+                    <form 
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleUpdateProfile();
+                        }}
+                        className="space-y-6 py-4"
+                    >
+
+                        {/* Full Name */}
+
+                        <div className="space-y-2">
+
+                            <Label htmlFor="full_name">
+                                Full Name
+                            </Label>
+
+                            <Input
+                                id="full_name"
+                                value={formData.full_name}
+                                onChange={(event) =>
+                                    setFormData((current) => ({
+                                        ...current,
+                                        full_name: event.target.value,
+                                    }))
+                                }
+                                placeholder="Enter your full name"
+                            />
+
+                        </div>
+
+
+                        {/* Phone */}
+
+                        <div className="space-y-2">
+
+                            <Label htmlFor="phone">
+                                Phone Number
+                            </Label>
+
+                            <Input
+                                id="phone"
+                                type="tel"
+                                value={formData.phone}
+                                onChange={(event) =>
+                                    setFormData((current) => ({
+                                        ...current,
+                                        phone: event.target.value,
+                                    }))
+                                }
+                                placeholder="Enter your phone number"
+                            />
+
+                        </div>
+
+
+                        {/* Address */}
+
+                        <div className="space-y-2">
+
+                            <Label htmlFor="address">
+                                Address
+                            </Label>
+
+                            <Textarea
+                                id="address"
+                                value={formData.address}
+                                onChange={(event) =>
+                                    setFormData((current) => ({
+                                        ...current,
+                                        address: event.target.value,
+                                    }))
+                                }
+                                placeholder="Enter your address"
+                                rows={4}
+                            />
+
+                        </div>
+
+                    </form>
+
+                    <DialogFooter>
+
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => setEditDialogOpen(false)}
+                        >
+                            Cancel
+                        </Button>
+
+                        <Button
+                            type="button"
+                            disabled={loading}
+                        >
+                            {loading ? "Saving..." : "Save Changes"}
+                        </Button>
+
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+        }
+      >
+        <div
+          className="
                     flex
                     flex-col
                     gap-6
                     sm:flex-row
                     sm:items-center
                 "
-            >
+        >
+          {/* Avatar */}
 
-                {/* Avatar */}
+          <ProfileAvatar
+            name={username}
+            imageUrl={profile?.profile_image_url || ""}
+            size="large"
+          />
 
-                <ProfileAvatar
-                    name={username}
-                    imageUrl={user?.profile_image_url || ""}
-                    size="large"
-                />
+          {/* Identity */}
 
-
-                {/* Identity */}
-
-                <div className="min-w-0">
-
-                    <h2
-                        className="
+          <div className="min-w-0">
+            <h2
+              className="
                             text-2xl
                             font-bold
                             tracking-tight
                             text-foreground
                         "
-                    >
-                        {username}
-                    </h2>
+            >
+              {username}
+            </h2>
 
-
-                    <p
-                        className="
+            <p
+              className="
                             mt-1
                             break-all
                             text-sm
                             text-muted-foreground
                         "
-                    >
-                        {email}
-                    </p>
+            >
+              {email}
+            </p>
 
-
-                    <div
-                        className="
+            <div
+              className="
                             mt-3
                             inline-flex
                             items-center
@@ -169,167 +317,146 @@ return (
                             ring-1
                             ring-border
                         "
-                    >
-
-                        <ShieldCheck
-                            className="
+            >
+              <ShieldCheck
+                className="
                                 h-3.5
                                 w-3.5
                                 text-fuchsia-500
                             "
-                        />
-
-                        Account verified
-
-                    </div>
-
-                </div>
-
+              />
+              Account verified
             </div>
+          </div>
+        </div>
+      </ProfileSectionCard>
 
-        </ProfileSectionCard>
-
-
-        {/* =================================================
+      {/* =================================================
             Contact Information
         ================================================= */}
 
-        <ProfileSectionCard
-            title="Contact Information"
-            description="
+      <ProfileSectionCard
+        title="Contact Information"
+        description="
                 Your account contact details.
             "
-            icon={Mail}
-            variant="violet"
-        >
-
-            <div
-                className="
+        icon={Mail}
+        variant="violet"
+      >
+        <div
+          className="
                     grid
                     gap-5
                     sm:grid-cols-2
                 "
-            >
+        >
+          {/* Email */}
 
-                {/* Email */}
-
-                <div
-                    className="
+          <div
+            className="
                         rounded-2xl
                         border
                         border-border
                         bg-muted/60
                         p-5
                     "
-                >
-
-                    <div
-                        className="
+          >
+            <div
+              className="
                             mb-3
                             flex
                             items-center
                             gap-2
                         "
-                    >
-
-                        <Mail
-                            className="
+            >
+              <Mail
+                className="
                                 h-4
                                 w-4
                                 text-violet-500
                             "
-                        />
+              />
 
-                        <span
-                            className="
+              <span
+                className="
                                 text-xs
                                 font-semibold
                                 uppercase
                                 tracking-wide
                                 text-muted-foreground
                             "
-                        >
-                            Email
-                        </span>
+              >
+                Email
+              </span>
+            </div>
 
-                    </div>
-
-
-                    <p
-                        className="
+            <p
+              className="
                             break-all
                             text-sm
                             font-semibold
                             text-foreground
                         "
-                    >
-                        {email}
-                    </p>
+            >
+              {email}
+            </p>
+          </div>
 
-                </div>
+          {/* Phone */}
 
-
-                {/* Phone */}
-
-                <div
-                    className="
+          <div
+            className="
                         rounded-2xl
                         border
                         border-border
                         bg-muted/60
                         p-5
                     "
-                >
-
-                    <div
-                        className="
+          >
+            <div
+              className="
                             mb-3
                             flex
                             items-center
                             gap-2
                         "
-                    >
-
-                        <Phone
-                            className="
+            >
+              <Phone
+                className="
                                 h-4
                                 w-4
                                 text-fuchsia-500
                             "
-                        />
+              />
 
-                        <span
-                            className="
+              <span
+                className="
                                 text-xs
                                 font-semibold
                                 uppercase
                                 tracking-wide
                                 text-muted-foreground
                             "
-                        >
-                            Phone
-                        </span>
+              >
+                Phone
+              </span>
+            </div>
 
-                    </div>
-
-
-                    <p
-                        className="
+            <p
+              className="
                             text-sm
                             font-semibold
                             text-foreground
                         "
-                    >
-                        {phone}
-                    </p>
+            >
+              {phone}
+            </p>
+          </div>
 
-                </div>
+          {/* Address */}
 
-
-                {/* Address */}
-
-                <div
-                    className="
+          <div
+            className="
                         rounded-2xl
                         border
                         border-border
@@ -337,140 +464,124 @@ return (
                         p-5
                         sm:col-span-2
                     "
-                >
-
-                    <div
-                        className="
+          >
+            <div
+              className="
                             mb-3
                             flex
                             items-center
                             gap-2
                         "
-                    >
-
-                        <MapPin
-                            className="
+            >
+              <MapPin
+                className="
                                 h-4
                                 w-4
                                 text-orange-500
                             "
-                        />
+              />
 
-                        <span
-                            className="
+              <span
+                className="
                                 text-xs
                                 font-semibold
                                 uppercase
                                 tracking-wide
                                 text-muted-foreground
                             "
-                        >
-                            Address
-                        </span>
+              >
+                Address
+              </span>
+            </div>
 
-                    </div>
-
-
-                    <p
-                        className="
+            <p
+              className="
                             text-sm
                             font-semibold
                             text-foreground
                         "
-                    >
-                        {address}
-                    </p>
+            >
+              {address}
+            </p>
+          </div>
+        </div>
+      </ProfileSectionCard>
 
-                </div>
-
-            </div>
-
-        </ProfileSectionCard>
-
-
-        {/* =================================================
+      {/* =================================================
             Account Information
         ================================================= */}
 
-        <ProfileSectionCard
-            title="Account Information"
-            description="
+      <ProfileSectionCard
+        title="Account Information"
+        description="
                 Basic information about your CareerCompass AI account.
             "
-            icon={ShieldCheck}
-            variant="teal"
-        >
-
-            <div
-                className="
+        icon={ShieldCheck}
+        variant="teal"
+      >
+        <div
+          className="
                     grid
                     gap-5
                     sm:grid-cols-2
                 "
-            >
-
-                <div
-                    className="
+        >
+          <div
+            className="
                         rounded-2xl
                         border
                         border-border
                         bg-card
                         p-5
                     "
-                >
-
-                    <p
-                        className="
+          >
+            <p
+              className="
                             text-xs
                             font-semibold
                             uppercase
                             tracking-wide
                             text-muted-foreground
                         "
-                    >
-                        Username
-                    </p>
+            >
+              Username
+            </p>
 
-
-                    <p
-                        className="
+            <p
+              className="
                             mt-2
                             text-sm
                             font-semibold
                             text-foreground
                         "
-                    >
-                        {username}
-                    </p>
+            >
+              {username}
+            </p>
+          </div>
 
-                </div>
-
-
-                <div
-                    className="
+          <div
+            className="
                         rounded-2xl
                         border
                         border-border
                         bg-card
                         p-5
                     "
-                >
-
-                    <p
-                        className="
+          >
+            <p
+              className="
                             text-xs
                             font-semibold
                             uppercase
                             tracking-wide
                             text-muted-foreground
                         "
-                    >
-                        Account Status
-                    </p>
+            >
+              Account Status
+            </p>
 
-
-                    <div
-                        className="
+            <div
+              className="
                             mt-2
                             inline-flex
                             items-center
@@ -479,31 +590,22 @@ return (
                             font-semibold
                             text-emerald-600
                         "
-                    >
-
-                        <span
-                            className="
+            >
+              <span
+                className="
                                 h-2
                                 w-2
                                 rounded-full
                                 bg-emerald-500
                             "
-                        />
-
-                        Active
-
-                    </div>
-
-                </div>
-
+              />
+              Active
             </div>
-
-        </ProfileSectionCard>
-
+          </div>
+        </div>
+      </ProfileSectionCard>
     </div>
-
-);
-
+  );
 }
 
 export default ProfilePersonalInfo;

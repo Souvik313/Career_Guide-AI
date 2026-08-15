@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend.routes.resume_routes import router as resume_router
 from backend.routes.auth import router as auth_router
+from backend.routes.user_routes import router as user_router
 from backend.routes.recommendation_routes import router as recommendation_router
 from backend.routes.career_evaluation_routes import router as career_evaluation_router
 from backend.routes.saved_job_routes import router as saved_job_router
@@ -32,6 +33,7 @@ app.add_middleware(
 # Include API routes
 app.include_router(resume_router)
 app.include_router(auth_router)
+app.include_router(user_router)
 app.include_router(recommendation_router)
 app.include_router(career_evaluation_router)
 app.include_router(saved_job_router)
