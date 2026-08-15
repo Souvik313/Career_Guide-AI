@@ -35,28 +35,23 @@ function ProfilePersonalInfo() {
     })
     const [editDialogOpen , setEditDialogOpen] = useState(false);
     
-    const {refreshUser} = useAuth();
+    const {user, refreshUser} = useAuth();
     const {
         profile,
         loading,
         fetchUserProfile,
         updateProfile,
     } = useProfile();
-
-    useEffect(() => {
-        fetchUserProfile();
-    }, [fetchUserProfile]);
-
   
    /* -----------------------------------------------------
    * User information
    * -----------------------------------------------------
    */
 
-  const username = profile?.full_name || "CareerCompass User";
-  const email = profile?.email || "Email not available";
-  const phone = profile?.phone_number || profile?.phone || "Not added yet";
-  const address = profile?.address || "Not added yet";
+  const username = user?.full_name || "CareerCompass User";
+  const email = user?.email || "Email not available";
+  const phone = user?.phone_number || profile?.phone || "Not added yet";
+  const address = user?.address || "Not added yet";
 
   const openEditProfile = () => {
         setFormData({
@@ -272,7 +267,7 @@ function ProfilePersonalInfo() {
 
           <ProfileAvatar
             name={username}
-            imageUrl={profile?.profile_image_url || ""}
+            imageUrl={user?.profile_image_url || ""}
             size="large"
           />
 
