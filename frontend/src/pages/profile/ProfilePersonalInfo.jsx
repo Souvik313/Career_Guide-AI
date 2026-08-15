@@ -30,7 +30,7 @@ function ProfilePersonalInfo() {
 
     const [formData, setFormData] = useState({
         full_name : "",
-        phone : "",
+        phone_number : "",
         address : "",
     })
     const [editDialogOpen , setEditDialogOpen] = useState(false);
@@ -202,7 +202,7 @@ function ProfilePersonalInfo() {
                 onChange={(event) =>
                     setFormData((current) => ({
                         ...current,
-                        phone: event.target.value,
+                        phone_number: event.target.value,
                     }))
                 }
                 placeholder="Enter your phone number"
