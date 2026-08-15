@@ -5,7 +5,6 @@ Settings,
 Bell,
 BrainCircuit,
 ShieldCheck,
-UserRound,
 Save,
 Mail,
 LockKeyhole,
@@ -14,10 +13,20 @@ Sparkles,
 
 import ProfileHeader from "../../components/profile/ProfileHeader.jsx";
 import ProfileSectionCard from "../../components/profile/ProfileSectionCard.jsx";
+import useProfile from "../../hooks/useProfile.js";
 
 import { Button } from "../../components/ui/button.jsx";
 import { Input } from "../../components/ui/input.jsx";
 import { Label } from "../../components/ui/label.jsx";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "../../components/ui/dialog.jsx";
+import toast from "react-hot-toast";
 
 const ToggleRow = ({
     icon: Icon,
@@ -160,9 +169,6 @@ function ProfileSettings() {
 
 const [settings, setSettings] = useState({
 
-    phone: "",
-
-    address: "",
 
     jobAlerts: true,
 
@@ -174,10 +180,20 @@ const [settings, setSettings] = useState({
 
 });
 
+const {
+    changePassword,
+} = useProfile();
 
 const [saving, setSaving] = useState(false);
-
 const [saved, setSaved] = useState(false);
+const [passwordDialogOpen , setPasswordDialogOpen] = useState(false);
+const [passwordData , setPasswordData] = useState({
+    current_password: "",
+    new_password: "",
+    confirm_password: "",
+})
+const [changingPassword, setChangingPassword] = useState(false);
+const [passwordError, setPasswordError] = useState("");
 
 
 /* =====================================================
@@ -202,6 +218,29 @@ const handleChange = (event) => {
 
 
     setSaved(false);
+
+};
+
+/* =====================================================
+   Handle Password Input Changes
+===================================================== */
+
+const handlePasswordChange = (event) => {
+
+    const {
+        name,
+        value,
+    } = event.target;
+
+    setPasswordData((currentData) => ({
+
+        ...currentData,
+
+        [name]: value,
+
+    }));
+
+    setPasswordError("");
 
 };
 
@@ -253,6 +292,93 @@ const handleSave = async (event) => {
 
         setSaving(false);
 
+    }
+
+};
+
+/* =====================================================
+   Change Password
+===================================================== */
+
+const handleChangePassword = async (event) => {
+
+    event.preventDefault();
+
+    setPasswordError("");
+
+
+    const {
+        current_password,
+        new_password,
+        confirm_password,
+    } = passwordData;
+
+
+    if (!current_password || !new_password || !confirm_password) {
+
+        setPasswordError(
+            "Please fill in all password fields."
+        );
+
+        return;
+
+    }
+
+    if (new_password !== confirm_password) {
+
+        setPasswordError(
+            "New password and confirmation password do not match."
+        );
+
+        return;
+
+    }
+
+    if (new_password === current_password) {
+
+        setPasswordError(
+            "New password must be different from your current password."
+        );
+
+        return;
+
+    }
+
+    try {
+
+        setChangingPassword(true);
+        await changePassword({
+
+            current_password,
+
+            new_password,
+
+        });
+        toast.success(
+            "Password changed successfully!"
+        )
+
+        setPasswordData({
+
+            current_password: "",
+
+            new_password: "",
+
+            confirm_password: "",
+
+        });
+        setPasswordDialogOpen(false);
+
+    } catch (error) {
+
+        const message =
+            error?.response?.data?.detail ||
+            "Failed to change password. Please try again.";
+        setPasswordError(message);
+        toast.error(passwordError);
+
+    } finally {
+        setChangingPassword(false);
     }
 
 };
@@ -480,16 +606,8 @@ return (
                             hover:bg-teal-50
                         "
                         onClick={() => {
-
-                            /*
-                             * Password update functionality
-                             * can be connected here later.
-                             */
-
-                            console.log(
-                                "Password update requested."
-                            );
-
+                            setPasswordDialogOpen(true);
+                            setPasswordError("");
                         }}
                     >
 
@@ -501,6 +619,140 @@ return (
 
             </ProfileSectionCard>
 
+            <Dialog
+    open={passwordDialogOpen}
+    onOpenChange={setPasswordDialogOpen}
+>
+
+    <DialogContent className="sm:max-w-lg">
+
+        <DialogHeader>
+
+            <DialogTitle>
+                Change Password
+            </DialogTitle>
+
+            <DialogDescription>
+                Update your account password securely.
+            </DialogDescription>
+
+        </DialogHeader>
+
+
+        <form
+            onSubmit={async (event) => {
+
+                event.preventDefault();
+
+                await handleChangePassword();
+
+            }}
+            className="space-y-6 py-4"
+        >
+
+            {/* Current Password */}
+
+            <div className="space-y-2">
+
+                <Label htmlFor="current_password">
+                    Current Password
+                </Label>
+
+                <Input
+                    id="current_password"
+                    name="current_password"
+                    type="password"
+                    value={
+                        passwordData.current_password
+                    }
+                    onChange={handlePasswordChange}
+                    placeholder="Enter your current password"
+                    autoComplete="current-password"
+                />
+
+            </div>
+
+
+            {/* New Password */}
+
+            <div className="space-y-2">
+
+                <Label htmlFor="new_password">
+                    New Password
+                </Label>
+
+                <Input
+                    id="new_password"
+                    name="new_password"
+                    type="password"
+                    value={
+                        passwordData.new_password
+                    }
+                    onChange={handlePasswordChange}
+                    placeholder="Enter your new password"
+                    autoComplete="new-password"
+                />
+
+            </div>
+
+
+            {/* Confirm Password */}
+
+            <div className="space-y-2">
+
+                <Label htmlFor="confirm_password">
+                    Confirm New Password
+                </Label>
+
+                <Input
+                    id="confirm_password"
+                    name="confirm_password"
+                    type="password"
+                    value={
+                        passwordData.confirm_password
+                    }
+                    onChange={handlePasswordChange}
+                    placeholder="Confirm your new password"
+                    autoComplete="new-password"
+                />
+
+            </div>
+
+            {/* Dialog Footer */}
+
+            <DialogFooter>
+
+                <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+
+                        setPasswordDialogOpen(false);
+
+                    }}
+                    disabled={changingPassword}
+                >
+                    Cancel
+                </Button>
+
+
+                <Button
+                    type="submit"
+                    disabled={changingPassword}
+                >
+                    {changingPassword
+                        ? "Updating..."
+                        : "Update Password"
+                    }
+                </Button>
+
+            </DialogFooter>
+
+        </form>
+
+    </DialogContent>
+
+</Dialog>
 
             {/* =================================================
                 Save
@@ -546,24 +798,20 @@ return (
                                 text-muted-foreground
                             "
                         >
-                            Changes are currently stored only
-                            for this session.
+                            Preferences and Notification Settings are saved using this button.
+                            Password changes are saved immediately.
                         </p>
 
                     )}
 
                 </div>
 
-
                 <Button
                     type="submit"
                     disabled={saving}
                     className="
                         rounded-xl
-                        bg-gradient-to-r
-                        from-violet-600
-                        via-fuchsia-600
-                        to-orange-500
+                        bg-blue-600
                         px-6
                         font-semibold
                         text-white
@@ -571,7 +819,10 @@ return (
                         transition-all
                         hover:scale-[1.01]
                         hover:shadow-lg
-                        hover:shadow-fuchsia-200
+                        hover:shadow-blue-300
+                        dark:bg-blue-500
+                        dark:text-white
+                        dark:hover:shadow-blue-400
                     "
                 >
 
@@ -585,7 +836,7 @@ return (
 
                     {saving
                         ? "Saving..."
-                        : "Save Changes"}
+                        : "Save Profile Changes"}
 
                 </Button>
 

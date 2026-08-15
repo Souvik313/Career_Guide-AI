@@ -43,7 +43,7 @@ class UserService:
     ):
         if user.auth_provider != "local":
             raise ValueError(
-                "Passwprd cannot be changed for this account."
+                "Password cannot be changed for this account."
             )
 
         if not verify_password(
@@ -65,3 +65,6 @@ class UserService:
         user.hashed_password = hash_password(
             new_password
         )
+        self.db.commit()
+
+        self.db.refresh(user)
