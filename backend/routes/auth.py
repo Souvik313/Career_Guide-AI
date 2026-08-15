@@ -45,6 +45,8 @@ def get_me(
         "is_active": current_user.is_active,
     }
 
+
+
 @router.post(
     "/signup",
     response_model=AuthResponse,

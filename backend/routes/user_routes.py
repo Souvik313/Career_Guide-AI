@@ -19,14 +19,14 @@ router = APIRouter(
 )
 
 # GET current user profile
-router.get("/me" , response_model=UserProfileResponse)
+@router.get("/me" , response_model=UserProfileResponse)
 def get_my_profile(
         current_user: User = Depends(get_current_user),
 ):
     return current_user
 
 # UPDATE current user profile
-router.patch(
+@router.patch(
     "/me",
     response_model=UserProfileResponse
 )
@@ -47,7 +47,7 @@ def update_my_profile(
     return updated_user
 
 # CHANGE password
-router.patch(
+@router.patch(
     "/me/password",
 )
 def change_my_password(
