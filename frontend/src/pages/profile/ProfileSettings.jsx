@@ -639,16 +639,7 @@ return (
         </DialogHeader>
 
 
-        <form
-            onSubmit={async (event) => {
-
-                event.preventDefault();
-
-                await handleChangePassword();
-
-            }}
-            className="space-y-6 py-4"
-        >
+        <div className="space-y-6 py-4">
 
             {/* Current Password */}
 
@@ -718,6 +709,7 @@ return (
 
             </div>
 
+
             {/* Dialog Footer */}
 
             <DialogFooter>
@@ -737,8 +729,9 @@ return (
 
 
                 <Button
-                    type="submit"
+                    type="button"
                     disabled={changingPassword}
+                    onClick={handleChangePassword}
                 >
                     {changingPassword
                         ? "Updating..."
@@ -748,7 +741,7 @@ return (
 
             </DialogFooter>
 
-        </form>
+        </div>
 
     </DialogContent>
 
