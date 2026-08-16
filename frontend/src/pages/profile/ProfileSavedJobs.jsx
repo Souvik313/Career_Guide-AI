@@ -190,7 +190,7 @@ function ProfileSavedJobs() {
         'job_role': "all",
         'primary_keyword': "all",
         "english_level": "all",
-        "skill": [],
+        "skills": [],
     })
 
     const handleFilterChange = (key, value) => {
@@ -202,7 +202,7 @@ function ProfileSavedJobs() {
             job_role: "all",
             primary_keyword: "all", 
             english_level: "all", 
-            skill: [],
+            skills: [],
         });
     }
 
@@ -273,7 +273,7 @@ function ProfileSavedJobs() {
         filters.job_role !== "all" ||
         filters.primary_keyword !== "all" ||
         filters.english_level !== "all" ||
-        filters.skill > 0;
+        filters.skills.length > 0;
 
   /* =====================================================
    Fetch Saved Jobs
