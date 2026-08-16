@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   MessageCircle,
@@ -17,6 +17,7 @@ import ProfileEmptyState from "../../components/profile/ProfileEmptyState.jsx";
 import { Button } from "../../components/ui/button.jsx";
 
 import useAIChat from "../../hooks/useAIChat.js";
+import useResume from "@/hooks/useResume.js";
 
 function ProfileConversationHistory() {
   const {
@@ -30,7 +31,89 @@ function ProfileConversationHistory() {
     startNewConversation,
   } = useAIChat();
 
+  const { resumes, fetchUserResumes } = useResume();
+
   const navigate = useNavigate();
+
+  /* =====================================================
+   Filters
+===================================================== */
+
+  const [filters, setFilters] = useState({ resume: "all" });
+
+  const handleFilterChange = (key, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]:
+        key === "resume" && value !== "all" && value !== "none"
+          ? Number(value)
+          : value,
+    }));
+  };
+
+  const resetFilters = () => {
+    setFilters({ resume: "all" });
+  };
+
+  /* =====================================================
+   Resume Name Lookup — depends on `resumes`, so after useResume()
+===================================================== */
+
+  const resumeNameMap = useMemo(() => {
+    const map = new Map();
+    (resumes || []).forEach((r) => {
+      map.set(r.id, r.filename || "Untitled Resume");
+    });
+    return map;
+  }, [resumes]);
+
+  /* =====================================================
+   Filter Options — depends on `conversations` + `resumeNameMap`
+===================================================== */
+
+  const filterOptions = useMemo(() => {
+    const seen = new Map();
+    let hasUnlinked = false;
+
+    (conversations || []).forEach((c) => {
+      if (c.resume_id != null && resumeNameMap.has(c.resume_id)) {
+        seen.set(c.resume_id, resumeNameMap.get(c.resume_id));
+      } else if (c.resume_id == null) {
+        hasUnlinked = true;
+      }
+    });
+
+    return {
+      resume: Array.from(seen.entries()).map(([id, name]) => ({ id, name })),
+      hasUnlinked,
+    };
+  }, [conversations, resumeNameMap]);
+
+  /* =====================================================
+   Filtered Conversations — the actual render source
+===================================================== */
+
+  const filteredConversations = useMemo(() => {
+    return (conversations || []).filter((c) => {
+      if (filters.resume === "all") return true;
+      if (filters.resume === "none") return c.resume_id == null;
+      return c.resume_id === filters.resume;
+    });
+  }, [conversations, filters]);
+
+  const isFiltering = filters.resume !== "all";
+
+  useEffect(() => {
+  const loadResumes = async () => {
+    try {
+      await fetchUserResumes();
+    } catch (err) {
+      console.error("Failed to load resumes:", err);
+    }
+  };
+
+  loadResumes();
+}, [fetchUserResumes]);
 
   /* =====================================================
    Load Conversation Summaries
@@ -289,6 +372,57 @@ function ProfileConversationHistory() {
 
       {loading && <ProfileLoading type="chat" count={5} />}
 
+      {!loading && !error && conversations?.length > 0 && (
+        <div
+          className="
+                      flex
+                      flex-wrap
+                      items-center
+                      gap-3
+                      rounded-2xl
+                      border
+                      border-border
+                      bg-card
+                      p-4
+                  "
+        >
+          <select
+            value={filters.resume === "all" ? "all" : String(filters.resume)}
+            onChange={(e) => handleFilterChange("resume", e.target.value)}
+            className="
+                        rounded-xl
+                        border
+                        border-border
+                        bg-background
+                        px-3
+                        py-2
+                        text-sm
+                    "
+          >
+            <option value="all">All Resumes</option>
+            {filterOptions.hasUnlinked && (
+              <option value="none">No Resume</option>
+            )}
+            {filterOptions.resume.map(({ id, name }) => (
+              <option key={id} value={id}>
+                {name}
+              </option>
+            ))}
+          </select>
+
+          {isFiltering && (
+            <Button
+              type="button"
+              variant="ghost"
+              className="text-xs text-muted-foreground"
+              onClick={resetFilters}
+            >
+              Clear filters
+            </Button>
+          )}
+        </div>
+      )}
+
       {/* =================================================
             Conversation Summaries
         ================================================= */}
@@ -303,7 +437,7 @@ function ProfileConversationHistory() {
           variant="fuchsia"
         >
           <div className="space-y-3">
-            {conversations.map((conversation) => (
+            {filteredConversations.map((conversation) => (
               <button
                 key={conversation.conversation_id}
                 type="button"

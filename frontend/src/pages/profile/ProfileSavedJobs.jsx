@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 
 import {
   Bookmark,
@@ -9,6 +9,8 @@ import {
   Code2,
   Languages,
   Sparkles,
+  ChevronDown,
+  X,
 } from "lucide-react";
 
 import ProfileHeader from "../../components/profile/ProfileHeader.jsx";
@@ -32,6 +34,154 @@ import toast from "react-hot-toast";
 
 import useSavedJobs from "../../hooks/useSavedJobs.js";
 
+const ROLE_CATEGORIES = [
+  { label: "Full Stack Developer", keywords: ["full stack", "full-stack"] },
+  { label: "Frontend Developer", keywords: ["frontend", "front-end", "front end", "react developer", "ui developer"] },
+  { label: "Backend Developer", keywords: ["backend", "back-end", "back end"] },
+  { label: "ML Engineer", keywords: ["ml engineer", "machine learning engineer"] },
+  { label: "AI Engineer", keywords: ["ai engineer", "artificial intelligence engineer"] },
+  { label: "Data Scientist", keywords: ["data scientist"] },
+  { label: "Data Analyst", keywords: ["data analyst"] },
+  { label: "DevOps Engineer", keywords: ["devops", "dev ops", "site reliability", "sre"] },
+];
+
+const matchesRoleCategory = (jobTitle, categoryLabel) => {
+  if (!jobTitle) return false;
+  const title = jobTitle.toLowerCase();
+  const category = ROLE_CATEGORIES.find((c) => c.label === categoryLabel);
+  if (!category) return false;
+  return category.keywords.some((kw) => title.includes(kw));
+};
+
+function SkillsMultiSelect({ options, selected, onToggle, onRemove }) {
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef(null);
+
+  // Close the popover on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div ref={containerRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        className="
+                    flex
+                    min-w-[160px]
+                    items-center
+                    justify-between
+                    gap-2
+                    rounded-xl
+                    border
+                    border-border
+                    bg-background
+                    px-3
+                    py-2
+                    text-sm
+                "
+      >
+        <span className="truncate">
+          {selected.length === 0
+            ? "All Skills"
+            : `${selected.length} skill${selected.length > 1 ? "s" : ""} selected`}
+        </span>
+        <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+      </button>
+
+      {open && (
+        <div
+          className="
+                        absolute
+                        z-20
+                        mt-2
+                        w-56
+                        rounded-xl
+                        border
+                        border-border
+                        bg-card
+                        shadow-lg
+                    "
+        >
+          {/* This is the height cap — the popup scrolls instead of growing */}
+          <div className="max-h-56 overflow-y-auto p-2">
+            {options.length === 0 && (
+              <div className="px-2 py-1.5 text-xs text-muted-foreground">
+                No skills available
+              </div>
+            )}
+
+            {options.map((skill) => (
+              <label
+                key={skill}
+                className="
+                                    flex
+                                    cursor-pointer
+                                    items-center
+                                    gap-2
+                                    rounded-lg
+                                    px-2
+                                    py-1.5
+                                    text-sm
+                                    hover:bg-muted
+                                "
+              >
+                <input
+                  type="checkbox"
+                  checked={selected.includes(skill)}
+                  onChange={() => onToggle(skill)}
+                  className="h-3.5 w-3.5"
+                />
+                {skill}
+              </label>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Selected skills as removable chips, shown under the trigger */}
+      {selected.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {selected.map((skill) => (
+            <span
+              key={skill}
+              className="
+                                inline-flex
+                                items-center
+                                gap-1
+                                rounded-full
+                                bg-muted
+                                px-2.5
+                                py-1
+                                text-xs
+                                font-medium
+                                text-foreground/80
+                            "
+            >
+              {skill}
+              <button
+                type="button"
+                onClick={() => onRemove(skill)}
+                aria-label={`Remove ${skill} filter`}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ProfileSavedJobs() {
   const { savedJobs, loading, error, fetchSavedJobs, removeSavedJob } =
     useSavedJobs();
@@ -40,7 +190,7 @@ function ProfileSavedJobs() {
         'job_role': "all",
         'primary_keyword': "all",
         "english_level": "all",
-        "skill": "all",
+        "skill": [],
     })
 
     const handleFilterChange = (key, value) => {
@@ -52,18 +202,31 @@ function ProfileSavedJobs() {
             job_role: "all",
             primary_keyword: "all", 
             english_level: "all", 
-            skill: "all" 
+            skill: [],
         });
     }
 
+    const toggleSkillFilter = (skill) => {
+        setFilters((prev) => ({
+            ...prev,
+            skills: prev.skills.includes(skill)
+            ? prev.skills.filter((s) => s !== skill)
+            : [...prev.skills, skill],
+        }));
+    };
+    const removeSkillFilter = (skill) => {
+        setFilters((prev) => ({
+            ...prev,
+            skills: prev.skills.filter((s) => s !== skill),
+        }));
+    };
+
     const filterOptions = useMemo(() => {
-        const roles = new Set()
         const keywords = new Set();
         const levels = new Set();
         const skills = new Set();
 
         (savedJobs || []).forEach((job) => {
-            if(job.job_title) roles.add(job.job_title.trim());
             if(job.primary_keyword) keywords.add(job.primary_keyword);
             if (job.english_level) levels.add(job.english_level);
             if (Array.isArray(job.skills)) {
@@ -71,8 +234,14 @@ function ProfileSavedJobs() {
             }
         })
 
+        const jobRoles = ROLE_CATEGORIES.filter((category) =>
+            (savedJobs || []).some((job) =>
+            matchesRoleCategory(job.job_title, category.label),
+            ),
+        ).map((c) => c.label);
+
         return {
-            job_role: Array.from(roles).sort(),
+            job_role: jobRoles,
             primary_keyword: Array.from(keywords),
             english_level: Array.from(levels),
             skill: Array.from(skills),
@@ -82,7 +251,7 @@ function ProfileSavedJobs() {
         const filteredJobs = useMemo(() => {
         return (savedJobs || []).filter((job) => {
         const matchesRole =
-            filters.job_role === "all" || job.job_title === filters.job_role;
+            filters.job_role === "all" || matchesRoleCategory(job.job_title, filters.job_role);
         const matchesKeyword =
             filters.primary_keyword === "all" ||
             job.primary_keyword === filters.primary_keyword;
@@ -91,11 +260,12 @@ function ProfileSavedJobs() {
             filters.english_level === "all" ||
             job.english_level === filters.english_level;
 
-        const matchesSkill =
-            filters.skill === "all" ||
-            (Array.isArray(job.skills) && job.skills.includes(filters.skill));
+        const matchesSkills =
+            filters.skills.length === 0 ||
+            (Array.isArray(job.skills) &&
+                job.skills.some((s) => filters.skills.includes(s)));
 
-        return matchesRole && matchesKeyword && matchesLevel && matchesSkill;
+        return matchesRole && matchesKeyword && matchesLevel && matchesSkills;
         });
     }, [savedJobs , filters]);
 
@@ -103,7 +273,7 @@ function ProfileSavedJobs() {
         filters.job_role !== "all" ||
         filters.primary_keyword !== "all" ||
         filters.english_level !== "all" ||
-        filters.skill !== "all";
+        filters.skill > 0;
 
   /* =====================================================
    Fetch Saved Jobs
@@ -290,26 +460,12 @@ function ProfileSavedJobs() {
             ))}
           </select>
 
-          <select
-            value={filters.skill}
-            onChange={(e) => handleFilterChange("skill", e.target.value)}
-            className="
-                        rounded-xl
-                        border
-                        border-border
-                        bg-background
-                        px-3
-                        py-2
-                        text-sm
-                    "
-          >
-            <option value="all">All Skills</option>
-            {filterOptions.skill.map((skill) => (
-              <option key={skill} value={skill}>
-                {skill}
-              </option>
-            ))}
-          </select>
+          <SkillsMultiSelect
+            options={filterOptions.skill}
+            selected={filters.skills}
+            onToggle={toggleSkillFilter}
+            onRemove={removeSkillFilter}
+        />
 
           {isFiltering && (
             <Button
