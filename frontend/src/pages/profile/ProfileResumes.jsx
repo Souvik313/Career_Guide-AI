@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-FileText,
-Trash2,
-Eye,
-CalendarDays,
-Sparkles,
-} from "lucide-react";
+import { FileText, Trash2, Eye, CalendarDays, Sparkles } from "lucide-react";
 
 import ProfileHeader from "../../components/profile/ProfileHeader.jsx";
 import ProfileSectionCard from "../../components/profile/ProfileSectionCard.jsx";
@@ -14,190 +8,149 @@ import ProfileEmptyState from "../../components/profile/ProfileEmptyState.jsx";
 
 import { Button } from "../../components/ui/button.jsx";
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
 } from "../../components/ui/dialog.jsx";
 
 import useResume from "../../hooks/useResume.js";
-import {getResumeFile} from "../../services/resumeService.js";
+import { getResumeFile } from "../../services/resumeService.js";
 
 function ProfileResumes() {
+  const { resumes, fetchUserResumes, loading, error, removeResume } =
+    useResume();
 
-const {
-    resumes,
-    fetchUserResumes,
-    loading,
-    error,
-    removeResume,
-} = useResume();
+  const [selectedResume, setSelectedResume] = useState(null);
 
-const [selectedResume, setSelectedResume] = useState(null);
+  const [resumePreviewUrl, setResumePreviewUrl] = useState(null);
 
-const [resumePreviewUrl, setResumePreviewUrl] = useState(null);
+  const [previewLoading, setPreviewLoading] = useState(false);
 
-const [previewLoading, setPreviewLoading] = useState(false);
+  const [previewError, setPreviewError] = useState(null);
 
-const [previewError, setPreviewError] = useState(null);
+  useEffect(() => {
+    const loadResumes = async () => {
+      try {
+        await fetchUserResumes();
+      } catch (err) {
+        console.error("Failed to load resumes:", err);
+      }
+    };
 
-useEffect(() => {
+    loadResumes();
+  }, []);
 
-        const loadResumes = async () => {
-
-            try {
-
-                await fetchUserResumes();
-
-            } catch (err) {
-
-                console.error(
-                    "Failed to load resumes:",
-                    err
-                );
-
-            }
-
-        };
-
-        loadResumes();
-
-    }, []);
-
-
-/* =====================================================
+  /* =====================================================
    Helpers
 ===================================================== */
 
-const formatDate = (dateValue) => {
-
+  const formatDate = (dateValue) => {
     if (!dateValue) {
-        return "Date unavailable";
+      return "Date unavailable";
     }
 
     const date = new Date(dateValue);
 
     if (Number.isNaN(date.getTime())) {
-        return "Date unavailable";
+      return "Date unavailable";
     }
 
-    return date.toLocaleDateString(
-        "en-IN",
-        {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-        }
-    );
+    return date.toLocaleDateString("en-IN", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
-};
-
-
-/* =====================================================
+  /* =====================================================
    Delete Resume
 ===================================================== */
 
-const handleDelete = async (resumeId) => {
+  const handleDelete = async (resumeId) => {
     const confirmed = window.confirm(
-        "Are you sure you want to delete this resume?"
+      "Are you sure you want to delete this resume?",
     );
 
     if (!confirmed) {
-        return;
+      return;
     }
 
     try {
-        await removeResume(resumeId);
+      await removeResume(resumeId);
 
-        // Optional: close preview if the deleted resume
-        // was currently being viewed.
-        if (selectedResume?.id === resumeId) {
-            handleClosePreview();
-        }
-
+      // Optional: close preview if the deleted resume
+      // was currently being viewed.
+      if (selectedResume?.id === resumeId) {
+        handleClosePreview();
+      }
     } catch (err) {
-        console.error(
-            "Failed to delete resume:",
-            err
-        );
+      console.error("Failed to delete resume:", err);
     }
-};
+  };
 
-/* =====================================================
+  /* =====================================================
    View Resume Preview
 ===================================================== */
 
-const handleViewResume = async (resume) => {
+  const handleViewResume = async (resume) => {
     try {
-        setPreviewLoading(true);
-        setPreviewError(null);
+      setPreviewLoading(true);
+      setPreviewError(null);
 
-        const data = await getResumeFile(resume.id);
+      const data = await getResumeFile(resume.id);
 
-        setSelectedResume({
-            ...resume,
-            filename: data.filename,
-        });
+      setSelectedResume({
+        ...resume,
+        filename: data.filename,
+      });
 
-        setResumePreviewUrl(data.url);
-
+      setResumePreviewUrl(data.url);
     } catch (err) {
-        console.error(
-            "Failed to load resume:",
-            err
-        );
+      console.error("Failed to load resume:", err);
 
-        setPreviewError(
-            err?.response?.data?.detail ||
-            "Failed to load resume."
-        );
-
+      setPreviewError(err?.response?.data?.detail || "Failed to load resume.");
     } finally {
-        setPreviewLoading(false);
+      setPreviewLoading(false);
     }
-};
+  };
 
-/* =====================================================
+  /* =====================================================
    Close Resume Preview
 ===================================================== */
 
-const handleClosePreview = () => {
+  const handleClosePreview = () => {
     setSelectedResume(null);
     setResumePreviewUrl(null);
     setPreviewError(null);
-};
+  };
 
-
-/* =====================================================
+  /* =====================================================
    Render
 ===================================================== */
 
-return (
-
+  return (
     <div className="space-y-8">
-
-        {/* =================================================
+      {/* =================================================
             Page Header
         ================================================= */}
 
-        <ProfileHeader
-            title="Your Resumes"
-            description="
+      <ProfileHeader
+        title="Your Resumes"
+        description="
                 View and manage the resumes you've uploaded
                 to CareerCompass AI.
             "
-            icon={FileText}
-        />
+        icon={FileText}
+      />
 
-
-        {/* =================================================
+      {/* =================================================
             Error
         ================================================= */}
 
-        {error && !loading && (
-
-            <div
-                className="
+      {error && !loading && (
+        <div
+          className="
                     rounded-2xl
                     border
                     border-red-200
@@ -207,75 +160,56 @@ return (
                     text-sm
                     text-red-600
                 "
-            >
-                {error}
-            </div>
+        >
+          {error}
+        </div>
+      )}
 
-        )}
-
-
-        {/* =================================================
+      {/* =================================================
             Loading
         ================================================= */}
 
-        {loading && (
+      {loading && <ProfileLoading type="cards" count={3} />}
 
-            <ProfileLoading
-                type="cards"
-                count={3}
-            />
-
-        )}
-
-
-        {/* =================================================
+      {/* =================================================
             Empty State
         ================================================= */}
 
-        {!loading && !error && resumes?.length === 0 && (
-
-            <ProfileEmptyState
-                icon={FileText}
-                title="No resumes yet"
-                description="
+      {!loading && !error && resumes?.length === 0 && (
+        <ProfileEmptyState
+          icon={FileText}
+          title="No resumes yet"
+          description="
                     Upload your first resume to start building
                     your personalized CareerCompass AI profile.
                 "
-                actionLabel="Upload Resume"
-                onAction={() => {
-                    window.location.href = "/dashboard";
-                }}
-                variant="violet"
-            />
+          actionLabel="Upload Resume"
+          onAction={() => {
+            window.location.href = "/dashboard";
+          }}
+          variant="violet"
+        />
+      )}
 
-        )}
-
-
-        {/* =================================================
+      {/* =================================================
             Resume List
         ================================================= */}
 
-        {!loading &&
-            !error &&
-            resumes?.length > 0 && (
-
-                <ProfileSectionCard
-                    title="Uploaded Resumes"
-                    description="
+      {!loading && !error && resumes?.length > 0 && (
+        <ProfileSectionCard
+          title="Uploaded Resumes"
+          description="
                         Resumes currently stored in your
                         CareerCompass AI account.
                     "
-                    icon={FileText}
-                    variant="violet"
-                >
-
-                    <div className="space-y-4">
-
-                        {resumes.map((resume) => (
-
-                            <div
-                                key={resume.id}
-                                className="
+          icon={FileText}
+          variant="violet"
+        >
+          <div className="space-y-4">
+            {resumes.map((resume) => (
+              <div
+                key={resume.id}
+                className="
                                     group
                                     rounded-2xl
                                     border
@@ -289,10 +223,9 @@ return (
                                     hover:shadow-md
                                     hover:shadow-violet-500/10
                                 "
-                            >
-
-                                <div
-                                    className="
+              >
+                <div
+                  className="
                                         flex
                                         flex-col
                                         gap-5
@@ -300,23 +233,21 @@ return (
                                         lg:items-center
                                         lg:justify-between
                                     "
-                                >
+                >
+                  {/* Resume information */}
 
-                                    {/* Resume information */}
-
-                                    <div
-                                        className="
+                  <div
+                    className="
                                             flex
                                             min-w-0
                                             items-start
                                             gap-4
                                         "
-                                    >
+                  >
+                    {/* Icon */}
 
-                                        {/* Icon */}
-
-                                        <div
-                                            className="
+                    <div
+                      className="
                                                 flex
                                                 h-12
                                                 w-12
@@ -331,41 +262,35 @@ return (
                                                 text-white
                                                 shadow-sm
                                             "
-                                        >
-
-                                            <FileText
-                                                className="
+                    >
+                      <FileText
+                        className="
                                                     h-5
                                                     w-5
                                                 "
-                                            />
+                      />
+                    </div>
 
-                                        </div>
+                    {/* Details */}
 
-
-                                        {/* Details */}
-
-                                        <div
-                                            className="
+                    <div
+                      className="
                                                 min-w-0
                                             "
-                                        >
-
-                                            <h3
-                                                className="
+                    >
+                      <h3
+                        className="
                                                     truncate
                                                     text-base
                                                     font-bold
                                                     text-foreground
                                                 "
-                                            >
-                                                {resume.filename ||
-                                                    "Untitled Resume"}
-                                            </h3>
+                      >
+                        {resume.filename || "Untitled Resume"}
+                      </h3>
 
-
-                                            <div
-                                                className="
+                      <div
+                        className="
                                                     mt-2
                                                     flex
                                                     flex-wrap
@@ -375,59 +300,42 @@ return (
                                                     text-xs
                                                     text-muted-foreground
                                                 "
-                                            >
-
-                                                <span
-                                                    className="
+                      >
+                        <span
+                          className="
                                                         inline-flex
                                                         items-center
                                                         gap-1.5
                                                     "
-                                                >
-
-                                                    <CalendarDays
-                                                        className="
+                        >
+                          <CalendarDays
+                            className="
                                                             h-3.5
                                                             w-3.5
                                                         "
-                                                    />
+                          />
 
-                                                    {formatDate(
-                                                        resume.uploaded_at
-                                                    )}
+                          {formatDate(resume.uploaded_at)}
+                        </span>
 
-                                                </span>
+                        {resume.id && <span>Resume #{resume.id}</span>}
+                      </div>
+                    </div>
+                  </div>
 
+                  {/* Actions */}
 
-                                                {resume.id && (
-
-                                                    <span>
-                                                        Resume #{resume.id}
-                                                    </span>
-
-                                                )}
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-
-                                    {/* Actions */}
-
-                                    <div
-                                        className="
+                  <div
+                    className="
                                             flex
                                             items-center
                                             gap-2
                                         "
-                                    >
-
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            className="
+                  >
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="
                                                 rounded-xl
                                                 border-border
                                                 text-foreground
@@ -435,23 +343,22 @@ return (
                                                 hover:bg-violet-500/10
                                                 hover:text-violet-400
                                             "
-                                            onClick={() => handleViewResume(resume)}
-                                        >
-                                            <Eye
-                                                className="
+                      onClick={() => handleViewResume(resume)}
+                    >
+                      <Eye
+                        className="
                                                     mr-2
                                                     h-4
                                                     w-4
                                                 "
-                                            />
+                      />
+                      View
+                    </Button>
 
-                                            View
-                                        </Button>
-
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            className="
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="
                                                 rounded-xl
                                                 border-red-100
                                                 text-red-500
@@ -459,33 +366,23 @@ return (
                                                 hover:bg-red-50
                                                 hover:text-red-600
                                             "
-                                            onClick={() =>
-                                                handleDelete(
-                                                    resume.id
-                                                )
-                                            }
-                                        >
-
-                                            <Trash2
-                                                className="
+                      onClick={() => handleDelete(resume.id)}
+                    >
+                      <Trash2
+                        className="
                                                     h-4
                                                     w-4
                                                 "
-                                            />
+                      />
+                    </Button>
+                  </div>
+                </div>
 
-                                        </Button>
+                {/* Optional analysis status */}
 
-                                    </div>
-
-                                </div>
-
-
-                                {/* Optional analysis status */}
-
-                                {resume.status && (
-
-                                    <div
-                                        className="
+                {resume.status && (
+                  <div
+                    className="
                                             mt-4
                                             flex
                                             items-center
@@ -496,52 +393,41 @@ return (
                                             text-xs
                                             text-muted-foreground
                                         "
-                                    >
-
-                                        <Sparkles
-                                            className="
+                  >
+                    <Sparkles
+                      className="
                                                 h-3.5
                                                 w-3.5
                                                 text-fuchsia-500
                                             "
-                                        />
-
-                                        Analysis status:
-
-                                        <span
-                                            className="
+                    />
+                    Analysis status:
+                    <span
+                      className="
                                                 font-semibold
                                                 text-foreground
                                             "
-                                        >
-                                            {resume.status}
-                                        </span>
+                    >
+                      {resume.status}
+                    </span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </ProfileSectionCard>
+      )}
 
-                                    </div>
-
-                                )}
-
-                            </div>
-
-                        ))}
-
-                    </div>
-
-                </ProfileSectionCard>
-
-            )}
-
-            <Dialog
-            open={!!selectedResume}
-            onOpenChange={(open) => {
-                if (!open) {
-                    handleClosePreview();
-                }
-            }}
-        >
-
-            <DialogContent
-                className="
+      <Dialog
+        open={!!selectedResume}
+        onOpenChange={(open) => {
+          if (!open) {
+            handleClosePreview();
+          }
+        }}
+      >
+        <DialogContent
+          className="
                     flex
                     h-[90vh]
                     max-w-5xl
@@ -549,39 +435,33 @@ return (
                     overflow-hidden
                     p-0
                 "
-            >
-
-                <DialogHeader
-                    className="
+        >
+          <DialogHeader
+            className="
                         shrink-0
                         border-b
                         border-border
                         px-6
                         py-4
                     "
-                >
+          >
+            <DialogTitle>
+              {selectedResume?.filename || "Resume Preview"}
+            </DialogTitle>
+          </DialogHeader>
 
-                    <DialogTitle>
-                        {selectedResume?.filename ||
-                            "Resume Preview"}
-                    </DialogTitle>
+          {/* PDF Viewer */}
 
-                </DialogHeader>
-
-
-                {/* PDF Viewer */}
-
-                <div
-                    className="
+          <div
+            className="
                         min-h-0
                         flex-1
                         bg-muted
                     "
-                >
-
-                    {previewLoading && (
-                        <div
-                            className="
+          >
+            {previewLoading && (
+              <div
+                className="
                                 flex
                                 h-full
                                 items-center
@@ -589,15 +469,14 @@ return (
                                 text-sm
                                 text-muted-foreground
                             "
-                        >
-                            Loading resume...
-                        </div>
-                    )}
+              >
+                Loading resume...
+              </div>
+            )}
 
-
-                    {previewError && !previewLoading && (
-                        <div
-                            className="
+            {previewError && !previewLoading && (
+              <div
+                className="
                                 flex
                                 h-full
                                 items-center
@@ -607,38 +486,27 @@ return (
                                 text-sm
                                 text-red-500
                             "
-                        >
-                            {previewError}
-                        </div>
-                    )}
+              >
+                {previewError}
+              </div>
+            )}
 
-
-                    {resumePreviewUrl &&
-                        !previewLoading &&
-                        !previewError && (
-
-                        <iframe
-                            src={resumePreviewUrl}
-                            title={selectedResume?.filename || "Resume Preview"}
-                            className="
+            {resumePreviewUrl && !previewLoading && !previewError && (
+              <iframe
+                src={resumePreviewUrl}
+                title={selectedResume?.filename || "Resume Preview"}
+                className="
                                 h-full
                                 w-full
                                 border-0
                             "
-                        />
-
-                    )}
-
-                </div>
-
-            </DialogContent>
-
-        </Dialog>
-
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
-
-);
-
+  );
 }
 
 export default ProfileResumes;
