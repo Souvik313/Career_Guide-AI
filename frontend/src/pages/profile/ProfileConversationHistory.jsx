@@ -240,11 +240,11 @@ function ProfileConversationHistory() {
         conversationToDelete.conversation_id
       );
 
+      setDeleteDialogOpen(false);
+
       toast.success(
         "Conversation deleted successfully."
       );
-
-      setDeleteDialogOpen(false);
 
       setConversationToDelete(null);
 
@@ -254,6 +254,8 @@ function ProfileConversationHistory() {
         "Failed to delete conversation:",
         err
       );
+
+      setDeleteAllDialogOpen(false);
 
       toast.error(
         err?.response?.data?.detail ||
@@ -273,11 +275,12 @@ function ProfileConversationHistory() {
 
       await deleteAllConversations();
 
+      setDeleteAllDialogOpen(false);
+
       toast.success(
         "All conversations deleted successfully."
       );
 
-      setDeleteAllDialogOpen(false);
 
     } catch (err) {
 
@@ -285,6 +288,8 @@ function ProfileConversationHistory() {
         "Failed to delete all conversations:",
         err
       );
+
+      setDeleteAllDialogOpen(false);
 
       toast.error(
         err?.response?.data?.detail ||
@@ -530,112 +535,142 @@ function ProfileConversationHistory() {
                     "
           icon={MessageCircle}
           variant="fuchsia"
-        >
-
-          <div className="mb-4 flex justify-end">
-
+          action={
             <Button
-              type="button"
-              variant="outline"
-              className="
-                rounded-xl
-                border-red-200
-                text-red-600
-                hover:bg-red-50
-                dark:border-red-900
-                dark:hover:bg-red-950/30
-              "
-              onClick={() =>
-                setDeleteAllDialogOpen(true)
-              }
-            >
-              <Trash2 className="mr-2 h-4 w-4" />
-              Delete All
-            </Button>
-
-          </div>
-          <div className="space-y-3">
-            {filteredConversations.map((conversation) => (
-              <div
-                key={conversation.conversation_id}
-                className="
-                  flex
-                  items-stretch
-                  gap-2
-                  rounded-2xl
-                  border
-                  border-border
-                  bg-card
-                  transition
-                  hover:border-fuchsia-400/40
-                  hover:bg-fuchsia-500/10
-                "
-              >
-              <button
-                key={conversation.conversation_id}
                 type="button"
+                variant="outline"
                 className="
-                                    w-full
-                                    rounded-2xl
-                                    border
-                                    border-border
-                                    bg-card
-                                    px-4
-                                    py-4
-                                    text-left
-                                    transition
-                                    hover:border-fuchsia-400/40
-                                    hover:bg-fuchsia-500/10
-                                "
-                onClick={() => handleOpenConversation(conversation)}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold text-foreground">
-                      {conversation.title}
-                    </p>
-
-                    <p className="mt-2 line-clamp-2 text-xs leading-6 text-muted-foreground">
-                      {conversation.last_message}
-                    </p>
-                  </div>
-
-                  <span className="shrink-0 text-[11px] font-medium text-muted-foreground">
-                    {formatTime(conversation.updated_at)}
-                  </span>
-                </div>
-              </button>
-
-              {/* ================================================
-                    Delete Conversation
-                ================================================ */}
-
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="
-                    mr-2
-                    self-center
                     rounded-xl
-                    text-muted-foreground
-                    hover:bg-red-50
-                    hover:text-red-600
-                    dark:hover:bg-red-950/30
-                  "
-                  aria-label={`Delete ${conversation.title}`}
-                  title="Delete conversation"
-                  onClick={() =>
-                    handleDeleteRequest(conversation)
-                  }
+                    border-red-500/40
+                    text-red-500
+                    hover:border-red-500/60
+                    hover:bg-red-500/10
+                    hover:text-red-400
+                "
+                onClick={handleDeleteAllConversations}
+            >
+                <Trash2 className="mr-2 h-4 w-4" />
+
+                Delete All
+            </Button>
+          }
+        >
+           <div className="space-y-3">
+
+            {filteredConversations.map(
+                (conversation) => (
+
+                <div
+                    key={conversation.conversation_id}
+                    className="
+                        w-full
+                        rounded-2xl
+                        border
+                        border-border
+                        bg-card
+                        px-4
+                        py-4
+                        transition
+                        hover:border-fuchsia-400/40
+                        hover:bg-fuchsia-500/10
+                    "
                 >
 
-                  <Trash2 className="h-4 w-4" />
+                    <div className="
+                        flex
+                        items-start
+                        justify-between
+                        gap-4
+                    ">
 
-                </Button>
-              </div>
+                        {/* Clickable conversation */}
+
+                        <button
+                            type="button"
+                            className="
+                                min-w-0
+                                flex-1
+                                text-left
+                            "
+                            onClick={() =>
+                                handleOpenConversation(
+                                    conversation
+                                )
+                            }
+                        >
+
+                            <p className="
+                                truncate
+                                text-sm
+                                font-semibold
+                                text-foreground
+                            ">
+                                {conversation.title}
+                            </p>
+
+                            <p className="
+                                mt-2
+                                line-clamp-2
+                                text-xs
+                                leading-6
+                                text-muted-foreground
+                            ">
+                                {conversation.last_message}
+                            </p>
+
+                        </button>
+
+
+                        {/* Date + Delete */}
+
+                        <div className="
+                            flex
+                            shrink-0
+                            flex-col
+                            items-end
+                            gap-2
+                        ">
+
+                            <span className="
+                                text-[11px]
+                                font-medium
+                                text-muted-foreground
+                            ">
+                                {formatTime(
+                                    conversation.updated_at
+                                )}
+                            </span>
+
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="
+                                    h-8
+                                    w-8
+                                    rounded-lg
+                                    text-muted-foreground
+                                    hover:bg-red-500/10
+                                    hover:text-red-500
+                                "
+                                onClick={() =>
+                                    handleDeleteRequest(
+                                        conversation
+                                    )
+                                }
+                            >
+                                <Trash2 className="h-4 w-4" />
+                            </Button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             ))}
-          </div>
+
+        </div>
         </ProfileSectionCard>
       )}
 
