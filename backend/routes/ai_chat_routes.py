@@ -164,7 +164,6 @@ def delete_conversation(
 # =====================================================
 @router.delete(
     "/conversations",
-    status_code=status.HTTP_204_NO_CONTENT,
     response_model=DeletedAllConversationsOfUser
 )
 def delete_all_user_conversations(
@@ -184,9 +183,17 @@ def delete_all_user_conversations(
 
     chat_service = ChatMessageService(db)
 
-    chat_service.delete_all_user_conversations(
-        user_id=current_user.id,
-    )
+
+    try:
+        chat_service.delete_all_user_conversations(
+            user_id=current_user.id,
+        )
+
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(exc),
+        ) from exc
 
     return DeletedAllConversationsOfUser(
         user_id=current_user.id,
