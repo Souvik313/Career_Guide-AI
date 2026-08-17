@@ -32,6 +32,8 @@ class Settings:
     CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME")
     CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY")
     CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET")
+    GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+    GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 
     if DATABASE_URL is None:
         raise ValueError(
@@ -50,7 +52,25 @@ class Settings:
         raise ValueError(
             "SECRET_KEY not found in root .env"
         )
-    
-
+    if CLOUDINARY_CLOUD_NAME is None:
+        raise ValueError(
+            "CLOUDINARY_CLOUD_NAME not found in backend/ .env"
+        )
+    if CLOUDINARY_API_SECRET is None:
+        raise ValueError(
+            "CLOUDINARY_API_KEY not found in backend/ .env"
+        )
+    if CLOUDINARY_API_SECRET is None:
+        raise ValueError(
+            "CLOUDINARY_API_SECRET not found in backend/ .env"
+        )
+    if GOOGLE_CLIENT_ID is None:
+        raise ValueError(
+            "GOOGLE_CLIENT_ID not found in backend/ .env"
+        )
+    if GOOGLE_CLIENT_SECRET is None:
+        raise ValueError(
+            "GOOGLE_CLIENT_SECRET not found in backend/ .env"
+        )
 
 settings = Settings()

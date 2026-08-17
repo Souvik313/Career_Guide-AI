@@ -4,6 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
 
 from backend.database.session import get_db
 from backend.services.auth_service import AuthService
@@ -14,6 +16,7 @@ from backend.core.security import (
 from backend.core.authorization import get_current_user
 from backend.models.user import User
 from backend.schemas.user import UserLogin
+from backend.core.config import settings
 
 
 router = APIRouter(
@@ -31,6 +34,10 @@ class AuthResponse(BaseModel):
     access_token: str
     token_type: str
 
+class GoogleAuthRequest(BaseModel):
+    token: str
+
+
 @router.get("/me")
 def get_me(
     current_user: User = Depends(get_current_user),
@@ -44,8 +51,6 @@ def get_me(
         "auth_provider": current_user.auth_provider,
         "is_active": current_user.is_active,
     }
-
-
 
 @router.post(
     "/signup",
@@ -117,6 +122,55 @@ def login(
         user_id=user.id
     )
 
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+    }
+
+@router.post(
+    "/google",
+    response_model=AuthResponse,
+)
+def google_login(
+    payload: GoogleAuthRequest,
+    db: Annotated[Session, Depends(get_db)],
+):
+    # Verify the ID token with Google
+    try:
+        idinfo = id_token.verify_oauth2_token(
+            payload.token,
+            google_requests.Request(),
+            settings.GOOGLE_CLIENT_ID,
+        )
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid Google token.",
+        )
+ 
+    if not idinfo.get("email_verified"):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Google email not verified.",
+        )
+ 
+    email = idinfo["email"]
+    full_name = idinfo.get("name", "")
+ 
+    auth_service = AuthService(db)
+ 
+    user = auth_service.get_user_by_email(email)
+ 
+    if not user:
+        user = auth_service.create_google_user(
+            full_name=full_name,
+            email=email,
+        )
+ 
+    access_token = create_access_token(
+        user_id=user.id
+    )
+ 
     return {
         "access_token": access_token,
         "token_type": "bearer",
