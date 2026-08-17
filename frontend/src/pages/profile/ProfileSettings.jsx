@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import {
 Settings,
@@ -181,8 +181,14 @@ const [settings, setSettings] = useState({
 });
 
 const {
+    profile,
+    fetchUserProfile,
     changePassword,
 } = useProfile();
+
+useEffect(() => {
+    fetchUserProfile();
+}, [fetchUserProfile]);
 
 const [saving, setSaving] = useState(false);
 const [saved, setSaved] = useState(false);
@@ -382,6 +388,10 @@ const handleChangePassword = async (event) => {
     }
 
 };
+
+const changePasswordDisabled = () => {
+    profile.auth_provider !== "local";
+}
 
 /* =====================================================
    Render
@@ -599,6 +609,7 @@ return (
                     <Button
                         type="button"
                         variant="outline"
+                        disabled={changePasswordDisabled}
                         className="
                             rounded-xl
                             border-teal-200
