@@ -12,6 +12,7 @@ const Login = () => {
 
     const {
         login,
+        loginWithGoogle,
         loading,
     } = useAuth();
 
@@ -49,6 +50,38 @@ const Login = () => {
 
     };
 
+    const handleGoogleSuccess = async (credentialResponse) => {
+ 
+        try {
+ 
+            setError("");
+ 
+            await loginWithGoogle(credentialResponse.credential);
+ 
+            navigate("/");
+ 
+        }
+ 
+        catch (err) {
+ 
+            setError(
+ 
+                err?.response?.data?.detail ||
+ 
+                "Google sign-in failed. Please try again."
+ 
+            );
+ 
+        }
+ 
+    };
+ 
+    const handleGoogleError = () => {
+ 
+        setError("Google sign-in failed. Please try again.");
+ 
+    };
+
     return (
 
         <AuthLayout>
@@ -62,6 +95,10 @@ const Login = () => {
                 loading={loading}
 
                 error={error}
+
+                onGoogleSuccess={handleGoogleSuccess}
+
+                onGoogleError={handleGoogleError}
 
             />
 

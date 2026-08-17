@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 
 import {
     User,
@@ -30,6 +31,8 @@ const AuthForm = ({
     onSubmit,
     loading,
     error,
+    onGoogleSuccess,
+    onGoogleError,
 }) => {
 
     const [formData, setFormData] = useState({
@@ -95,6 +98,34 @@ const AuthForm = ({
             </CardHeader>
 
             <CardContent>
+
+                <div className="mb-6 flex justify-center">
+
+                    <GoogleLogin
+
+                        onSuccess={onGoogleSuccess}
+
+                        onError={onGoogleError}
+
+                        shape="pill"
+
+                        width="368"
+
+                    />
+
+                </div>
+
+                <div className="mb-6 flex items-center gap-4">
+
+                    <div className="h-px flex-1 bg-slate-200" />
+
+                    <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                        Or continue with email
+                    </span>
+
+                    <div className="h-px flex-1 bg-slate-200" />
+
+                </div>
 
                 <form
                     onSubmit={handleSubmit}

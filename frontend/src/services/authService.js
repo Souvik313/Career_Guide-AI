@@ -12,6 +12,11 @@ const login = async (credentials) => {
   return response.data;
 };
 
+const loginWithGoogle = async (googleToken) => {
+  const response = await api.post("/auth/google", { token: googleToken });
+  return response.data;
+};
+
 const getCurrentUser = async () => {
   const response = await api.get("/auth/me");
   return response.data;
@@ -24,6 +29,7 @@ const logout = () => {
 export default {
   register,
   login,
+  loginWithGoogle,
   getCurrentUser,
   logout,
 };

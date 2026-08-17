@@ -1,6 +1,5 @@
 import {createContext, useContext, useState, useEffect} from "react";
 import authService from "../services/authService.js";
-import {getUserProfile} from "../services/userService.js";
 
 const AuthContext = createContext();
 const TOKEN_KEY = "careercompass_access_token";
@@ -81,6 +80,29 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const loginWithGoogle = async (googleToken) => {
+        try {
+            setLoading(true);
+            setError(null);
+ 
+            const response = await authService.loginWithGoogle(googleToken);
+ 
+            localStorage.setItem(
+            TOKEN_KEY,
+            response.access_token
+            );
+ 
+            await refreshUser();
+ 
+            return response;
+        } catch (err) {
+            setError(err.response?.data?.detail || "Google sign-in failed");
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const register = async (userData) => {
         try {
             setLoading(true);
@@ -117,6 +139,7 @@ export const AuthProvider = ({ children }) => {
             loading,
             error,
             login,
+            loginWithGoogle,
             register,
             logout,
             refreshUser,
