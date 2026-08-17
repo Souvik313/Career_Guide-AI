@@ -4,6 +4,8 @@ import {
   sendMessage,
   getUserConversations,
   getChatHistory,
+  deleteConversation,
+  deleteAllConversations,
 } from "../services/aiChatService.js";
 
 const useAIChat = () => {
@@ -246,6 +248,132 @@ const handleSendMessage = useCallback(
     }
   }, []);
 
+    /* =====================================================
+       Delete One Conversation
+    ===================================================== */
+
+  const handleDeleteConversation = useCallback(
+    async (selectedConversationId) => {
+
+      try {
+
+        setLoading(true);
+        setError(null);
+
+        await deleteConversation(
+          selectedConversationId
+        );
+
+        /*
+         * Remove the deleted conversation
+         * from local conversation state.
+         */
+
+        setConversations((currentConversations) =>
+          currentConversations.filter(
+            (conversation) =>
+              conversation.conversation_id !==
+              selectedConversationId
+          )
+        );
+
+        /*
+         * If the deleted conversation is
+         * currently open, reset the active chat.
+         */
+
+        if (
+          conversationId ===
+          selectedConversationId
+        ) {
+
+          setConversationId(null);
+
+          setResumeId(null);
+
+          setMessages([]);
+        }
+
+      } catch (err) {
+
+        console.error(
+          "useAIChat: failed to delete conversation",
+          err
+        );
+
+        const message =
+          err?.response?.data?.detail ||
+          err?.message ||
+          "Failed to delete conversation.";
+
+        setError(message);
+
+        throw err;
+
+      } finally {
+
+        setLoading(false);
+
+      }
+
+    },
+    [conversationId]
+  );
+
+    /* =====================================================
+       Delete All Conversations of a user
+    ===================================================== */
+
+  const handleDeleteAllConversations =
+    useCallback(async () => {
+
+      try {
+
+        setLoading(true);
+        setError(null);
+
+        await deleteAllConversations();
+
+        /*
+         * Clear all conversation summaries.
+         */
+
+        setConversations([]);
+
+        /*
+         * Clear the currently active conversation.
+         */
+
+        setConversationId(null);
+
+        setResumeId(null);
+
+        setMessages([]);
+
+      } catch (err) {
+
+        console.error(
+          "useAIChat: failed to delete all conversations",
+          err
+        );
+
+        const message =
+          err?.response?.data?.detail ||
+          err?.message ||
+          "Failed to delete conversations.";
+
+        setError(message);
+
+        throw err;
+
+      } finally {
+
+        setLoading(false);
+
+      }
+
+    }, []);
+
   /* =====================================================
        Start New Conversation
     ===================================================== */
@@ -290,6 +418,10 @@ const handleSendMessage = useCallback(
     fetchConversations,
 
     fetchChatHistory,
+
+    deleteConversation: handleDeleteConversation,
+
+    deleteAllConversations: handleDeleteAllConversations,
 
     startNewConversation,
 

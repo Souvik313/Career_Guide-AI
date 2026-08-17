@@ -176,7 +176,12 @@ class ChatMessageService:
                 )
             )
 
-            self.db.execute(statement)
+            result = self.db.execute(statement)
+
+            if result.rowcount == 0:
+                raise ValueError(
+                    "Conversation not found."
+                )
 
             self.db.commit()
 

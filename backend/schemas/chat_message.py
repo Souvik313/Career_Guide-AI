@@ -71,3 +71,24 @@ class ConversationSummaryResponse(BaseModel):
     last_message: str
 
     updated_at: datetime
+
+class DeletedConversation(BaseModel):
+    """
+    Return conversation id and delete status
+    """
+
+    success: bool
+
+    conversation_id: str
+
+    deleted_at: datetime
+
+class DeletedAllConversationsOfUser(BaseModel):
+    """
+    Return user_id and delete status
+    """
+
+    user_id: int
+
+    success: bool
+

@@ -1,6 +1,9 @@
 from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import HTTPException
+from fastapi import status
+from typing import Annotated
+from datetime import datetime
 
 from sqlalchemy.orm import Session
 
@@ -14,6 +17,8 @@ from backend.schemas.chat_message import (
     ChatRequest,
     ChatResponse,
     ConversationSummaryResponse,
+    DeletedConversation,
+    DeletedAllConversationsOfUser,
 )
 
 from backend.services.ai_chat_service import AIChatService
@@ -119,4 +124,71 @@ def get_chat_history(
         conversation_id=conversation_id,
         resume_id=resume_id,
         messages=messages,
+    )
+
+# =====================================================
+# Delete One Conversation of a user
+# =====================================================
+@router.delete(
+    "/conversations/{conversation_id}",
+    response_model=DeletedConversation,
+)
+def delete_conversation(
+    conversation_id: str,
+    current_user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[Session, Depends(get_db)], 
+):
+    chat_service = ChatMessageService(db)
+
+    try:
+        chat_service.delete_conversation(
+            user_id=current_user.id,
+            conversation_id=conversation_id,
+        )
+
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(exc),
+        ) from exc
+
+    return DeletedConversation(
+        success=True,
+        conversation_id=conversation_id,
+        deleted_at=datetime.now(),
+    )
+
+
+# =====================================================
+# Delete All Conversations of a user
+# =====================================================
+@router.delete(
+    "/conversations",
+    status_code=status.HTTP_204_NO_CONTENT,
+    response_model=DeletedAllConversationsOfUser
+)
+def delete_all_user_conversations(
+    current_user: Annotated[
+        User,
+        Depends(get_current_user),
+    ],
+    db: Annotated[
+        Session,
+        Depends(get_db),
+    ],
+):
+    """
+    Delete all conversations belonging to
+    the currently authenticated user.
+    """
+
+    chat_service = ChatMessageService(db)
+
+    chat_service.delete_all_user_conversations(
+        user_id=current_user.id,
+    )
+
+    return DeletedAllConversationsOfUser(
+        user_id=current_user.id,
+        success=True,
     )

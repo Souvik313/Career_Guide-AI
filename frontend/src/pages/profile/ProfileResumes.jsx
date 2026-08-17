@@ -13,6 +13,17 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../components/ui/dialog.jsx";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../../components/ui/alert-dialog.jsx";
+import toast from "react-hot-toast";
 
 import useResume from "../../hooks/useResume.js";
 import { getResumeFile } from "../../services/resumeService.js";
@@ -28,6 +39,9 @@ function ProfileResumes() {
   const [previewLoading, setPreviewLoading] = useState(false);
 
   const [previewError, setPreviewError] = useState(null);
+
+  const [deleteDialogOpen , setDeleteDialogOpen] = useState(false);
+  const [resumeToDelete , setResumeToDelete] = useState(null);
 
   useEffect(() => {
     const loadResumes = async () => {
@@ -67,25 +81,65 @@ function ProfileResumes() {
    Delete Resume
 ===================================================== */
 
-  const handleDelete = async (resumeId) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this resume?",
-    );
+    /* =====================================================
+    Request Resume Deletion
+  ===================================================== */
 
-    if (!confirmed) {
+  const handleDeleteRequest = (resume) => {
+    setResumeToDelete(resume);
+    setDeleteDialogOpen(true);
+  };
+
+    /* =====================================================
+    Delete Resume
+  ===================================================== */
+
+  const handleConfirmDelete = async () => {
+
+    if (!resumeToDelete?.id) {
       return;
     }
 
     try {
-      await removeResume(resumeId);
 
-      // Optional: close preview if the deleted resume
-      // was currently being viewed.
-      if (selectedResume?.id === resumeId) {
+      await removeResume(resumeToDelete.id);
+
+      toast.success(
+        "Resume deleted successfully."
+      );
+
+      /*
+      * Close the preview if the deleted resume
+      * was currently being viewed.
+      */
+
+      if (
+        selectedResume?.id ===
+        resumeToDelete.id
+      ) {
         handleClosePreview();
       }
+
+      /*
+      * Close the confirmation dialog.
+      */
+
+      setDeleteDialogOpen(false);
+
+      setResumeToDelete(null);
+
     } catch (err) {
-      console.error("Failed to delete resume:", err);
+
+      console.error(
+        "Failed to delete resume:",
+        err
+      );
+
+      toast.error(
+        err?.response?.data?.detail ||
+        "Failed to delete resume."
+      );
+
     }
   };
 
@@ -359,20 +413,20 @@ function ProfileResumes() {
                       type="button"
                       variant="outline"
                       className="
-                                                rounded-xl
-                                                border-red-100
-                                                text-red-500
-                                                hover:border-red-200
-                                                hover:bg-red-50
-                                                hover:text-red-600
-                                            "
-                      onClick={() => handleDelete(resume.id)}
+                        rounded-xl
+                        border-red-100
+                        text-red-500
+                        hover:border-red-200
+                        hover:bg-red-50
+                        hover:text-red-600
+                      "
+                      onClick={() => handleDeleteRequest(resume)}
                     >
                       <Trash2
                         className="
-                                                    h-4
-                                                    w-4
-                                                "
+                          h-4
+                          w-4
+                        "
                       />
                     </Button>
                   </div>
@@ -505,6 +559,77 @@ function ProfileResumes() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* =================================================
+          Delete Resume Confirmation
+      ================================================= */}
+
+      <AlertDialog
+        open={deleteDialogOpen}
+        onOpenChange={(open) => {
+
+          setDeleteDialogOpen(open);
+
+          if (!open) {
+            setResumeToDelete(null);
+          }
+
+        }}
+      >
+
+        <AlertDialogContent>
+
+          <AlertDialogHeader>
+
+            <AlertDialogTitle>
+              Delete Resume?
+            </AlertDialogTitle>
+
+            <AlertDialogDescription>
+
+              Are you sure you want to delete{" "}
+
+              <span className="font-semibold text-foreground">
+                {resumeToDelete?.filename || "this resume"}
+              </span>
+
+              ?
+
+              <br />
+
+              This will permanently remove the resume
+              from your CareerCompass AI account and
+              this action cannot be undone.
+
+            </AlertDialogDescription>
+
+          </AlertDialogHeader>
+
+
+          <AlertDialogFooter>
+
+            <AlertDialogCancel>
+              Cancel
+            </AlertDialogCancel>
+
+
+            <AlertDialogAction
+              className="
+                bg-red-600
+                text-white
+                hover:bg-red-700
+                focus:ring-red-600
+              "
+              onClick={handleConfirmDelete}
+            >
+              Delete Resume
+            </AlertDialogAction>
+
+          </AlertDialogFooter>
+
+        </AlertDialogContent>
+
+      </AlertDialog>
     </div>
   );
 }

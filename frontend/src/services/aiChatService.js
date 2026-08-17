@@ -42,3 +42,17 @@ export const getChatHistory = async (conversationId) => {
     return response.data;
 
 };
+
+export const deleteConversation = async(conversationId) => {
+
+    const response = await api.delete(
+        `/chat/conversations/${conversationId}`
+    );
+    return response.data;
+}
+
+export const deleteAllConversations = async () => {
+    await api.delete(
+        "/chat/conversations"
+    );
+};

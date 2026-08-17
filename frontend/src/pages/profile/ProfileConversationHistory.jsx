@@ -7,6 +7,7 @@ import {
   Clock3,
   Sparkles,
   ArrowRight,
+  Trash2,
 } from "lucide-react";
 
 import ProfileHeader from "../../components/profile/ProfileHeader.jsx";
@@ -15,6 +16,17 @@ import ProfileLoading from "../../components/profile/ProfileLoading.jsx";
 import ProfileEmptyState from "../../components/profile/ProfileEmptyState.jsx";
 
 import { Button } from "../../components/ui/button.jsx";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../../components/ui/alert-dialog.jsx";
+import toast from "react-hot-toast";
 
 import useAIChat from "../../hooks/useAIChat.js";
 import useResume from "@/hooks/useResume.js";
@@ -28,12 +40,16 @@ function ProfileConversationHistory() {
     error,
     fetchConversations,
     fetchChatHistory,
-    startNewConversation,
+    deleteConversation,
+    deleteAllConversations,
   } = useAIChat();
 
   const { resumes, fetchUserResumes } = useResume();
 
   const navigate = useNavigate();
+  const [deleteDialogOpen , setDeleteDialogOpen] = useState(false);
+  const [conversationToDelete , setConversationToDelete] = useState(null);
+  const [deleteAllDialogOpen , setDeleteAllDialogOpen] = useState(null);
 
   /* =====================================================
    Filters
@@ -104,16 +120,16 @@ function ProfileConversationHistory() {
   const isFiltering = filters.resume !== "all";
 
   useEffect(() => {
-  const loadResumes = async () => {
-    try {
-      await fetchUserResumes();
-    } catch (err) {
-      console.error("Failed to load resumes:", err);
-    }
-  };
+    const loadResumes = async () => {
+      try {
+        await fetchUserResumes();
+      } catch (err) {
+        console.error("Failed to load resumes:", err);
+      }
+    };
 
-  loadResumes();
-}, [fetchUserResumes]);
+    loadResumes();
+  }, [fetchUserResumes]);
 
   /* =====================================================
    Load Conversation Summaries
@@ -188,16 +204,95 @@ function ProfileConversationHistory() {
 ===================================================== */
 
   const handleOpenConversation = (conversation) => {
-  if (!conversation?.conversation_id) {
-    return;
-  }
+    if (!conversation?.conversation_id) {
+      return;
+    }
 
-  navigate("/career-coach", {
-    state: {
-      conversationId: conversation.conversation_id,
-    },
-  });
-};
+    navigate("/career-coach", {
+      state: {
+        conversationId: conversation.conversation_id,
+      },
+    });
+  };
+
+  /* =====================================================
+   Request Conversation Deletion
+===================================================== */
+
+  const handleDeleteRequest = (conversation) => {
+    setConversationToDelete(conversation);
+    setDeleteDialogOpen(true);
+  };
+
+  /* =====================================================
+   Delete Conversation
+===================================================== */
+
+  const handleDeleteConversation = async () => {
+
+    if (!conversationToDelete?.conversation_id) {
+      return;
+    }
+
+    try {
+
+      await deleteConversation(
+        conversationToDelete.conversation_id
+      );
+
+      toast.success(
+        "Conversation deleted successfully."
+      );
+
+      setDeleteDialogOpen(false);
+
+      setConversationToDelete(null);
+
+    } catch (err) {
+
+      console.error(
+        "Failed to delete conversation:",
+        err
+      );
+
+      toast.error(
+        err?.response?.data?.detail ||
+        "Failed to delete conversation."
+      );
+
+    }
+  };
+
+    /* =====================================================
+    Delete All Conversations
+  ===================================================== */
+
+  const handleDeleteAllConversations = async () => {
+
+    try {
+
+      await deleteAllConversations();
+
+      toast.success(
+        "All conversations deleted successfully."
+      );
+
+      setDeleteAllDialogOpen(false);
+
+    } catch (err) {
+
+      console.error(
+        "Failed to delete all conversations:",
+        err
+      );
+
+      toast.error(
+        err?.response?.data?.detail ||
+        "Failed to delete all conversations."
+      );
+
+    }
+  };
 
   /* =====================================================
    Render Message
@@ -436,8 +531,46 @@ function ProfileConversationHistory() {
           icon={MessageCircle}
           variant="fuchsia"
         >
+
+          <div className="mb-4 flex justify-end">
+
+            <Button
+              type="button"
+              variant="outline"
+              className="
+                rounded-xl
+                border-red-200
+                text-red-600
+                hover:bg-red-50
+                dark:border-red-900
+                dark:hover:bg-red-950/30
+              "
+              onClick={() =>
+                setDeleteAllDialogOpen(true)
+              }
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              Delete All
+            </Button>
+
+          </div>
           <div className="space-y-3">
             {filteredConversations.map((conversation) => (
+              <div
+                key={conversation.conversation_id}
+                className="
+                  flex
+                  items-stretch
+                  gap-2
+                  rounded-2xl
+                  border
+                  border-border
+                  bg-card
+                  transition
+                  hover:border-fuchsia-400/40
+                  hover:bg-fuchsia-500/10
+                "
+              >
               <button
                 key={conversation.conversation_id}
                 type="button"
@@ -472,6 +605,35 @@ function ProfileConversationHistory() {
                   </span>
                 </div>
               </button>
+
+              {/* ================================================
+                    Delete Conversation
+                ================================================ */}
+
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="
+                    mr-2
+                    self-center
+                    rounded-xl
+                    text-muted-foreground
+                    hover:bg-red-50
+                    hover:text-red-600
+                    dark:hover:bg-red-950/30
+                  "
+                  aria-label={`Delete ${conversation.title}`}
+                  title="Delete conversation"
+                  onClick={() =>
+                    handleDeleteRequest(conversation)
+                  }
+                >
+
+                  <Trash2 className="h-4 w-4" />
+
+                </Button>
+              </div>
             ))}
           </div>
         </ProfileSectionCard>
@@ -634,6 +796,108 @@ function ProfileConversationHistory() {
           variant="fuchsia"
         />
       )}
+
+      {/* =================================================
+            Delete Conversation Confirmation
+        ================================================= */}
+
+        <AlertDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+        >
+
+          <AlertDialogContent>
+
+            <AlertDialogHeader>
+
+              <AlertDialogTitle>
+                Delete this conversation?
+              </AlertDialogTitle>
+
+              <AlertDialogDescription>
+                This will permanently delete this conversation
+                and all of its messages. This action cannot be
+                undone.
+              </AlertDialogDescription>
+
+            </AlertDialogHeader>
+
+
+            <AlertDialogFooter>
+
+              <AlertDialogCancel
+                onClick={() => {
+                  setConversationToDelete(null);
+                }}
+              >
+                Cancel
+              </AlertDialogCancel>
+
+              <AlertDialogAction
+                className="
+                  bg-red-600
+                  text-white
+                  hover:bg-red-700
+                "
+                onClick={handleDeleteConversation}
+              >
+                Delete Conversation
+              </AlertDialogAction>
+
+            </AlertDialogFooter>
+
+          </AlertDialogContent>
+
+        </AlertDialog>
+
+        {/* =================================================
+              Delete All Conversations Confirmation
+          ================================================= */}
+
+          <AlertDialog
+            open={deleteAllDialogOpen}
+            onOpenChange={setDeleteAllDialogOpen}
+          >
+
+            <AlertDialogContent>
+
+              <AlertDialogHeader>
+
+                <AlertDialogTitle>
+                  Delete all conversations?
+                </AlertDialogTitle>
+
+                <AlertDialogDescription>
+                  This will permanently delete all of your
+                  CareerCompass AI conversations and their
+                  messages. This action cannot be undone.
+                </AlertDialogDescription>
+
+              </AlertDialogHeader>
+
+
+              <AlertDialogFooter>
+
+                <AlertDialogCancel>
+                  Cancel
+                </AlertDialogCancel>
+
+                <AlertDialogAction
+                  className="
+                    bg-red-600
+                    text-white
+                    hover:bg-red-700
+                  "
+                  onClick={handleDeleteAllConversations}
+                >
+                  Delete All Conversations
+                </AlertDialogAction>
+
+              </AlertDialogFooter>
+
+            </AlertDialogContent>
+
+          </AlertDialog>
     </div>
   );
 }
