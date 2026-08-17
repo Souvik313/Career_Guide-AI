@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 
@@ -49,26 +49,6 @@ const AuthForm = ({
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [isDark, setIsDark] = useState(
-    document.documentElement.classList.contains("dark")
-);
- 
-    useEffect(() => {
-    
-        const root = document.documentElement;
-    
-        const observer = new MutationObserver(() => {
-            setIsDark(root.classList.contains("dark"));
-        });
-    
-        observer.observe(root, {
-            attributes: true,
-            attributeFilter: ["class"],
-        });
-    
-        return () => observer.disconnect();
-    
-    }, []);
 
     const handleChange = (e) => {
 
@@ -121,32 +101,36 @@ const AuthForm = ({
 
                 <div className="mb-6 flex justify-center">
  
-                    <GoogleLogin
-                
-                        onSuccess={onGoogleSuccess}
-                
-                        onError={onGoogleError}
-                
-                        shape="pill"
-                
-                        width="368"
-                
-                        theme={isDark ? "filled_black" : "outline"}
-                
-                    />
-                
+                    <div className="rounded-full bg-white p-1 ring-1 ring-slate-200 dark:ring-slate-700">
+ 
+                        <GoogleLogin
+ 
+                            onSuccess={onGoogleSuccess}
+ 
+                            onError={onGoogleError}
+ 
+                            shape="pill"
+ 
+                            width="360"
+ 
+                            theme="outline"
+ 
+                        />
+ 
+                    </div>
+ 
                 </div>
-                
+ 
                 <div className="mb-6 flex items-center gap-4">
-                
+ 
                     <div className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
-                
+ 
                     <span className="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
                         Or continue with email
                     </span>
-                
+ 
                     <div className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
-                
+ 
                 </div>
 
                 <form

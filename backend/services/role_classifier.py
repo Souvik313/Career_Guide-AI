@@ -52,6 +52,7 @@ class RoleClassifier:
             "nlp",
             "llm",
             "generative ai",
+            "AI Specialist",
         ],
 
         "Data Analytics / BI": [
