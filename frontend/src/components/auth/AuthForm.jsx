@@ -100,35 +100,39 @@ const AuthForm = ({
             <CardContent>
 
                 <div className="mb-6 flex justify-center">
- 
-                    <div className="rounded-full bg-white p-1 ring-1 ring-slate-200 dark:ring-slate-700">
- 
+                    <div className="
+                        rounded-full 
+                        bg-white 
+                        p-1 
+                        ring-1 
+                        ring-slate-200 
+                        dark:bg-slate-800 
+                        dark:ring-slate-600
+                        shadow-sm
+                        dark:shadow-md
+                    ">
                         <GoogleLogin
- 
-                            onSuccess={onGoogleSuccess}
- 
-                            onError={onGoogleError}
- 
-                            shape="pill"
- 
-                            width="360"
- 
+                        onSuccess={onGoogleSuccess}
+                        onError={onGoogleError}
+                        shape="pill"
+                        width="360"
                         />
- 
                     </div>
- 
                 </div>
  
                 <div className="mb-6 flex items-center gap-4">
- 
-                    <div className="h-px flex-1 bg-slate-200 dark:bg-slate-500" />
- 
-                    <span className="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
+                    <div className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
+                    <span className="
+                        text-xs 
+                        font-medium 
+                        uppercase 
+                        tracking-wide 
+                        text-slate-500 
+                        dark:text-slate-400
+                    ">
                         Or continue with email
                     </span>
- 
-                    <div className="h-px flex-1 bg-slate-200 dark:bg-slate-500" />
- 
+                    <div className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
                 </div>
 
                 <form
