@@ -7,6 +7,9 @@ import {
     LockKeyhole,
     ShieldCheck,
     Loader2,
+    Eye,
+    EyeOff,
+    AlertCircle,
 } from "lucide-react";
 
 import { Button } from "../ui/button";
@@ -40,6 +43,9 @@ const AuthForm = ({
         confirmPassword: "",
 
     });
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const handleChange = (e) => {
 
@@ -96,6 +102,32 @@ const AuthForm = ({
                 >
 
                     {
+                        error && (
+
+                            <div
+                                role="alert"
+                                className="
+                                    flex
+                                    items-start
+                                    gap-2
+                                    rounded-xl
+                                    border
+                                    border-red-200
+                                    bg-red-50
+                                    px-4
+                                    py-3
+                                    text-sm
+                                    text-red-700
+                                "
+                            >
+                                <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />
+                                <span>{error}</span>
+                            </div>
+
+                        )
+                    }
+
+                    {
                         mode === "register" && (
 
                             <div className="space-y-2">
@@ -128,11 +160,15 @@ const AuthForm = ({
 
                                         type="text"
 
+                                        autoComplete="name"
+
                                         placeholder="Enter your full name"
 
                                         value={formData.username}
 
                                         onChange={handleChange}
+
+                                        disabled={loading}
 
                                         className="pl-10 h-12"
 
@@ -177,11 +213,17 @@ const AuthForm = ({
 
                                 type="email"
 
+                                autoComplete="email"
+
                                 placeholder="Enter your email"
 
                                 value={formData.email}
 
                                 onChange={handleChange}
+
+                                disabled={loading}
+
+                                aria-invalid={!!error}
 
                                 className="pl-10 h-12"
 
@@ -195,11 +237,38 @@ const AuthForm = ({
 
                     <div className="space-y-2">
 
-                        <Label htmlFor="password">
+                        <div className="flex items-center justify-between">
 
-                            Password
+                            <Label htmlFor="password">
 
-                        </Label>
+                                Password
+
+                            </Label>
+
+                            {/* {
+                                mode === "login" && (
+
+                                    <Link
+
+                                        to="/forgot-password"
+
+                                        className="
+                                            text-sm
+                                            font-medium
+                                            text-blue-600
+                                            hover:underline
+                                        "
+
+                                    >
+
+                                        Forgot password?
+
+                                    </Link>
+
+                                )
+                            } */}
+
+                        </div>
 
                         <div className="relative">
 
@@ -221,7 +290,9 @@ const AuthForm = ({
 
                                 name="password"
 
-                                type="password"
+                                type={showPassword ? "text" : "password"}
+
+                                autoComplete={mode === "login" ? "current-password" : "new-password"}
 
                                 placeholder="Enter your password"
 
@@ -229,9 +300,42 @@ const AuthForm = ({
 
                                 onChange={handleChange}
 
-                                className="pl-10 h-12"
+                                disabled={loading}
+
+                                aria-invalid={!!error}
+
+                                className="pl-10 pr-10 h-12"
 
                             />
+
+                            <button
+
+                                type="button"
+
+                                onClick={() => setShowPassword((prev) => !prev)}
+
+                                tabIndex={-1}
+
+                                aria-label={showPassword ? "Hide password" : "Show password"}
+
+                                className="
+                                    absolute
+                                    right-3
+                                    top-1/2
+                                    -translate-y-1/2
+                                    text-slate-400
+                                    hover:text-slate-600
+                                "
+
+                            >
+
+                                {showPassword ? (
+                                    <EyeOff className="h-5 w-5" />
+                                ) : (
+                                    <Eye className="h-5 w-5" />
+                                )}
+
+                            </button>
 
                         </div>
 
@@ -268,7 +372,9 @@ const AuthForm = ({
 
                                         name="confirmPassword"
 
-                                        type="password"
+                                        type={showConfirmPassword ? "text" : "password"}
+
+                                        autoComplete="new-password"
 
                                         placeholder="Confirm your password"
 
@@ -276,9 +382,40 @@ const AuthForm = ({
 
                                         onChange={handleChange}
 
-                                        className="pl-10 h-12"
+                                        disabled={loading}
+
+                                        className="pl-10 pr-10 h-12"
 
                                     />
+
+                                    <button
+
+                                        type="button"
+
+                                        onClick={() => setShowConfirmPassword((prev) => !prev)}
+
+                                        tabIndex={-1}
+
+                                        aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+
+                                        className="
+                                            absolute
+                                            right-3
+                                            top-1/2
+                                            -translate-y-1/2
+                                            text-slate-400
+                                            hover:text-slate-600
+                                        "
+
+                                    >
+
+                                        {showConfirmPassword ? (
+                                            <EyeOff className="h-5 w-5" />
+                                        ) : (
+                                            <Eye className="h-5 w-5" />
+                                        )}
+
+                                    </button>
 
                                 </div>
 
@@ -286,22 +423,7 @@ const AuthForm = ({
 
                         )
                     }
-                    {
-                        error && (
 
-                            <p
-                                className="
-                                    text-sm
-                                    text-red-500
-                                "
-                            >
-
-                                {error}
-
-                            </p>
-
-                        )
-                    }
                     <Button
 
                         type="submit"

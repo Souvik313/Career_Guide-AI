@@ -547,7 +547,7 @@ function ProfileConversationHistory() {
                     hover:bg-red-500/10
                     hover:text-red-400
                 "
-                onClick={handleDeleteAllConversations}
+                onClick={() => setDeleteAllDialogOpen(true)}
             >
                 <Trash2 className="mr-2 h-4 w-4" />
 

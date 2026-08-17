@@ -31,7 +31,30 @@ const features = [
 
 const AuthLayout = ({ children }) => {
   return (
-    <div className="min-h-screen flex bg-slate-50">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-slate-50">
+
+      {/* Mobile-only compact branding (hidden on lg and up) */}
+      <div
+        className="
+          lg:hidden
+          flex
+          items-center
+          gap-3
+          px-6
+          pt-8
+          pb-2
+        "
+      >
+
+        <div className="rounded-xl bg-emerald-600 p-2">
+          <Sparkles className="h-5 w-5 text-white" />
+        </div>
+
+        <span className="text-lg font-bold text-slate-800">
+          CareerCompass AI
+        </span>
+
+      </div>
 
       {/* Left Branding Section */}
       <div
@@ -40,7 +63,8 @@ const AuthLayout = ({ children }) => {
           lg:flex
           w-[55%]
           flex-col
-          justify-between
+          justify-center
+          gap-16
           px-16
           py-14
           text-white
@@ -48,12 +72,15 @@ const AuthLayout = ({ children }) => {
           from-emerald-700
           via-teal-700
           to-green-600
+          dark:from-emerald-900
+          dark:via-teal-900
+          dark:to-green-950
         "
       >
-
+ 
         {/* Logo */}
         <div className="flex items-center gap-4">
-
+ 
           <div
             className="
               rounded-2xl
@@ -64,29 +91,29 @@ const AuthLayout = ({ children }) => {
           >
             <Sparkles className="h-8 w-8" />
           </div>
-
+ 
           <div>
-
-            <h1 className="text-3xl font-bold">
+ 
+            <h1 className="text-3xl font-bold leading-snug">
               CareerCompass AI
             </h1>
-
-            <p className="text-green-100">
+ 
+            <p className="mt-1 leading-snug text-emerald-100 dark:text-emerald-200/80">
               Your Intelligent Career Companion
             </p>
-
+ 
           </div>
-
+ 
         </div>
-
+ 
         {/* Hero */}
-        <div className="max-w-xl">
-
+        <div className="max-w-xl flex flex-col gap-6">
+ 
           <h2
             className="
               text-5xl
               font-extrabold
-              leading-tight
+              leading-snug
             "
           >
             Transform your
@@ -95,13 +122,13 @@ const AuthLayout = ({ children }) => {
             <br />
             opportunities.
           </h2>
-
+ 
           <p
             className="
-              mt-8
               text-lg
-              leading-relaxed
-              text-blue-100
+              leading-snug
+              text-emerald-100
+              dark:text-emerald-200/80
             "
           >
             Get AI-powered resume analysis,
@@ -111,21 +138,21 @@ const AuthLayout = ({ children }) => {
             to accelerate your software
             engineering career.
           </p>
-
+ 
         </div>
-
+ 
         {/* Features */}
         <div className="space-y-4">
-
+ 
           {features.map((feature) => (
             <FeatureCard
               key={feature.title}
               {...feature}
             />
           ))}
-
+ 
         </div>
-
+ 
       </div>
 
       {/* Right Section */}
