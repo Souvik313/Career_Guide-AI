@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 
 import {
-Settings,
-Bell,
-BrainCircuit,
-ShieldCheck,
-Save,
-Mail,
-LockKeyhole,
-Sparkles,
-Info,
+  Settings,
+  Bell,
+  BrainCircuit,
+  ShieldCheck,
+  Save,
+  Mail,
+  LockKeyhole,
+  Sparkles,
+  Info,
 } from "lucide-react";
 
 import ProfileHeader from "../../components/profile/ProfileHeader.jsx";
@@ -20,32 +20,25 @@ import { Button } from "../../components/ui/button.jsx";
 import { Input } from "../../components/ui/input.jsx";
 import { Label } from "../../components/ui/label.jsx";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "../../components/ui/dialog.jsx";
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 } from "../../components/ui/tooltip.jsx";
 import toast from "react-hot-toast";
 
-const ToggleRow = ({
-    icon: Icon,
-    title,
-    description,
-    enabled,
-    onToggle,
-}) => {
-
-    return (
-        <div
-            className="
+const ToggleRow = ({ icon: Icon, title, description, enabled, onToggle }) => {
+  return (
+    <div
+      className="
                 flex
                 items-center
                 justify-between
@@ -58,19 +51,17 @@ const ToggleRow = ({
                 transition-colors
                 hover:bg-muted
             "
-        >
-
-            <div
-                className="
+    >
+      <div
+        className="
                     flex
                     min-w-0
                     items-start
                     gap-3
                 "
-            >
-
-                <div
-                    className="
+      >
+        <div
+          className="
                         flex
                         h-10
                         w-10
@@ -83,46 +74,40 @@ const ToggleRow = ({
                         to-fuchsia-500
                         text-white
                     "
-                >
+        >
+          <Icon className="h-4 w-4" />
+        </div>
 
-                    <Icon className="h-4 w-4" />
-
-                </div>
-
-                <div>
-
-                    <p
-                        className="
+        <div>
+          <p
+            className="
                             text-sm
                             font-semibold
                             text-foreground
                         "
-                    >
-                        {title}
-                    </p>
+          >
+            {title}
+          </p>
 
-                    <p
-                        className="
+          <p
+            className="
                             mt-1
                             text-xs
                             leading-5
                             text-muted-foreground
                         "
-                    >
-                        {description}
-                    </p>
+          >
+            {description}
+          </p>
+        </div>
+      </div>
 
-                </div>
-
-            </div>
-
-
-            <button
-                type="button"
-                role="switch"
-                aria-checked={enabled}
-                onClick={onToggle}
-                className={`
+      <button
+        type="button"
+        role="switch"
+        aria-checked={enabled}
+        onClick={onToggle}
+        className={`
                     relative
                     h-6
                     w-11
@@ -135,15 +120,14 @@ const ToggleRow = ({
                     focus:ring-fuchsia-300
                     focus:ring-offset-2
                     ${
-                        enabled
-                            ? "bg-gradient-to-r from-violet-500 to-fuchsia-500"
-                            : "bg-zinc-300"
+                      enabled
+                        ? "bg-gradient-to-r from-violet-500 to-fuchsia-500"
+                        : "bg-zinc-300"
                     }
                 `}
-            >
-
-                <span
-                    className={`
+      >
+        <span
+          className={`
                         absolute
                         top-1
                         h-4
@@ -153,30 +137,20 @@ const ToggleRow = ({
                         shadow-sm
                         transition-transform
                         duration-200
-                        ${
-                            enabled
-                                ? "translate-x-6"
-                                : "translate-x-1"
-                        }
+                        ${enabled ? "translate-x-6" : "translate-x-1"}
                     `}
-                />
-
-            </button>
-
-        </div>
-    );
-
+        />
+      </button>
+    </div>
+  );
 };
 
 function ProfileSettings() {
-
-/* =====================================================
+  /* =====================================================
    Settings State
 ===================================================== */
 
-const [settings, setSettings] = useState({
-
-
+  const [settings, setSettings] = useState({
     jobAlerts: true,
 
     emailNotifications: true,
@@ -184,359 +158,264 @@ const [settings, setSettings] = useState({
     careerRecommendations: true,
 
     aiSuggestions: true,
+  });
 
-});
+  const { profile, fetchUserProfile, changePassword } = useProfile();
 
-const {
-    profile,
-    fetchUserProfile,
-    changePassword,
-} = useProfile();
-
-useEffect(() => {
+  useEffect(() => {
     fetchUserProfile();
-}, [fetchUserProfile]);
+  }, [fetchUserProfile]);
 
-const [saving, setSaving] = useState(false);
-const [saved, setSaved] = useState(false);
-const [passwordDialogOpen , setPasswordDialogOpen] = useState(false);
-const [passwordData , setPasswordData] = useState({
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [passwordDialogOpen, setPasswordDialogOpen] = useState(false);
+  const [passwordData, setPasswordData] = useState({
     current_password: "",
     new_password: "",
     confirm_password: "",
-})
-const [changingPassword, setChangingPassword] = useState(false);
-const [passwordError, setPasswordError] = useState("");
+  });
+  const [changingPassword, setChangingPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
 
-
-/* =====================================================
+  /* =====================================================
    Handle Input Changes
 ===================================================== */
 
-const handleChange = (event) => {
-
-    const {
-        name,
-        value,
-    } = event.target;
-
+  const handleChange = (event) => {
+    const { name, value } = event.target;
 
     setSettings((currentSettings) => ({
+      ...currentSettings,
 
-        ...currentSettings,
-
-        [name]: value,
-
+      [name]: value,
     }));
 
-
     setSaved(false);
+  };
 
-};
-
-/* =====================================================
+  /* =====================================================
    Handle Password Input Changes
 ===================================================== */
 
-const handlePasswordChange = (event) => {
-
-    const {
-        name,
-        value,
-    } = event.target;
+  const handlePasswordChange = (event) => {
+    const { name, value } = event.target;
 
     setPasswordData((currentData) => ({
+      ...currentData,
 
-        ...currentData,
-
-        [name]: value,
-
+      [name]: value,
     }));
 
     setPasswordError("");
+  };
 
-};
-
-
-/* =====================================================
+  /* =====================================================
    Handle Toggle Changes
 ===================================================== */
 
-const handleToggle = (name) => {
-
+  const handleToggle = (name) => {
     setSettings((currentSettings) => ({
+      ...currentSettings,
 
-        ...currentSettings,
-
-        [name]: !currentSettings[name],
-
+      [name]: !currentSettings[name],
     }));
 
-
     setSaved(false);
+  };
 
-};
-
-
-/* =====================================================
+  /* =====================================================
    Save Settings
 ===================================================== */
 
-const handleSave = async (event) => {
-
+  const handleSave = async (event) => {
     event.preventDefault();
 
     try {
+      setSaving(true);
 
-        setSaving(true);
+      setSaved(false);
 
-        setSaved(false);
+      await new Promise((resolve) => setTimeout(resolve, 600));
 
-
-        await new Promise(
-            (resolve) =>
-                setTimeout(resolve, 600)
-        );
-
-
-        setSaved(true);
-
+      setSaved(true);
     } finally {
-
-        setSaving(false);
-
+      setSaving(false);
     }
+  };
 
-};
-
-/* =====================================================
+  /* =====================================================
    Change Password
 ===================================================== */
 
-const handleChangePassword = async (event) => {
-
+  const handleChangePassword = async (event) => {
     event.preventDefault();
 
     setPasswordError("");
 
-
-    const {
-        current_password,
-        new_password,
-        confirm_password,
-    } = passwordData;
-
+    const { current_password, new_password, confirm_password } = passwordData;
 
     if (!current_password || !new_password || !confirm_password) {
+      setPasswordError("Please fill in all password fields.");
 
-        setPasswordError(
-            "Please fill in all password fields."
-        );
-
-        return;
-
+      return;
     }
 
     if (new_password !== confirm_password) {
+      setPasswordError("New password and confirmation password do not match.");
 
-        setPasswordError(
-            "New password and confirmation password do not match."
-        );
-
-        return;
-
+      return;
     }
 
     if (new_password === current_password) {
+      setPasswordError(
+        "New password must be different from your current password.",
+      );
 
-        setPasswordError(
-            "New password must be different from your current password."
-        );
-
-        return;
-
+      return;
     }
 
     try {
+      setChangingPassword(true);
+      await changePassword({
+        current_password,
 
-        setChangingPassword(true);
-        await changePassword({
+        new_password,
+      });
+      toast.success("Password changed successfully!");
 
-            current_password,
+      setPasswordData({
+        current_password: "",
 
-            new_password,
+        new_password: "",
 
-        });
-        toast.success(
-            "Password changed successfully!"
-        )
-
-        setPasswordData({
-
-            current_password: "",
-
-            new_password: "",
-
-            confirm_password: "",
-
-        });
-        setPasswordDialogOpen(false);
-
+        confirm_password: "",
+      });
+      setPasswordDialogOpen(false);
     } catch (error) {
-
-        const message =
-            error?.response?.data?.detail ||
-            "Failed to change password. Please try again.";
-        setPasswordError(message);
-        toast.error(passwordError);
-
+      const message =
+        error?.response?.data?.detail ||
+        "Failed to change password. Please try again.";
+      setPasswordError(message);
+      toast.error(passwordError);
     } finally {
-        setChangingPassword(false);
+      setChangingPassword(false);
     }
+  };
 
-};
-
-const changePasswordDisabled = () => {
+  const changePasswordDisabled = () => {
     profile?.auth_provider !== "local";
-}
+  };
 
-/* =====================================================
+  /* =====================================================
    Render
 ===================================================== */
 
-return (
-
+  return (
     <div className="space-y-8">
-
-        {/* =================================================
+      {/* =================================================
             Header
         ================================================= */}
 
-        <ProfileHeader
-            title="Settings"
-            description="
+      <ProfileHeader
+        title="Settings"
+        description="
                 Manage your account, CareerCompass AI preferences,
                 and notification settings.
             "
-            icon={Settings}
-        />
+        icon={Settings}
+      />
 
-
-        <form
-            onSubmit={handleSave}
-            className="space-y-6"
-        >
-
-            {/* =================================================
+      <form onSubmit={handleSave} className="space-y-6">
+        {/* =================================================
                 AI Preferences
             ================================================= */}
 
-            <ProfileSectionCard
-                title="AI Preferences"
-                description="
+        <ProfileSectionCard
+          title="AI Preferences"
+          description="
                     Control how CareerCompass AI interacts with
                     you and your career data.
                 "
-                icon={BrainCircuit}
-                variant="fuchsia"
-            >
-
-                <div className="space-y-3">
-
-                    <ToggleRow
-                        icon={Sparkles}
-                        title="AI Career Suggestions"
-                        description="
+          icon={BrainCircuit}
+          variant="fuchsia"
+        >
+          <div className="space-y-3">
+            <ToggleRow
+              icon={Sparkles}
+              title="AI Career Suggestions"
+              description="
                             Receive personalized suggestions based
                             on your resume and career profile.
                         "
-                        enabled={settings.careerRecommendations}
-                        onToggle={() =>
-                            handleToggle("careerRecommendations")
-                        }
-                    />
+              enabled={settings.careerRecommendations}
+              onToggle={() => handleToggle("careerRecommendations")}
+            />
 
-
-                    <ToggleRow
-                        icon={BrainCircuit}
-                        title="AI Assistance"
-                        description="
+            <ToggleRow
+              icon={BrainCircuit}
+              title="AI Assistance"
+              description="
                             Allow CareerCompass AI to provide
                             contextual suggestions during your
                             career exploration.
                         "
-                        enabled={settings.aiSuggestions}
-                        onToggle={() =>
-                            handleToggle("aiSuggestions")
-                        }
-                    />
+              enabled={settings.aiSuggestions}
+              onToggle={() => handleToggle("aiSuggestions")}
+            />
+          </div>
+        </ProfileSectionCard>
 
-                </div>
-
-            </ProfileSectionCard>
-
-
-            {/* =================================================
+        {/* =================================================
                 Notifications
             ================================================= */}
 
-            <ProfileSectionCard
-                title="Notifications"
-                description="
+        <ProfileSectionCard
+          title="Notifications"
+          description="
                     Decide which updates you'd like to receive.
                 "
-                icon={Bell}
-                variant="orange"
-            >
-
-                <div className="space-y-3">
-
-                    <ToggleRow
-                        icon={Bell}
-                        title="Job Market Updates"
-                        description="
+          icon={Bell}
+          variant="orange"
+        >
+          <div className="space-y-3">
+            <ToggleRow
+              icon={Bell}
+              title="Job Market Updates"
+              description="
                             Receive updates about relevant job
                             opportunities and market activity.
                         "
-                        enabled={settings.jobAlerts}
-                        onToggle={() =>
-                            handleToggle("jobAlerts")
-                        }
-                    />
+              enabled={settings.jobAlerts}
+              onToggle={() => handleToggle("jobAlerts")}
+            />
 
-                    <ToggleRow
-                        icon={Mail}
-                        title="Email Notifications"
-                        description="
+            <ToggleRow
+              icon={Mail}
+              title="Email Notifications"
+              description="
                             Receive important CareerCompass AI
                             notifications through email.
                         "
-                        enabled={settings.emailNotifications}
-                        onToggle={() =>
-                            handleToggle("emailNotifications")
-                        }
-                    />
+              enabled={settings.emailNotifications}
+              onToggle={() => handleToggle("emailNotifications")}
+            />
+          </div>
+        </ProfileSectionCard>
 
-                </div>
-
-            </ProfileSectionCard>
-
-
-            {/* =================================================
+        {/* =================================================
                 Security
             ================================================= */}
 
-            <ProfileSectionCard
-                title="Security"
-                description="
+        <ProfileSectionCard
+          title="Security"
+          description="
                     Manage your account security and authentication.
                 "
-                icon={ShieldCheck}
-                variant="teal"
-            >
-
-                <div
-                    className="
+          icon={ShieldCheck}
+          variant="teal"
+        >
+          <div
+            className="
                         flex
                         flex-col
                         gap-4
@@ -549,18 +428,16 @@ return (
                         sm:items-center
                         sm:justify-between
                     "
-                >
-
-                    <div
-                        className="
+          >
+            <div
+              className="
                             flex
                             items-start
                             gap-3
                         "
-                    >
-
-                        <div
-                            className="
+            >
+              <div
+                className="
                                 flex
                                 h-10
                                 w-10
@@ -573,248 +450,182 @@ return (
                                 to-emerald-500
                                 text-white
                             "
-                        >
-
-                            <LockKeyhole
-                                className="
+              >
+                <LockKeyhole
+                  className="
                                     h-4
                                     w-4
                                 "
-                            />
+                />
+              </div>
 
-                        </div>
-
-
-                        <div>
-
-                            <p
-                                className="
+              <div>
+                <p
+                  className="
                                     text-sm
                                     font-semibold
                                     text-foreground
                                 "
-                            >
-                                Password
-                            </p>
+                >
+                  Password
+                </p>
 
-                            <p
-                                className="
+                <p
+                  className="
                                     mt-1
                                     text-xs
                                     text-muted-foreground
                                 "
-                            >
-                                {changePasswordDisabled
-                                    ? "Password management is handled through Google."
-                                    : "Update your account password securely."}
-                            </p>
+                >
+                  {changePasswordDisabled
+                    ? "Password management is handled through Google."
+                    : "Update your account password securely."}
+                </p>
+              </div>
+            </div>
 
-                        </div>
-
-                    </div>
-
-
-                    <Button
-                        type="button"
-                        variant="outline"
-                        disabled={changePasswordDisabled}
-                        className="
-                            rounded-xl
-                            border-teal-200
-                            text-teal-600
-                            hover:bg-teal-50
-                            disabled:cursor-not-allowed
-                            disabled:opacity-50
-                        "
-                        onClick={() => {
-                            setPasswordDialogOpen(true);
-                            setPasswordError("");
-                        }}
-                    >
-
-                        Change Password
-
-                    </Button>
-
-                    {changePasswordDisabled && (
-        <TooltipProvider>
-
-            <Tooltip>
-
+            <TooltipProvider>
+              <Tooltip>
                 <TooltipTrigger asChild>
-
-                    <button
-                        type="button"
-                        className="
-                            flex
-                            h-8
-                            w-8
-                            items-center
-                            justify-center
-                            rounded-full
-                            text-muted-foreground
-                            transition-colors
-                            hover:bg-muted
-                            hover:text-foreground
-                        "
-                        aria-label="Why can't I change my password?"
+                  <span
+                    className={
+                      changePasswordDisabled ? "cursor-not-allowed" : ""
+                    }
+                  >
+                    <Button
+                      type="button"
+                      variant="outline"
+                      disabled={changePasswordDisabled}
+                      className="
+                        rounded-xl
+                        border-teal-200
+                        text-teal-600
+                        hover:bg-teal-50
+                        disabled:pointer-events-none
+                        disabled:opacity-50
+                    "
+                      onClick={() => {
+                        setPasswordDialogOpen(true);
+                        setPasswordError("");
+                      }}
                     >
-                        <Info className="h-4 w-4" />
-                    </button>
-
+                      Change Password
+                      {changePasswordDisabled && (
+                        <Info
+                          className="
+                                ml-2
+                                h-4
+                                w-4
+                            "
+                        />
+                      )}
+                    </Button>
+                  </span>
                 </TooltipTrigger>
 
-                <TooltipContent>
+                {changePasswordDisabled && (
+                  <TooltipContent>
                     <p>
-                        Password cannot be changed since
-                        this is a Google account.
+                      Password cannot be changed since this is a Google account.
                     </p>
-                </TooltipContent>
+                  </TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        </ProfileSectionCard>
 
-            </Tooltip>
+        <Dialog open={passwordDialogOpen} onOpenChange={setPasswordDialogOpen}>
+          <DialogContent className="sm:max-w-lg">
+            <DialogHeader>
+              <DialogTitle>Change Password</DialogTitle>
 
-        </TooltipProvider>
-
-                    )}
-
-                </div>
-
-            </ProfileSectionCard>
-
-            <Dialog
-    open={passwordDialogOpen}
-    onOpenChange={setPasswordDialogOpen}
->
-
-    <DialogContent className="sm:max-w-lg">
-
-        <DialogHeader>
-
-            <DialogTitle>
-                Change Password
-            </DialogTitle>
-
-            <DialogDescription>
+              <DialogDescription>
                 Update your account password securely.
-            </DialogDescription>
+              </DialogDescription>
+            </DialogHeader>
 
-        </DialogHeader>
+            <div className="space-y-6 py-4">
+              {/* Current Password */}
 
-
-        <div className="space-y-6 py-4">
-
-            {/* Current Password */}
-
-            <div className="space-y-2">
-
-                <Label htmlFor="current_password">
-                    Current Password
-                </Label>
+              <div className="space-y-2">
+                <Label htmlFor="current_password">Current Password</Label>
 
                 <Input
-                    id="current_password"
-                    name="current_password"
-                    type="password"
-                    value={
-                        passwordData.current_password
-                    }
-                    onChange={handlePasswordChange}
-                    placeholder="Enter your current password"
-                    autoComplete="current-password"
+                  id="current_password"
+                  name="current_password"
+                  type="password"
+                  value={passwordData.current_password}
+                  onChange={handlePasswordChange}
+                  placeholder="Enter your current password"
+                  autoComplete="current-password"
                 />
+              </div>
 
-            </div>
+              {/* New Password */}
 
-
-            {/* New Password */}
-
-            <div className="space-y-2">
-
-                <Label htmlFor="new_password">
-                    New Password
-                </Label>
+              <div className="space-y-2">
+                <Label htmlFor="new_password">New Password</Label>
 
                 <Input
-                    id="new_password"
-                    name="new_password"
-                    type="password"
-                    value={
-                        passwordData.new_password
-                    }
-                    onChange={handlePasswordChange}
-                    placeholder="Enter your new password"
-                    autoComplete="new-password"
+                  id="new_password"
+                  name="new_password"
+                  type="password"
+                  value={passwordData.new_password}
+                  onChange={handlePasswordChange}
+                  placeholder="Enter your new password"
+                  autoComplete="new-password"
                 />
+              </div>
 
-            </div>
+              {/* Confirm Password */}
 
-
-            {/* Confirm Password */}
-
-            <div className="space-y-2">
-
-                <Label htmlFor="confirm_password">
-                    Confirm New Password
-                </Label>
+              <div className="space-y-2">
+                <Label htmlFor="confirm_password">Confirm New Password</Label>
 
                 <Input
-                    id="confirm_password"
-                    name="confirm_password"
-                    type="password"
-                    value={
-                        passwordData.confirm_password
-                    }
-                    onChange={handlePasswordChange}
-                    placeholder="Confirm your new password"
-                    autoComplete="new-password"
+                  id="confirm_password"
+                  name="confirm_password"
+                  type="password"
+                  value={passwordData.confirm_password}
+                  onChange={handlePasswordChange}
+                  placeholder="Confirm your new password"
+                  autoComplete="new-password"
                 />
+              </div>
 
-            </div>
+              {/* Dialog Footer */}
 
-
-            {/* Dialog Footer */}
-
-            <DialogFooter>
-
+              <DialogFooter>
                 <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => {
-
-                        setPasswordDialogOpen(false);
-
-                    }}
-                    disabled={changingPassword}
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setPasswordDialogOpen(false);
+                  }}
+                  disabled={changingPassword}
                 >
-                    Cancel
+                  Cancel
                 </Button>
 
-
                 <Button
-                    type="button"
-                    disabled={changingPassword}
-                    onClick={handleChangePassword}
+                  type="button"
+                  disabled={changingPassword}
+                  onClick={handleChangePassword}
                 >
-                    {changingPassword
-                        ? "Updating..."
-                        : "Update Password"
-                    }
+                  {changingPassword ? "Updating..." : "Update Password"}
                 </Button>
+              </DialogFooter>
+            </div>
+          </DialogContent>
+        </Dialog>
 
-            </DialogFooter>
-
-        </div>
-
-    </DialogContent>
-
-</Dialog>
-
-            {/* =================================================
+        {/* =================================================
                 Save
             ================================================= */}
 
-            <div
-                className="
+        <div
+          className="
                     flex
                     flex-col
                     items-start
@@ -829,42 +640,35 @@ return (
                     sm:items-center
                     sm:justify-between
                 "
-            >
-
-                <div>
-
-                    {saved ? (
-
-                        <p
-                            className="
+        >
+          <div>
+            {saved ? (
+              <p
+                className="
                                 text-sm
                                 font-semibold
                                 text-emerald-600
                             "
-                        >
-                            Settings saved successfully.
-                        </p>
-
-                    ) : (
-
-                        <p
-                            className="
+              >
+                Settings saved successfully.
+              </p>
+            ) : (
+              <p
+                className="
                                 text-sm
                                 text-muted-foreground
                             "
-                        >
-                            Preferences and Notification Settings are saved using this button.
-                            Password changes are saved immediately.
-                        </p>
+              >
+                Preferences and Notification Settings are saved using this
+                button. Password changes are saved immediately.
+              </p>
+            )}
+          </div>
 
-                    )}
-
-                </div>
-
-                <Button
-                    type="submit"
-                    disabled={saving}
-                    className="
+          <Button
+            type="submit"
+            disabled={saving}
+            className="
                         rounded-xl
                         bg-blue-600
                         px-6
@@ -879,30 +683,21 @@ return (
                         dark:text-white
                         dark:hover:shadow-blue-400
                     "
-                >
-
-                    <Save
-                        className="
+          >
+            <Save
+              className="
                             mr-2
                             h-4
                             w-4
                         "
-                    />
+            />
 
-                    {saving
-                        ? "Saving..."
-                        : "Save Profile Changes"}
-
-                </Button>
-
-            </div>
-
-        </form>
-
+            {saving ? "Saving..." : "Save Profile Changes"}
+          </Button>
+        </div>
+      </form>
     </div>
-
-);
-
+  );
 }
 
 export default ProfileSettings;
