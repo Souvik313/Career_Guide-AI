@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
 
 import {
   UserRound,
@@ -12,6 +13,17 @@ import {
 
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
+import toast from 'react-hot-toast';
 
 import { useAuth } from "../../context/AuthContext.jsx";
 
@@ -50,9 +62,22 @@ const navigationItems = [
 
 function ProfileSidebar() {
   const { logout } = useAuth();
+  const [logoutDialogOpen , setLogoutDialogOpen] = useState(false);
 
   const handleLogout = () => {
-    logout();
+    try {
+      logout();
+
+      toast.success("You have been logged out successfully!");
+
+      setLogoutDialogOpen(false);
+    } catch (err) {
+      console.error("Logout failed: ", err);
+      toast.error(
+        err?.response?.data?.detail ||
+        "Failed to log out. Please try again."
+      )
+    }  
   };
 
   return (
@@ -278,7 +303,7 @@ function ProfileSidebar() {
         <Button
           type="button"
           variant="ghost"
-          onClick={handleLogout}
+          onClick={() => setLogoutDialogOpen(true)}
           className="
                     group
                     h-12
@@ -331,6 +356,48 @@ function ProfileSidebar() {
           </div>
         </Button>
       </div>
+      <AlertDialog
+        open={logoutDialogOpen}
+        onOpenChange={setLogoutDialogOpen}
+      >
+        <AlertDialogContent>
+
+          <AlertDialogHeader>
+
+            <AlertDialogTitle>
+              Log out of CareerCompass AI?
+            </AlertDialogTitle>
+
+            <AlertDialogDescription>
+              You'll be signed out of your account. You can log back
+              in anytime using your credentials
+            </AlertDialogDescription>
+
+          </AlertDialogHeader>
+
+
+          <AlertDialogFooter>
+
+            <AlertDialogCancel>
+              Cancel
+            </AlertDialogCancel>
+
+
+            <AlertDialogAction
+              onClick={handleLogout}
+              className="
+                bg-destructive
+                text-destructive-foreground
+                hover:bg-destructive/90
+              "
+            >
+              Log Out
+            </AlertDialogAction>
+
+          </AlertDialogFooter>
+
+        </AlertDialogContent>
+      </AlertDialog>
     </aside>
   );
 }

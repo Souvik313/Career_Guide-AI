@@ -9,6 +9,7 @@ Save,
 Mail,
 LockKeyhole,
 Sparkles,
+Info,
 } from "lucide-react";
 
 import ProfileHeader from "../../components/profile/ProfileHeader.jsx";
@@ -26,6 +27,12 @@ import {
     DialogHeader,
     DialogTitle,
 } from "../../components/ui/dialog.jsx";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "../../components/ui/tooltip.jsx";
 import toast from "react-hot-toast";
 
 const ToggleRow = ({
@@ -390,7 +397,7 @@ const handleChangePassword = async (event) => {
 };
 
 const changePasswordDisabled = () => {
-    profile.auth_provider !== "local";
+    profile?.auth_provider !== "local";
 }
 
 /* =====================================================
@@ -597,8 +604,9 @@ return (
                                     text-muted-foreground
                                 "
                             >
-                                Update your account password
-                                securely.
+                                {changePasswordDisabled
+                                    ? "Password management is handled through Google."
+                                    : "Update your account password securely."}
                             </p>
 
                         </div>
@@ -615,6 +623,8 @@ return (
                             border-teal-200
                             text-teal-600
                             hover:bg-teal-50
+                            disabled:cursor-not-allowed
+                            disabled:opacity-50
                         "
                         onClick={() => {
                             setPasswordDialogOpen(true);
@@ -625,6 +635,47 @@ return (
                         Change Password
 
                     </Button>
+
+                    {changePasswordDisabled && (
+        <TooltipProvider>
+
+            <Tooltip>
+
+                <TooltipTrigger asChild>
+
+                    <button
+                        type="button"
+                        className="
+                            flex
+                            h-8
+                            w-8
+                            items-center
+                            justify-center
+                            rounded-full
+                            text-muted-foreground
+                            transition-colors
+                            hover:bg-muted
+                            hover:text-foreground
+                        "
+                        aria-label="Why can't I change my password?"
+                    >
+                        <Info className="h-4 w-4" />
+                    </button>
+
+                </TooltipTrigger>
+
+                <TooltipContent>
+                    <p>
+                        Password cannot be changed since
+                        this is a Google account.
+                    </p>
+                </TooltipContent>
+
+            </Tooltip>
+
+        </TooltipProvider>
+
+                    )}
 
                 </div>
 

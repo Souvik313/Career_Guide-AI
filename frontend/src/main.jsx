@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <ThemeProvider>
         <AuthProvider>
            <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-          <Toaster position="top-right" reverseOrder={false} />
+          <Toaster position="top-right" reverseOrder={false} toastOptions={{duration: 4000}}/>
           <App />
           </GoogleOAuthProvider>
         </AuthProvider>
