@@ -180,5 +180,6 @@ class CareerPipeline:
                 "missing_skills": top_missing_skills,
                 "career_report": career_report,
                 "ai_report": ai_report,
-                "is_duplicate": False
+                "is_duplicate": False,
+                "resume_embedding": resume_embedding.tolist(),
             }

@@ -9,6 +9,7 @@ from sqlalchemy import UniqueConstraint
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
+from pgvector.sqlalchemy import Vector
 
 
 from backend.database.base import Base
@@ -57,8 +58,8 @@ class Resume(Base):
         Text,
         nullable=False
     )
-    embedding_path: Mapped[str | None] = mapped_column(
-        String(500),
+    embedding: Mapped[list[float] | None] = mapped_column(
+        Vector(384),
         nullable=True,
     )
     uploaded_at: Mapped[datetime] = mapped_column(

@@ -17,6 +17,7 @@ class ResumeService:
         cloudinary_public_id: str,
         cloudinary_url: str,
         parsed_text: str,
+        embedding: list[float] | None = None,
     ):
         """
         Create and persist a newly uploaded resume.
@@ -30,6 +31,7 @@ class ResumeService:
             cloudinary_public_id=cloudinary_public_id,
             cloudinary_url=cloudinary_url,
             parsed_text=parsed_text,
+            embedding=embedding,
         )
 
         self.db.add(resume)

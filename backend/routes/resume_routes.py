@@ -175,7 +175,18 @@ async def upload_resume(
         )
 
         # =================================================
-        # STEP 7 — Save resume metadata to Neon
+        # STEP 7 — Run Career Pipeline
+        # =================================================
+
+        pipeline = CareerPipeline()
+
+        result = pipeline.run_pipeline(
+            clean_resume=clean_resume,
+            candidate_name=candidate_name,
+        )
+
+        # =================================================
+        # STEP 8 — Save resume metadata + embedding
         # =================================================
 
         resume_service = ResumeService(db)
@@ -188,17 +199,7 @@ async def upload_resume(
             cloudinary_url=cloudinary_data["secure_url"],
             parsed_text=resume_text,
             content_hash=content_hash,
-        )
-
-        # =================================================
-        # STEP 8 — Run Career Pipeline
-        # =================================================
-
-        pipeline = CareerPipeline()
-
-        result = pipeline.run_pipeline(
-            clean_resume=clean_resume,
-            candidate_name=candidate_name,
+            embedding=result["embedding"],
         )
 
         # =================================================
@@ -226,6 +227,12 @@ async def upload_resume(
             career_report=result["career_report"],
             ai_report=result["ai_report"],
         )
+
+        # =================================================
+        # STEP 12 - Remove the embedding from result
+        # =================================================
+
+        result.pop("embedding", None)
 
         # =================================================
         # STEP 11 — Return result
