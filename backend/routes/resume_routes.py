@@ -199,7 +199,7 @@ async def upload_resume(
             cloudinary_url=cloudinary_data["secure_url"],
             parsed_text=resume_text,
             content_hash=content_hash,
-            embedding=result["embedding"],
+            embedding=result["resume_embedding"],
         )
 
         # =================================================
