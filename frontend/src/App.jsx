@@ -21,6 +21,8 @@ import ProfileSavedJobs from "./pages/profile/ProfileSavedJobs.jsx";
 import ProfileConversationHistory from "./pages/profile/ProfileConversationHistory.jsx";
 import ProfileSettings from "./pages/profile/ProfileSettings.jsx";
 
+import JobUpdates from "./pages/jobs/JobUpdates.jsx";
+
 function App() {
   return (
     <Routes>
@@ -90,6 +92,11 @@ function App() {
                 <Route
                     path="/career-coach"
                     element={<CareerCoach />}
+                />
+
+                <Route
+                    path="/job-updates"
+                    element={<JobUpdates />}
                 />
 
             </Route>
