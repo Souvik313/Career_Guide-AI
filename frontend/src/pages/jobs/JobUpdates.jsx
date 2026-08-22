@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
-import { BriefcaseBusiness, Sparkles, RefreshCw } from "lucide-react";
+import { BriefcaseBusiness, Sparkles, RefreshCw, Upload , Loader2 } from "lucide-react";
 
 import {
   SidebarInset,
@@ -12,6 +12,8 @@ import { Button } from "../../components/ui/button.jsx";
 
 import JobFiltersSidebar from "../../components/jobs/JobFiltersSidebar.jsx";
 import JobCard from "../../components/jobs/JobCard.jsx";
+
+import useResume from "@/hooks/useResume.js";
 
 const mockJobs = [
   {
@@ -95,13 +97,33 @@ const initialFilters = {
 };
 
 function JobUpdates() {
+
   const [filters, setFilters] = useState(initialFilters);
 
-  const [refreshing, setRefreshing] = useState(false);
+  const {
+    resumes,
+    fetchUserResumes,
+    loading: resumesLoading,
+    error: resumesError,
+  } = useResume();
 
+  const [refreshing, setRefreshing] = useState(false);
+  const [userResumes , setUserResumes] = useState([]);
   const [selectedResume, setSelectedResume] = useState(null);
   const [jobDescription , setJobDescription] = useState("");
   const [recommendationLoading , setRecommendationLoading] = useState(false);
+
+  useEffect(() => {
+    const loadResumes = async () => {
+      try {
+        await fetchUserResumes();
+      } catch (err) {
+        console.error("Failed to load user resumes:", err);
+      }
+    };
+
+    loadResumes();
+  }, [fetchUserResumes]);
 
   /* =====================================================
      Filter Change
@@ -195,8 +217,8 @@ function JobUpdates() {
   }, [filters]);
 
   const handleResumeSelect = (resumeId) => {
-  setSelectedResume(resumeId);
-};
+    setSelectedResume(resumeId);
+  };
 
 const handleResumeUpload = (event) => {
   const file = event.target.files?.[0];
@@ -617,47 +639,64 @@ const handleFindRecommendations = async () => {
                   >
                     Select a Resume
                   </label>
+                  {resumesLoading ? (
+                    <div
+                      className="
+                        flex
+                        h-12
+                        items-center
+                        justify-center
+                        rounded-xl
+                        border
+                        border-border
+                        bg-muted/50
+                        text-sm
+                        text-muted-foreground
+                      "
+                    >
+                      Loading your resumes...
+                    </div>
+                  ) : (
+                    <select
+                      value={selectedResume ?? ""}
+                      onChange={(event) =>
+                        handleResumeSelect(
+                          event.target.value ? Number(event.target.value) : null
+                        )
+                      }
+                      className="
+                        w-full
+                        rounded-xl
+                        border
+                        border-border
+                        bg-background
+                        px-4
+                        py-3
+                        text-sm
+                        text-foreground
+                        outline-none
+                        transition
+                        focus:border-fuchsia-500
+                        focus:ring-2
+                        focus:ring-fuchsia-500/20
+                      "
+                    >
 
-                  <select
-                    value={selectedResume ?? ""}
-                    onChange={(event) =>
-                      handleResumeSelect(
-                        event.target.value || null
-                      )
-                    }
-                    className="
-                      w-full
-                      rounded-xl
-                      border
-                      border-border
-                      bg-background
-                      px-4
-                      py-3
-                      text-sm
-                      text-foreground
-                      outline-none
-                      transition
-                      focus:border-fuchsia-500
-                      focus:ring-2
-                      focus:ring-fuchsia-500/20
-                    "
-                  >
-
-                    <option value="">
-                      Choose a resume from your profile
-                    </option>
-
-                    {resumes?.map((resume) => (
-                      <option
-                        key={resume.id}
-                        value={resume.id}
-                      >
-                        {resume.filename || "Untitled Resume"}
+                      <option value="">
+                        Choose a resume from your profile
                       </option>
-                    ))}
 
+                      {resumes.map((resume) => (
+                        <option
+                          key={resume.id}
+                          value={resume.id}
+                        >
+                          {resume.filename || "Untitled Resume"}
+                        </option>
+                      ))}
                   </select>
-
+                  )}
+                  
                   <p
                     className="
                       mt-2
